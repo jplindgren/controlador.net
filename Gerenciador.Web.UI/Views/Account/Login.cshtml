@@ -1,0 +1,56 @@
+﻿@model Gerenciador.Web.UI.Models.LoginModel
+
+@{
+    ViewBag.Title = "Log in";
+}
+
+<div class="container-full">
+    <div class="row">       
+        <div class="col-lg-12 text-center v-center">
+          
+        <h1>Login</h1>
+        <p class="lead">Por favor execute o login</p>
+        @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl, @class = "col-lg-12" })) {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <div style="width:340px; text-align:center;margin:0 auto;">
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control input-lg", title = "Não se preocupe. Nós odiamos spam.", placeholder = "Entre com seu endereço de email" })
+                @Html.ValidationMessageFor(m => m.UserName)
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control input-lg", placeholder = "Entre com sua senha" })
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+            <br />
+            @Html.CheckBoxFor(m => m.RememberMe)
+            @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
+            <br />
+            <input type="submit" value="Log in" class="btn btn-lg btn-primary" />
+            <br />
+            <p>
+                @Html.ActionLink("Register", "Register") if you don't have an account.
+            </p>
+         }
+        </div>
+        
+      </div> <!-- /row -->
+  
+  	  <div class="row">       
+        <div class="col-lg-12 text-center v-center" style="font-size:39pt;">
+          <a href="#"><i class="icon-google-plus"></i></a> <a href="#"><i class="icon-facebook"></i></a>  
+          <a href="#"><i class="icon-twitter"></i></a> 
+          <a href="#"><i class="icon-github"></i></a> 
+          <a href="#"><i class="icon-pinterest"></i></a>
+        </div>      
+      </div>
+  
+  	<br><br><br><br><br>
+
+</div> <!-- /container full -->
+
+<section class="social" id="socialLoginForm">
+    <h2>Use another service to log in.</h2>
+    @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
