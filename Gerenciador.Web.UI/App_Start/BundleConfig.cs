@@ -40,10 +40,15 @@ namespace Gerenciador.Web.UI {
                         "~/Content/themes/base/jquery.ui.theme.css"));
 
             bundles.Add(new StyleBundle("~/Content/newcss").Include(
-                        "~/Content/newSite.css",
                         "~/Content/font-awesome.css",
                         "~/Content/bootstrap.css",
                         "~/Content/bootstrap-theme.css"));
+
+            bundles.Add(new StyleBundle("~/Content/newcsslogin").Include(
+                        "~/Content/newSiteLogin.css"));
+
+            bundles.Add(new StyleBundle("~/Content/newcsscommon").Include(
+                        "~/Content/common.css"));
         }
     }
 }
