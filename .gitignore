@@ -185,3 +185,4 @@ FakesAssemblies/
 Web.Debug.config
 Web.Release.config
 PublishProfiles/
+Packages/
