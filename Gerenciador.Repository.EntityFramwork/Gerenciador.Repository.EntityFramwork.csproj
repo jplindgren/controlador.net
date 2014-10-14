@@ -53,7 +53,11 @@
     <Compile Include="DatabaseSeed.cs" />
     <Compile Include="IDataContext.cs" />
     <Compile Include="Impl\EntityTestRepository.cs" />
+    <Compile Include="Impl\ProjectRepository.cs" />
     <Compile Include="Impl\Repository.cs" />
+    <Compile Include="Impl\TaskProject.cs" />
+    <Compile Include="Interface\ITaskRepository.cs" />
+    <Compile Include="Interface\IProjectRepository.cs" />
     <Compile Include="Interface\IRepository.cs" />
     <Compile Include="Logging\DbChaosMonkey.cs" />
     <Compile Include="Logging\ILogger.cs" />
@@ -62,6 +66,14 @@
     <Compile Include="Migrations\201410130357258_InitialCreate.cs" />
     <Compile Include="Migrations\201410130357258_InitialCreate.Designer.cs">
       <DependentUpon>201410130357258_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410142225194_AddProjectAndTask.cs" />
+    <Compile Include="Migrations\201410142225194_AddProjectAndTask.Designer.cs">
+      <DependentUpon>201410142225194_AddProjectAndTask.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410142337172_AddProjectOwner.cs" />
+    <Compile Include="Migrations\201410142337172_AddProjectOwner.Designer.cs">
+      <DependentUpon>201410142337172_AddProjectOwner.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ProjectManagementConfiguration.cs" />
     <Compile Include="ProjectManagementContext.cs" />
@@ -80,6 +92,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201410130357258_InitialCreate.resx">
       <DependentUpon>201410130357258_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410142225194_AddProjectAndTask.resx">
+      <DependentUpon>201410142225194_AddProjectAndTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410142337172_AddProjectOwner.resx">
+      <DependentUpon>201410142337172_AddProjectOwner.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

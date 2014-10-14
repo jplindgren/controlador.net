@@ -191,7 +191,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -352,6 +351,10 @@
     <ProjectReference Include="..\Gerenciador.Repository.EntityFramwork\Gerenciador.Repository.EntityFramwork.csproj">
       <Project>{0dadca26-2721-43af-8d81-dc06aab25809}</Project>
       <Name>Gerenciador.Repository.EntityFramwork</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gerenciador.Services\Gerenciador.Services.csproj">
+      <Project>{d5643078-7e4f-4024-b554-2891f824e12f}</Project>
+      <Name>Gerenciador.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gerenciador.Domain", "Geren
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gerenciador.Repository.EntityFramwork", "Gerenciador.Repository.EntityFramwork\Gerenciador.Repository.EntityFramwork.csproj", "{0DADCA26-2721-43AF-8D81-DC06AAB25809}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gerenciador.Services", "Gerenciador.Services\Gerenciador.Services.csproj", "{D5643078-7E4F-4024-B554-2891F824E12F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{0DADCA26-2721-43AF-8D81-DC06AAB25809}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DADCA26-2721-43AF-8D81-DC06AAB25809}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DADCA26-2721-43AF-8D81-DC06AAB25809}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5643078-7E4F-4024-B554-2891F824E12F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5643078-7E4F-4024-B554-2891F824E12F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5643078-7E4F-4024-B554-2891F824E12F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5643078-7E4F-4024-B554-2891F824E12F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,6 +13,7 @@ namespace Gerenciador.Repository.EntityFramwork.Impl {
         public Repository(IDataContext dataContext) {
             _dataContext = dataContext;
         }
+        
         public IQueryable<T> GetAll() {
             return this.DataSource();
         }
