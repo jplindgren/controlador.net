@@ -21,7 +21,7 @@ namespace Gerenciador.Web.UI.Controllers {
         [Authorize]
         public ActionResult Index() {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-            var projectSummary = _projectSummaryService.GetProjectSummary(Guid.Parse("dc3b44fa-1b54-e411-bed8-c48508d65d66"));
+            var projectSummary = _projectSummaryService.GetProjectSummary(Guid.Parse("c13e450e-7e54-e411-8278-782bcbbc3811"));
             if (projectSummary == null) {
                 throw new Exception("Projeto não encontrado");
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,10 @@ namespace Gerenciador.Domain {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public string Name { get; set; }
+
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+
         public string Owner { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdatedAt { get; set; }
@@ -37,6 +41,11 @@ namespace Gerenciador.Domain {
 
             var percentage = (tasks.Count() / Tasks.Count()) * 100;
             return percentage;
+        }
+
+        public void AddTask(string taskName, string taskDescription) {
+            Task task = new Task(taskName, taskDescription, this.Id, this);
+            this.Tasks.Add(task);
         }
     } //class
 }
