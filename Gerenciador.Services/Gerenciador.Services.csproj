@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\ProjectSummary.cs" />
-    <Compile Include="Impl\IProjectSummaryService.cs" />
+    <Compile Include="Interface\IProjectSummaryService.cs" />
     <Compile Include="Impl\ProjectSummaryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -54,9 +54,7 @@
       <Name>Gerenciador.Repository.EntityFramwork</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interface\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
