@@ -20,8 +20,16 @@ namespace Gerenciador.Web.UI.Controllers{
             _projectService = new ProjectService(new ProjectRepository(_dataContext));
         }
 
+        //
+        // GET: /Task/Create
+        public ActionResult Details(Guid projectId, Guid id) {
+            var project = _projectService.GetProject(projectId);
+            var task = project.Tasks.Where(x => x.Id == id).FirstOrDefault();
+            return View(task);
+        }
+
          //
-        // GET: /Test/Create
+        // GET: /Task/Create
         public ActionResult Create(string id){
             ViewBag.ProjectId = Guid.Parse(id);
 
@@ -29,7 +37,7 @@ namespace Gerenciador.Web.UI.Controllers{
         }
 
         //
-        // POST: /Test/Create
+        // POST: /Task/Create
         [HttpPost]
         public ActionResult Create(Task task){
             try{

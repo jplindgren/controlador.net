@@ -339,6 +339,7 @@
     <Content Include="Views\Shared\_Localizer.cshtml" />
     <Content Include="Views\Task\Create.cshtml" />
     <Content Include="Views\Shared\Widgets\_TaskListWidget.cshtml" />
+    <Content Include="Views\Task\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
