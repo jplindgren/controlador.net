@@ -24,6 +24,7 @@ namespace Gerenciador.Web.UI.Controllers{
         // GET: /Test/Create
         public ActionResult Create(string id){
             ViewBag.ProjectId = Guid.Parse(id);
+
             return View();
         }
 
