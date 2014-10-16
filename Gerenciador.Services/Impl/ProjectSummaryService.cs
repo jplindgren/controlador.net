@@ -19,6 +19,7 @@ namespace Gerenciador.Services.Impl {
         public ProjectSummary GetProjectSummary(Guid id) {
             var projectSummary = new ProjectSummary();
             var project = _projectRepository.Get(id);
+            project = _projectRepository.GetAll().First(); //TODO: Remove this line! It is just temporary until we can create our project
             if (project == null) {
                 return null; // remember to change to null pattern. Maybe an NonExistentProjectSummary
             }

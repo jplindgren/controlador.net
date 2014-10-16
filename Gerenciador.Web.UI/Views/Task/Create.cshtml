@@ -4,41 +4,59 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<section class="content">
 
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
+    <div class="row">                        
+        <!-- column -->
+        <div class="col-md-10 col-md-offset-1">
+            <!-- general form elements disabled -->
+            <div class="box box-warning">
+                <div class="box-header">
+                    <h3 class="box-title">Criar Task</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">                    
+                    @using (Html.BeginForm()) {
+                        @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>Task</legend>
+                        <!-- text input -->
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name)
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control input-lg", placeholder="Digite um nome..." , required="" })
+                            @Html.ValidationMessageFor(model => model.Name)
+                        </div>
+                        <!-- textarea -->
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description)
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control input-lg", placeholder = "Digite uma descrição de até 240 caracteres", required="", rows=3})
+                            @Html.ValidationMessageFor(model => model.Description)
+                        </div>
+                        @Html.HiddenFor(m => m.ProjectId, new { Value = ViewBag.ProjectId })
+                        <p>
+                            <input type="submit" value="Criar" class="btn btn-lg btn-primary" />
+                        </p>
+                    }
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div><!--/.col -->
+    </div>   <!-- /.row -->
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
-        </div>
+</section><!-- /.content --> 
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Description)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Description)
-            @Html.ValidationMessageFor(model => model.Description)
-        </div>
-
-        @Html.HiddenFor(m => m.ProjectId, new { Value = ViewBag.ProjectId })
-
-        <p>
-            <input type="submit" value="Create" />
-        </p>
-    </fieldset>
-}
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Voltar", "Index")
 </div>
+
+
+
+
+
+
+
+
+
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
