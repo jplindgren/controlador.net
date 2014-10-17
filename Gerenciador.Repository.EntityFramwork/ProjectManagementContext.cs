@@ -15,6 +15,7 @@ namespace Gerenciador.Repository.EntityFramwork {
         public IDbSet<EntityTest> EntitiesTest { get; set; }
         public IDbSet<Project> Projects { get; set; }
         public IDbSet<Gerenciador.Domain.Task> Tasks { get; set; }
+        public IDbSet<Comment> Comments { get; set; }
 
         public System.Data.Entity.IDbSet<T> Set<T>() where T : class {
             return base.Set<T>();

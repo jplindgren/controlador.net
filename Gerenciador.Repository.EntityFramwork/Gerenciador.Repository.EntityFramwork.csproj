@@ -75,6 +75,18 @@
     <Compile Include="Migrations\201410142337172_AddProjectOwner.Designer.cs">
       <DependentUpon>201410142337172_AddProjectOwner.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410171717334_CreateComment.cs" />
+    <Compile Include="Migrations\201410171717334_CreateComment.Designer.cs">
+      <DependentUpon>201410171717334_CreateComment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410171726211_AddIndexCommentCreatedAt.cs" />
+    <Compile Include="Migrations\201410171726211_AddIndexCommentCreatedAt.Designer.cs">
+      <DependentUpon>201410171726211_AddIndexCommentCreatedAt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410171734250_CreateComment1.cs" />
+    <Compile Include="Migrations\201410171734250_CreateComment1.Designer.cs">
+      <DependentUpon>201410171734250_CreateComment1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ProjectManagementConfiguration.cs" />
     <Compile Include="ProjectManagementContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -98,6 +110,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410142337172_AddProjectOwner.resx">
       <DependentUpon>201410142337172_AddProjectOwner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410171717334_CreateComment.resx">
+      <DependentUpon>201410171717334_CreateComment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410171726211_AddIndexCommentCreatedAt.resx">
+      <DependentUpon>201410171726211_AddIndexCommentCreatedAt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410171734250_CreateComment1.resx">
+      <DependentUpon>201410171734250_CreateComment1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
