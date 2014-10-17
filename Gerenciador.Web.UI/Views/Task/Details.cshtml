@@ -4,97 +4,66 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-
-<fieldset>
-    <legend>Task</legend>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Name)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Description)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Description)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Done)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Done)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Progress)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Progress)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.ProjectId)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.ProjectId)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.CreatedAt)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.CreatedAt)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.LastUpdatedAt)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.LastUpdatedAt)
-    </div>
-</fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
-
-
-
-
-
 <section class="content invoice">
     <!-- title row -->
     <div class="row">
         <div class="col-xs-12">
             <h2 class="page-header">
-                <i class="fa fa-globe">Task: @Model.Name</i> 
+                <i class="fa fa-file-text-o"> @Model.Name</i> <span class="label label-warning">Pending</span>
                 <small class="pull-right">Data de Hoje: @DateTime.Now </small>
             </h2>
+            <div class="progress progress">
+                <div id="test" class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="@Model.Progress" aria-valuemin="0" aria-valuemax="100" style="width: @Model.Progress%">
+                    <span id="progressLegend"><strong>@Model.Progress% Completo</strong></span>
+                </div>
+            </div>
         </div><!-- /.col -->
     </div>
     <!-- info row -->
     <div class="row invoice-info">
         <div class="col-sm-4 invoice-col">
-            Data de Criação <br />
-            <strong>@Model.CreatedAt</strong><br>
+            <strong>Início </strong><br />
+            Criado: <strong>@Model.CreatedAt</strong><br>
+            Iniciado: <strong>@DateTime.Now</strong><br />
+            <strong>Término</strong><br>
+            Expectativa inicial: <strong>xxxxx</strong> <br>
+            Data de término: <strong>xxxx</strong><br>
+            Variação: <strong>+/- 3 dias</strong> 
         </div><!-- /.col -->
+
         <div class="col-sm-4 invoice-col">
-            Data de Início <br />
-            <strong>Incluir da de início</strong>
+            <div class="box box-solid bg-light-blue-gradient">
+                <div class="box-body no-padding">
+                    <!--The calendar -->
+                    <div id="calendar" style="width: 100%"></div>
+                </div><!-- /.box-body -->
+            </div>            
         </div><!-- /.col -->
+
         <div class="col-sm-4 invoice-col">
-            <b>Previsão de Término</b><br>
-            <br>
-            <b>Expectativa inicial:</b> xxxxx<br>
-            <b>Data de término:</b> xxxx<br>
-            <b>Diferença:</b> +/- 3 dias
+            <strong>Ações </strong><br />
+            <a class="btn btn-app">
+                <i class="fa fa-edit"></i> Conteúdo
+            </a>
+            <button class="btn btn-app" data-toggle="modal" data-target="#modalUpdateProgress">
+                <i class="fa fa-play"></i> Progresso
+            </button>
+            <a class="btn btn-app">
+                <i class="fa fa-arrow-circle-o-right"></i> Sub-tarefa
+            </a>
+            <a class="btn btn-app">
+                <i class="fa fa-bullhorn"></i> Comentário
+            </a>
         </div><!-- /.col -->
-    </div><!-- /.row -->
+    </div><!-- /.row -->    
+
+    <br />
+
+    <div class="row">
+        <div class="col-md-12">
+            <blockquote>@Html.DisplayFor(x => x.Description)</blockquote> 
+        </div>
+    </div>
 
     <!-- Table row -->
     <h2>Micro tarefas</h2>
@@ -163,104 +132,7 @@
             </p>
         </div><!-- /.col -->
         <div class="col-xs-6">
-            <p class="lead">Timeline</p>
-            <div class="col-md-12">
-                <!-- The time line -->
-                <ul class="timeline">
-                    <!-- timeline time label -->
-                    <li class="time-label">
-                        <span class="bg-red">
-                            10 Feb. 2014
-                        </span>
-                    </li>
-                    <!-- /.timeline-label -->
-                    <!-- timeline item -->
-                    <li>
-                        <i class="fa fa-envelope bg-blue"></i>
-                        <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-                            <h3 class="timeline-header"><a href="#">Support Team</a> sent you and email</h3>
-                            <div class="timeline-body">
-                                Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                                weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                                jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                                quora plaxo ideeli hulu weebly balihoo...
-                            </div>
-                            <div class='timeline-footer'>
-                                <a class="btn btn-primary btn-xs">Read more</a>
-                                <a class="btn btn-danger btn-xs">Delete</a>
-                            </div>
-                        </div>
-                    </li>
-                    <!-- END timeline item -->
-                    <!-- timeline item -->
-                    <li>
-                        <i class="fa fa-user bg-aqua"></i>
-                        <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
-                            <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request</h3>
-                        </div>
-                    </li>
-                    <!-- END timeline item -->
-                    <!-- timeline item -->
-                    <li>
-                        <i class="fa fa-comments bg-yellow"></i>
-                        <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
-                            <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-                            <div class="timeline-body">
-                                Take me to your leader!
-                                Switzerland is small and neutral!
-                                We are more like Germany, ambitious and misunderstood!
-                            </div>
-                            <div class='timeline-footer'>
-                                <a class="btn btn-warning btn-flat btn-xs">View comment</a>
-                            </div>
-                        </div>
-                    </li>
-                    <!-- END timeline item -->
-                    <!-- timeline time label -->
-                    <li class="time-label">
-                        <span class="bg-green">
-                            3 Jan. 2014
-                        </span>
-                    </li>
-                    <!-- /.timeline-label -->
-                    <!-- timeline item -->
-                    <li>
-                        <i class="fa fa-camera bg-purple"></i>
-                        <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
-                            <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-                            <div class="timeline-body">
-                                <img src="http://placehold.it/150x100" alt="..." class='margin' />
-                                <img src="http://placehold.it/150x100" alt="..." class='margin'/>
-                                <img src="http://placehold.it/150x100" alt="..." class='margin'/>
-                                <img src="http://placehold.it/150x100" alt="..." class='margin'/>
-                            </div>
-                        </div>
-                    </li>
-                    <!-- END timeline item -->
-                    <!-- timeline item -->
-                    <li>
-                        <i class="fa fa-video-camera bg-maroon"></i>
-                        <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> 5 days ago</span>
-                            <h3 class="timeline-header"><a href="#">Mr. Doe</a> shared a video</h3>
-                            <div class="timeline-body">
-                                <iframe width="300" height="169" src="//www.youtube.com/embed/fLe_qO4AE-M" frameborder="0" allowfullscreen></iframe>
-                            </div>
-                            <div class="timeline-footer">
-                                <a href="#" class="btn btn-xs bg-maroon">See comments</a>
-                            </div>
-                        </div>
-                    </li>
-                    <!-- END timeline item -->
-                    <li>
-                        <i class="fa fa-clock-o"></i>
-                    </li>
-                </ul>
-            </div><!-- /.col -->
+            @Html.Partial("~/Views/Task/_TaskTimelineWidget.cshtml")
         </div><!-- /.col -->
     </div><!-- /.row -->
 
@@ -273,3 +145,52 @@
         </div>
     </div>
 </section>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+<!-- Modal -->
+<div class="modal fade" id="modalUpdateProgress" tabindex="-1" role="dialog" aria-labelledby="modalUpdateProgressLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+                <h4 class="modal-title" id="modalUpdateProgressLabel">Progresso</h4>
+            </div>
+            <div class="modal-body">
+               <input id="progressUpdaterSlider" type="text" value="" class="slider form-control" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="@Model.Progress" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show" data-slider-id="blue">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                <button id="btnProgressSave" type="button" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script type="text/javascript">
+        $("#calendar").datepicker();
+        $('.slider').slider();
+
+        $(document).ready(function () {
+            $(".modal-footer").on("click", "#btnProgressSave", function () {
+                var _valueToUpdate = $('#progressUpdaterSlider')[0].value
+                var _projectId = '@(Model.ProjectId)';
+                var _id = '@(Model.Id)';
+                var posting = $.post('/Task/UpdateProgress', { projectId: _projectId, id: _id, newValue: _valueToUpdate });
+                posting.done(function (data) {
+                    var dataToUpdate = data + '%';
+                    console.log(dataToUpdate);
+                    $('#modalUpdateProgress').modal('hide')
+                    $('#test').width(dataToUpdate);
+                    setInterval(function () { $("#progressLegend").html($('<strong/>').append(dataToUpdate + ' Completo')); }, 300);
+                });                
+            });
+        });
+    </script>    
+}

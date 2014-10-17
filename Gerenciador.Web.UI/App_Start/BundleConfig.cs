@@ -15,8 +15,10 @@ namespace Gerenciador.Web.UI {
                         "~/Scripts/jquery.unobtrusive*",
                         "~/Scripts/jquery.validate*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/boostrap").Include(
-                        "~/Scripts/bootstrap.js"));
+            bundles.Add(new ScriptBundle("~/bundles/customscripts").Include(
+                        "~/Scripts/bootstrap.js",
+                        "~/Scripts/bootstrap-slider/bootstrap-slider.js",
+                        "~/Scripts/datepicker/bootstrap-datepicker.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -42,6 +44,8 @@ namespace Gerenciador.Web.UI {
             bundles.Add(new StyleBundle("~/Content/newcss").Include(
                         "~/Content/font-awesome.css",
                         "~/Content/bootstrap.css",
+                        "~/Content/datepicker3.css",
+                        "~/Content/slider.css",
                         "~/Content/bootstrap-theme.css"));
 
             bundles.Add(new StyleBundle("~/Content/newcsslogin").Include(

@@ -52,5 +52,16 @@ namespace Gerenciador.Web.UI.Controllers{
             }
         }
 
+        //
+        // POST: /Task/UpdateProgress
+        [HttpPost]
+        public JsonResult UpdateProgress(Guid projectId, Guid id, int newValue) {
+            var project = _projectService.GetProject(projectId);
+            var task = project.Tasks.Where(x => x.Id == id).FirstOrDefault();
+            task.Progress = newValue;
+            _dataContext.SaveChanges();
+            return Json(task.Progress);
+        }
+
     } //class
 }
