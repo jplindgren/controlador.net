@@ -86,8 +86,20 @@
 <div class="row">
     <!-- Left col -->
     <section class="col-lg-7 connectedSortable">
-        
-        @Html.Partial("Widgets/_TaskListWidget", @Model.Project.OpenTasks())
+
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa fa-tasks"></i>
+                <h3 class="box-title">Últimas 5 tasks ativas</h3>
+            </div>
+            <div class="box-body">
+                <!-- task item -->
+                <div class="item">
+                    @Html.Partial("Widgets/_TaskListWidget", @Model.Project.OpenTasks())
+                </div><!-- /.item -->
+            </div><!-- /.body -->
+        </div><!-- /.box (tasks) -->
+       
 
         <!-- Chat box -->
         <div class="box box-success">
@@ -104,7 +116,7 @@
             <div class="box-body chat" id="chat-box">
                 <!-- chat item -->
                 <div class="item">
-                    <img src="img/avatar.png" alt="user image" class="online"/>
+                    <img src="@Url.Content("~/Images/avatar.png")" alt="user image" class="online"/>
                     <p class="message">
                         <a href="#" class="name">
                             <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>
@@ -192,11 +204,11 @@
 
     <!-- right col (We are only adding the ID to make the widgets sortable)-->
     <section class="col-lg-5 connectedSortable"> 
-        <!-- solid sales graph -->
+        <!-- solid project burndown -->
         <div class="box box-solid bg-teal-gradient">
             <div class="box-header">
                 <i class="fa fa-th"></i>
-                <h3 class="box-title">Sales Graph</h3>
+                <h3 class="box-title">Project Burndown Graph</h3>
                 <div class="box-tools pull-right">
                     <button class="btn bg-teal btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     <button class="btn bg-teal btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -209,15 +221,15 @@
                 <div class="row">
                     <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
                         <input type="text" class="knob" data-readonly="true" value="20" data-width="60" data-height="60" data-fgColor="#39CCCC"/>
-                        <div class="knob-label">Mail-Orders</div>
+                        <div class="knob-label">Completed</div>
                     </div><!-- ./col -->
                     <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
                         <input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60" data-fgColor="#39CCCC"/>
-                        <div class="knob-label">Online</div>
+                        <div class="knob-label">Open</div>
                     </div><!-- ./col -->
                     <div class="col-xs-4 text-center">
                         <input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60" data-fgColor="#39CCCC"/>
-                        <div class="knob-label">In-Store</div>
+                        <div class="knob-label">Cancelled</div>
                     </div><!-- ./col -->
                 </div><!-- /.row -->
             </div><!-- /.box-footer -->

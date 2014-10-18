@@ -1,24 +1,12 @@
 ﻿@model IEnumerable<Gerenciador.Domain.Task>
 
-<div class="box box-info">
-    <div class="box-header">
-        <i class="fa fa-tasks"></i>
-        <h3 class="box-title">Últimas 5 tasks ativas</h3>
+@foreach (var item in Model) {
+    <!-- Progress bars -->
+    <div class="clearfix">
+        <span class="pull-left">@Html.ActionLink(@item.Name, "Details", "Task", new { projectId = @item.ProjectId, id = @item.Id }, null)</span>
+        <small class="pull-right">@item.Progress%</small>
     </div>
-    <div class="box-body">
-        <!-- task item -->
-        <div class="item">
-            @foreach (var item in Model) {
-                <!-- Progress bars -->
-                <div class="clearfix">
-                    <span class="pull-left">@Html.ActionLink(@item.Name, "Details", "Task", new { projectId = @item.ProjectId, id = @item.Id }, null)</span>
-                    <small class="pull-right">@item.Progress%</small>
-                </div>
-                <div class="progress xs">
-                    <div class="progress-bar progress-bar-green" style="width: @item.Progress%;"></div>
-                </div>
-            }
-        </div><!-- /.item -->
-    </div><!-- /.body -->
-</div><!-- /.box (tasks) -->
-
+    <div class="progress xs">
+        <div class="progress-bar progress-bar-green" style="width: @item.Progress%;"></div>
+    </div>
+}
