@@ -52,10 +52,12 @@
     <Compile Include="DataContextConfiguration.cs" />
     <Compile Include="DatabaseSeed.cs" />
     <Compile Include="IDataContext.cs" />
+    <Compile Include="Impl\CommentRepository.cs" />
     <Compile Include="Impl\EntityTestRepository.cs" />
     <Compile Include="Impl\ProjectRepository.cs" />
     <Compile Include="Impl\Repository.cs" />
-    <Compile Include="Impl\TaskProject.cs" />
+    <Compile Include="Impl\TaskRepository.cs" />
+    <Compile Include="Interface\ICommentRepository.cs" />
     <Compile Include="Interface\ITaskRepository.cs" />
     <Compile Include="Interface\IProjectRepository.cs" />
     <Compile Include="Interface\IRepository.cs" />

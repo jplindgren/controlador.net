@@ -10,14 +10,11 @@ using System.Web.Mvc;
 
 namespace Gerenciador.Web.UI.Controllers{
     [Authorize]
-    public class TaskController : Controller{
-
+    public class TaskController : BaseController{
         private ProjectService _projectService;
-        private IDataContext _dataContext;
 
         public TaskController() {
-            _dataContext = new ProjectManagementContext();
-            _projectService = new ProjectService(new ProjectRepository(_dataContext));
+            _projectService = new ProjectService(new ProjectRepository(DataContext));
         }
 
         //
@@ -43,7 +40,7 @@ namespace Gerenciador.Web.UI.Controllers{
             try{
                 var project = _projectService.GetProject(task.ProjectId);
                 project.AddTask(task.Name, task.Description);
-                _dataContext.SaveChanges();
+                DataContext.SaveChanges();
                 // TODO: Add insert logic here
                 return RedirectToAction("Index","Home");
             }catch{
@@ -59,7 +56,7 @@ namespace Gerenciador.Web.UI.Controllers{
             var project = _projectService.GetProject(projectId);
             var task = project.Tasks.Where(x => x.Id == id).FirstOrDefault();
             task.Progress = newValue;
-            _dataContext.SaveChanges();
+            DataContext.SaveChanges();
             return Json(task.Progress);
         }
 

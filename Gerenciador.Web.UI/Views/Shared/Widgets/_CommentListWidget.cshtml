@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Gerenciador.Domain.Comment>
+
+@{
+    ViewBag.Title = "_CommentListWidget";
+}
+
+<p class="lead">Comentários:</p>
+
+@foreach (var item in Model) {
+    <div class="box box-default">
+        <div class="box-body">
+            <p>
+                @Html.DisplayFor(modelItem => item.Content)
+            </p>
+        </div><!-- /.box-body -->
+        <div class="box-footer">
+            <small>enviado por @Html.DisplayFor(modelItem => item.AuthorName) às @Html.DisplayFor(modelItem => item.CreatedAt) </small>
+        </div><!-- /.box-footer-->
+    </div>
+}
+

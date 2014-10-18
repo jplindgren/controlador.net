@@ -6,8 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Gerenciador.Repository.EntityFramwork.Impl {
-    public class TaskProject : Repository<Gerenciador.Domain.Task>, ITaskRepository {
-        public TaskProject(IDataContext dataContext)
+    public class TaskRepository : Repository<Gerenciador.Domain.Task>, ITaskRepository {
+        public TaskRepository(IDataContext dataContext)
             : base(dataContext) {
             _dataContext = dataContext;
         }

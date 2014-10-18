@@ -116,43 +116,9 @@
     <div class="row">
         <!-- accepted payments column -->
         <div class="col-xs-6">
-            <p class="lead">Comentários:</p>
-            <div class="box box-default">
-                <div class="box-body">
-                    <p>
-                        amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
-                        berliner weisse wort chiller adjunct hydrometer alcohol aau!
-                        sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
-                    </p>
-                </div><!-- /.box-body -->
-                <div class="box-footer">
-                    <small>enviado por jplindgren às @DateTime.Now </small>
-                </div><!-- /.box-footer-->
-            </div>
-            <div class="box box-default">
-                <div class="box-body">
-                    <p>
-                        amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
-                        berliner weisse wort chiller adjunct hydrometer alcohol aau!
-                        sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
-                    </p>
-                </div><!-- /.box-body -->
-                <div class="box-footer">
-                    <small>enviado por jplindgren às @DateTime.Now </small>
-                </div><!-- /.box-footer-->
-            </div>
-            <div class="box box-default">
-                <div class="box-body">
-                    <p>
-                        amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
-                        berliner weisse wort chiller adjunct hydrometer alcohol aau!
-                        sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
-                    </p>
-                </div><!-- /.box-body -->
-                <div class="box-footer">
-                    <small>enviado por jplindgren às @DateTime.Now </small>
-                </div><!-- /.box-footer-->
-            </div>
+            <div id="taskComments">
+
+            </div>            
         </div><!-- /.col -->
         <div class="col-xs-6">
             @Html.Partial("~/Views/Task/_TaskTimelineWidget.cshtml")
@@ -202,22 +168,19 @@
                 <h4 class="modal-title" id="modalCreateCommentLabel">Comentário</h4>
             </div>
             <div class="modal-body">
-               <div class="box box-warning">
-                    <div class="box-header">
-                        <h3 class="box-title">Escrever comentário</h3>
-                    </div><!-- /.box-header -->
-                    <div class="box-body">                    
-                        @using (Html.BeginForm()) {
-                            @Html.ValidationSummary(true)
-                            <!-- text input -->
-                            <div class="form-group">
-                                Comentário: <br />
-                                ​<textarea id="txtComment" rows="10" style="width:100%"></textarea>
-                            </div>
-                        }
-                    </div><!-- /.box-body -->
-                </div><!-- /.box -->
-            </div>
+            <div class="box box-warning">
+                <div class="box-header">
+                    <h3 class="box-title">Escrever comentário</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                        <!-- text input -->
+                        <div class="form-group">
+                            Comentário: <br />
+                            ​<textarea id="txtComment" rows="10" style="width:100%"></textarea>
+                        </div>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                 <button id="btnCreateComment" type="button" class="btn btn-primary">Salvar</button>
@@ -235,10 +198,10 @@
             format: 'dd/mm/yyyy',
             beforeShowDay: function (date) {
                 var day = '@Model.CreatedAt.Day';
-                console.log(day);
-                console.log(date);
-                console.log(date.getMonth());
-                console.log(date.getDate());
+                //console.log(day);
+                //console.log(date);
+                //console.log(date.getMonth());
+                //console.log(date.getDate());
                 if (date.getMonth() == (new Date()).getMonth()) {
                     switch (date.getDate()) {
                         case 4:
@@ -257,10 +220,33 @@
         $('.slider').slider();
 
         $(document).ready(function () {
+            //Async Populates Comments 
+            var _projectId = '@(Model.ProjectId)';
+            var _id = '@(Model.Id)';
+            LoadComments(_projectId, _id);
+
+            function LoadComments(_projectId, _taskId) {
+                this.dataToSend = { projectId: _projectId, taskId: _taskId };
+                $.ajax({
+                    url: '@Url.Action("Index", "Comments")',
+                    data: this.dataToSend,
+                    contentType: 'application/html; charset=utf-8',
+                    type: 'GET',
+                    dataType: 'html'
+                })
+                .success(function (result) {
+                    $('#taskComments').html(result);
+                })
+                .error(function (xhr, status) {
+                    alert('erro status: ' + status);
+                });
+            }
+
+            //Update Progress
             $(".modal-footer").on("click", "#btnProgressSave", function () {
+                this._projectId = '@(Model.ProjectId)';
+                this._id = '@(Model.Id)';
                 var _valueToUpdate = $('#progressUpdaterSlider')[0].value
-                var _projectId = '@(Model.ProjectId)';
-                var _id = '@(Model.Id)';
                 var posting = $.post('/Task/UpdateProgress', { projectId: _projectId, id: _id, newValue: _valueToUpdate });
                 posting.done(function (data) {
                     var dataToUpdate = data + '%';
@@ -269,6 +255,23 @@
                     $("#progressLegend").html($('<strong/>').append(dataToUpdate + ' Completo'));
                     $('#taskUpdateBar').attr('aria-valuenow', data);
                 });                
+            });
+
+            //Create Comments
+            $(".modal-footer").on("click", "#btnCreateComment", function () {
+                this._projectId = '@(Model.ProjectId)';
+                this._id = '@(Model.Id)';
+                var posting = $.post('@Url.Action("Create", "Comments")', {
+                    projectId: this._projectId,
+                    taskId: this._id,
+                    content: $('#txtComment').val()
+                });
+                posting.done(function (result) {
+                    this._projectId = '@(Model.ProjectId)';
+                    this._id = '@(Model.Id)';
+                    $('#modalCreateComment').modal('hide');
+                    LoadComments(this._projectId, this._id);
+                });
             });
         });
     </script>    

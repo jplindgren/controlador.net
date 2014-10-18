@@ -10,12 +10,10 @@ using System.Web.Mvc;
 
 namespace Gerenciador.Web.UI.Controllers {
     [HandleError]
-    public class HomeController : Controller {
+    public class HomeController : BaseController {
         private ProjectSummaryService _projectSummaryService;
-        private IDataContext _dataContext;
         public HomeController() {
-            _dataContext = new ProjectManagementContext();
-            _projectSummaryService = new ProjectSummaryService(new ProjectRepository(_dataContext));
+            _projectSummaryService = new ProjectSummaryService(new ProjectRepository(DataContext));
         }
 
         [Authorize]
@@ -60,7 +58,7 @@ namespace Gerenciador.Web.UI.Controllers {
                 },
             });
             _projectSummaryService.CreateProject(project);
-            _dataContext.SaveChanges();
+            DataContext.SaveChanges();
             ViewBag.Message = "Your app description page.";
 
             return View();
