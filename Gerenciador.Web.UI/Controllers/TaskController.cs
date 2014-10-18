@@ -55,7 +55,7 @@ namespace Gerenciador.Web.UI.Controllers{
         public JsonResult UpdateProgress(Guid projectId, Guid id, int newValue) {
             var project = _projectService.GetProject(projectId);
             var task = project.Tasks.Where(x => x.Id == id).FirstOrDefault();
-            task.Progress = newValue;
+            task.UpdateProgress(newValue);
             DataContext.SaveChanges();
             return Json(task.Progress);
         }

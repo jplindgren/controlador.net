@@ -9,7 +9,10 @@
     <div class="row">
         <div class="col-xs-12">
             <h2 class="page-header">
-                <i class="fa fa-file-text-o"> @Model.Name</i> <span class="label label-warning">Pending</span>
+                <i class="fa fa-file-text-o"> @Model.Name</i> 
+                <span id="taskStatus" class="label label-@(Model.IsDone() ? "success" : "warning")">
+                    @Html.Raw(Model.IsDone() ? "Completed" : "Pending")
+                </span>
                 <small class="pull-right">Data de Hoje: @DateTime.Now </small>
             </h2>
             <div class="progress progress">
@@ -254,6 +257,11 @@
                     $('#taskUpdateBar').width(dataToUpdate);
                     $("#progressLegend").html($('<strong/>').append(dataToUpdate + ' Completo'));
                     $('#taskUpdateBar').attr('aria-valuenow', data);
+                    if (data == 100) {
+                        $('#taskStatus').attr("class", "label label-success").html('Completed');
+                    } else {
+                        $('#taskStatus').attr("class", "label label-warning").html('Pending');
+                    }
                 });                
             });
 

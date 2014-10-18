@@ -89,6 +89,14 @@
     <Compile Include="Migrations\201410171734250_CreateComment1.Designer.cs">
       <DependentUpon>201410171734250_CreateComment1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410181531018_CreateTaskStatusEnumInTask.cs" />
+    <Compile Include="Migrations\201410181531018_CreateTaskStatusEnumInTask.Designer.cs">
+      <DependentUpon>201410181531018_CreateTaskStatusEnumInTask.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410181541531_RemoveDoneFromTask.cs" />
+    <Compile Include="Migrations\201410181541531_RemoveDoneFromTask.Designer.cs">
+      <DependentUpon>201410181541531_RemoveDoneFromTask.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ProjectManagementConfiguration.cs" />
     <Compile Include="ProjectManagementContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -121,6 +129,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410171734250_CreateComment1.resx">
       <DependentUpon>201410171734250_CreateComment1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410181531018_CreateTaskStatusEnumInTask.resx">
+      <DependentUpon>201410181531018_CreateTaskStatusEnumInTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410181541531_RemoveDoneFromTask.resx">
+      <DependentUpon>201410181541531_RemoveDoneFromTask.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

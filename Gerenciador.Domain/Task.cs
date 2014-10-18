@@ -15,10 +15,23 @@ namespace Gerenciador.Domain {
             ProjectId = projectId;
             Project = project;
 
-            Done = false;
             Progress = 0;
             CreatedAt = DateTime.Now;
             LastUpdatedAt = DateTime.Now;
+
+            Status = TaskStatus.Open; //TODO: In future change to create methods an implement propose method by customers
+        }
+
+        public static Task CreateTask(string name, string description, Guid projectId, Project project) {
+            var task = new Task(name, description, projectId, project);
+            task.Status = TaskStatus.Proposed;
+            return task;
+        }
+
+        public static Task CreateTaskAsAdmin(string name, string description, Guid projectId, Project project) {
+            var task = new Task(name, description, projectId, project);
+            task.Status = TaskStatus.Open;
+            return task;
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -28,7 +41,7 @@ namespace Gerenciador.Domain {
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        public bool Done { get; set; }
+        public TaskStatus Status { get; set; }
         public int Progress { get; set; }
         public Guid ProjectId { get; set; }
 
@@ -37,5 +50,18 @@ namespace Gerenciador.Domain {
 
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdatedAt { get; set; }
+
+        public void UpdateProgress(int progress) {
+            Progress = progress;
+            if (progress == 100)
+                Status = TaskStatus.Completed;
+            else {
+                Status = TaskStatus.Open;
+            }
+        }
+
+        public bool IsDone() {
+            return (Progress == 100);
+        }
     } //class
 }
