@@ -40,10 +40,26 @@ namespace Gerenciador.Domain.Snapshot {
             systemEventSnapshot.ProjectId = comment.ProjectId;
             systemEventSnapshot.Author = comment.AuthorName;
             systemEventSnapshot.EventDate = comment.CreatedAt;
-            systemEventSnapshot.Resource = comment.GetType().ToString();
+            systemEventSnapshot.Resource = comment.GetType().AssemblyQualifiedName;
             systemEventSnapshot.ResourceId = comment.Id;
-            systemEventSnapshot.Subject = comment.Content;
+            systemEventSnapshot.Subject = string.Format("{0} enviou um comentário", systemEventSnapshot.Author);
+            systemEventSnapshot.Content = comment.Content;
             systemEventSnapshot.TaskId = comment.TaskId;
+            return this;
+        }
+
+        public EventSnapshotBuilder Consume(Task task) {
+            systemEventSnapshot.ProjectId = task.ProjectId;
+            systemEventSnapshot.EventDate = task.LastUpdatedAt;
+            systemEventSnapshot.Resource = task.GetType().AssemblyQualifiedName;
+            systemEventSnapshot.ResourceId = task.Id;
+
+            if (systemEventSnapshot.Action == "Update")
+                systemEventSnapshot.Subject = string.Format("{0} atualizou o progresso da task para: {1}", systemEventSnapshot.Author, task.Progress);
+            else
+                systemEventSnapshot.Subject = string.Format("Task criada por {0}", systemEventSnapshot.Author);
+            
+            systemEventSnapshot.TaskId = task.Id;
             return this;
         }
     } //class

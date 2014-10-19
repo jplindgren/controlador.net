@@ -10,10 +10,9 @@
         <div class="col-xs-12">
             <h2 class="page-header">
                 <i class="fa fa-file-text-o"> @Model.Name</i> 
-                <span id="taskStatus" class="label label-@(Model.IsDone() ? "success" : "warning")">
-                    @Html.Raw(Model.IsDone() ? "Completed" : "Pending")
+                <span id="taskStatus" class="pull-right label label-@(Model.IsDone() ? "success" : "warning")">
+                    @Html.Raw(Model.IsDone() ? "Completo" : "Pendente")
                 </span>
-                <small class="pull-right">Data de Hoje: @DateTime.Now </small>
             </h2>
             <div class="progress progress">
                 <div id="taskUpdateBar" class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="@Model.Progress" aria-valuemin="0" aria-valuemax="100" style="width: @Model.Progress%">
@@ -131,15 +130,15 @@
     <!-- this row will not appear when printing -->
     <div class="row no-print">
         <div class="col-xs-12">
-            <button class="btn btn-default pull-right" onclick="window.print();"><i class="fa fa-print"></i> Print</button>
-            <button class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Edit</button>
-            <button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i> Generate PDF</button>
+            <button class="btn btn-default pull-right" onclick="window.print();"><i class="fa fa-print"></i> Imprimir</button>
+            <button class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Edita</button>
+            <button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i> Gerar PDF</button>
         </div>
     </div>
 </section>
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Editar", "Edit", new { id=Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 
@@ -279,6 +278,7 @@
                     } else {
                         $('#taskStatus').attr("class", "label label-warning").html('Pending');
                     }
+                    LoadTimeline();
                 });                
             });
 

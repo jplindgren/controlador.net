@@ -16,7 +16,7 @@ namespace Gerenciador.Web.UI.Controllers{
         private HistoryService _historyService;
 
         public TaskController() {
-            _projectService = new ProjectService(new ProjectRepository(DataContext));
+            _projectService = new ProjectService(new ProjectRepository(DataContext), new HistoryService(new EventSnapshotRepository(DataContext)));
             _historyService = new HistoryService(new EventSnapshotRepository(DataContext));
         }
 
@@ -42,9 +42,8 @@ namespace Gerenciador.Web.UI.Controllers{
         public ActionResult Create(Task task){
             try{
                 var project = _projectService.GetProject(task.ProjectId);
-                project.AddTask(task.Name, task.Description);
+                _projectService.CreateTask(project, User.Identity.Name, task.Name, task.Description);
                 DataContext.SaveChanges();
-                // TODO: Add insert logic here
                 return RedirectToAction("Index","Home");
             }catch{
                 ViewBag.ProjectId = task.ProjectId;
@@ -58,7 +57,8 @@ namespace Gerenciador.Web.UI.Controllers{
         public JsonResult UpdateProgress(Guid projectId, Guid id, int newValue) {
             var project = _projectService.GetProject(projectId);
             var task = project.Tasks.Where(x => x.Id == id).FirstOrDefault();
-            task.UpdateProgress(newValue);
+
+            _projectService.UpdateTask(task, newValue, User.Identity.Name);
             DataContext.SaveChanges();
             return Json(task.Progress);
         }

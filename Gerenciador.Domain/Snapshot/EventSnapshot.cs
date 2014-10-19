@@ -11,6 +11,7 @@ namespace Gerenciador.Domain.Snapshot {
         public Guid Id { get; set; }
         public DateTime EventDate { get; set; }
         public string Subject { get; set; }
+        public string Content { get; set; }
         public string Author { get; set; }
         public Guid? ProjectId { get; set; }
         public Guid? TaskId { get; set; }

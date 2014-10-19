@@ -19,7 +19,7 @@
                 <i class="ion ion-bag"></i>
             </div>
             <a href="/Task/Create/@Model.Project.Id" class="small-box-footer">
-                Criar Novo Ticket <i class="fa fa-arrow-circle-right"></i>
+                Criar Nova Task <i class="fa fa-arrow-circle-right"></i>
             </a>
         </div>
     </div><!-- ./col -->
@@ -98,6 +98,9 @@
                     @Html.Partial("Widgets/_TaskListWidget", @Model.Project.OpenTasks())
                 </div><!-- /.item -->
             </div><!-- /.body -->
+            <div class="box-footer">
+                @Html.ActionLink("Ver todos", "dssd", "")
+            </div>
         </div><!-- /.box (tasks) -->
        
 

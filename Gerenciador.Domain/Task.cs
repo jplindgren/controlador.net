@@ -58,6 +58,7 @@ namespace Gerenciador.Domain {
             else {
                 Status = TaskStatus.Open;
             }
+            LastUpdatedAt = DateTime.Now;
         }
 
         public bool IsDone() {

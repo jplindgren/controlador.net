@@ -25,11 +25,11 @@ namespace Gerenciador.Services.Impl {
             }
             projectSummary.Project = project;
             projectSummary.OpenTasks = project.OpenTasks();
-            projectSummary.PercentageOpenTasks = project.CalculatePercentageForTasks(projectSummary.OpenTasks); 
+            projectSummary.PercentageOpenTasks = project.CalculatePercentageForTasks(projectSummary.OpenTasks.Count()); 
             projectSummary.ClosedTasks = project.ClosedTasks();
-            projectSummary.PercentageClosedTasks = project.CalculatePercentageForTasks(projectSummary.ClosedTasks); 
+            projectSummary.PercentageClosedTasks = project.CalculatePercentageForTasks(projectSummary.ClosedTasks.Count()); 
             projectSummary.CancelledTasks = project.CancelledTasks();
-            projectSummary.PercentageCancelledTasks = project.CalculatePercentageForTasks(projectSummary.CancelledTasks); 
+            projectSummary.PercentageCancelledTasks = project.CalculatePercentageForTasks(projectSummary.CancelledTasks.Count()); 
             return projectSummary;
         }
 

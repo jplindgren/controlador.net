@@ -1,26 +1,45 @@
 ﻿@model IEnumerable<Gerenciador.Domain.Snapshot.EventSnapshot>
 
+@{
+    DateTime lastDate = DateTime.MinValue;
+}
+
 <p class="lead">Timeline</p>
 <div class="col-md-12">
     <!-- The time line -->
     <ul class="timeline">
-        @foreach (var item in Model) { 
+        @foreach (var item in Model) {             
+            string cssClass = "fa-comments-o bg-yellow";
+            
+            Type type = Type.GetType(item.Resource);
+            if (type == typeof(Gerenciador.Domain.Task)) { 
+                cssClass = "fa-user bg-aqua"; 
+            }
+            
             <!-- timeline time label -->
-            <li class="time-label">
-                <span class="bg-red">
-                    @item.EventDate.ToShortDateString()
-                </span>
-            </li>
+            if (lastDate.Date != item.EventDate.Date) {
+                lastDate = lastDate != item.EventDate ? item.EventDate : lastDate;
+                
+                <li class="time-label">
+                    <span class="bg-green">
+                        @item.EventDate.ToShortDateString()
+                    </span>
+                </li>
+            }
             <!-- /.timeline-label -->
             <!-- timeline item -->
             <li>
-                <i class="fa fa-comments-o bg-yellow"></i>
+                <i class="fa @cssClass"></i>
                 <div class="timeline-item">
                     <span class="time"><i class="fa fa-clock-o"></i> @item.EventDate.ToShortTimeString()</span>
-                    <h3 class="timeline-header">@item.Author commented in the task</h3>
-                    <div class="timeline-body">
-                        @Html.DisplayFor(x => item.Subject)
-                    </div>
+                    @if (!string.IsNullOrEmpty(item.Content)) { 
+                        <h3 class="timeline-header">@Html.DisplayFor(x => item.Subject)</h3>                    
+                        <div class="timeline-body">
+                            @Html.DisplayFor(x => item.Content)
+                        </div>
+                    }else{
+                        <h3 class="timeline-header no-border">@Html.DisplayFor(x => item.Subject)</h3>                    
+                    }
                 </div>
             </li>
             <!-- END timeline item -->    

@@ -32,20 +32,21 @@ namespace Gerenciador.Domain {
             return new List<Task>();
         }
 
-        public int CalculatePercentageForTasks(IEnumerable<Task> tasks) {
-            if (tasks == null || tasks.Count() == 0) {
+        public int CalculatePercentageForTasks(decimal numberToEvaluate) {
+            if (numberToEvaluate == 0) {
                 return 0;
             }
             if (Tasks == null || Tasks.Count() == 0)
                 throw new Exception("Não existem tasks para esse projeto, logo o cálculo é impossível");
 
-            var percentage = (tasks.Count() / Tasks.Count()) * 100;
-            return percentage;
+            var percentage = (numberToEvaluate / Tasks.Count()) * 100;
+            return (int)percentage;
         }
 
-        public void AddTask(string taskName, string taskDescription) {
+        public Task AddTask(string taskName, string taskDescription) {
             Task task = new Task(taskName, taskDescription, this.Id, this);
             this.Tasks.Add(task);
+            return task;
         }
     } //class
 }

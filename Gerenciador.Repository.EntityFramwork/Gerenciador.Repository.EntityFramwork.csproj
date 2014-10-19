@@ -107,6 +107,10 @@
     <Compile Include="Migrations\201410190443593_AddIndexEventDateInEventSnapshot.Designer.cs">
       <DependentUpon>201410190443593_AddIndexEventDateInEventSnapshot.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410192153395_AddContentToEventSnapshot.cs" />
+    <Compile Include="Migrations\201410192153395_AddContentToEventSnapshot.Designer.cs">
+      <DependentUpon>201410192153395_AddContentToEventSnapshot.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ProjectManagementConfiguration.cs" />
     <Compile Include="ProjectManagementContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -151,6 +155,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410190443593_AddIndexEventDateInEventSnapshot.resx">
       <DependentUpon>201410190443593_AddIndexEventDateInEventSnapshot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410192153395_AddContentToEventSnapshot.resx">
+      <DependentUpon>201410192153395_AddContentToEventSnapshot.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
