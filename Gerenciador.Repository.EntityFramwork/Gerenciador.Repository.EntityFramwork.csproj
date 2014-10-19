@@ -54,9 +54,11 @@
     <Compile Include="IDataContext.cs" />
     <Compile Include="Impl\CommentRepository.cs" />
     <Compile Include="Impl\EntityTestRepository.cs" />
+    <Compile Include="Impl\EventSnapshotRepository.cs" />
     <Compile Include="Impl\ProjectRepository.cs" />
     <Compile Include="Impl\Repository.cs" />
     <Compile Include="Impl\TaskRepository.cs" />
+    <Compile Include="Interface\IEventSnapshotRepository.cs" />
     <Compile Include="Interface\ICommentRepository.cs" />
     <Compile Include="Interface\ITaskRepository.cs" />
     <Compile Include="Interface\IProjectRepository.cs" />
@@ -97,6 +99,14 @@
     <Compile Include="Migrations\201410181541531_RemoveDoneFromTask.Designer.cs">
       <DependentUpon>201410181541531_RemoveDoneFromTask.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410182226250_AddEventSnapshot.cs" />
+    <Compile Include="Migrations\201410182226250_AddEventSnapshot.Designer.cs">
+      <DependentUpon>201410182226250_AddEventSnapshot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410190443593_AddIndexEventDateInEventSnapshot.cs" />
+    <Compile Include="Migrations\201410190443593_AddIndexEventDateInEventSnapshot.Designer.cs">
+      <DependentUpon>201410190443593_AddIndexEventDateInEventSnapshot.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ProjectManagementConfiguration.cs" />
     <Compile Include="ProjectManagementContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -135,6 +145,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410181541531_RemoveDoneFromTask.resx">
       <DependentUpon>201410181541531_RemoveDoneFromTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410182226250_AddEventSnapshot.resx">
+      <DependentUpon>201410182226250_AddEventSnapshot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410190443593_AddIndexEventDateInEventSnapshot.resx">
+      <DependentUpon>201410190443593_AddIndexEventDateInEventSnapshot.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

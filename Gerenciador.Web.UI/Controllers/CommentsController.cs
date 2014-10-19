@@ -11,7 +11,7 @@ namespace Gerenciador.Web.UI.Controllers{
     public class CommentsController : BaseController{
         private ProjectFeaturesService _projectFeaturesService;
         public CommentsController (){
-            _projectFeaturesService = new ProjectFeaturesService(new ProjectRepository(DataContext), new CommentRepository(DataContext));
+            _projectFeaturesService = new ProjectFeaturesService(new ProjectRepository(DataContext), new CommentRepository(DataContext), new HistoryService(new EventSnapshotRepository(DataContext)));
 	    }
 
         // GET: /Comments/1
@@ -22,8 +22,6 @@ namespace Gerenciador.Web.UI.Controllers{
             else
                 comments = _projectFeaturesService.GetComments(projectId);
 
-            //var comments = new List<Comment>();
-            //comments.Add(new Comment() { Content = "Comentário 1", CreatedAt = DateTime.Now, AuthorName = "jplindgren" });  
             return PartialView("Widgets/_CommentListWidget", comments);
         }
 

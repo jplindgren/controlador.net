@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="Comment.cs" />
     <Compile Include="EntityTest.cs" />
+    <Compile Include="Snapshot\EventSnapshotBuilder.cs" />
+    <Compile Include="Snapshot\EventSnapshot.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Task.cs" />

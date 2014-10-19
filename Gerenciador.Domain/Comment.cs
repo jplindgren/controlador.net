@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gerenciador.Domain.Snapshot;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Gerenciador.Domain {
-    public class Comment {
+    public class Comment{
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public string Content { get; set; }

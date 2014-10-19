@@ -1,4 +1,5 @@
 ﻿using Gerenciador.Domain;
+using Gerenciador.Domain.Snapshot;
 using Gerenciador.Repository.EntityFramwork;
 using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Services.Impl;
@@ -12,9 +13,11 @@ namespace Gerenciador.Web.UI.Controllers{
     [Authorize]
     public class TaskController : BaseController{
         private ProjectService _projectService;
+        private HistoryService _historyService;
 
         public TaskController() {
             _projectService = new ProjectService(new ProjectRepository(DataContext));
+            _historyService = new HistoryService(new EventSnapshotRepository(DataContext));
         }
 
         //
@@ -58,6 +61,14 @@ namespace Gerenciador.Web.UI.Controllers{
             task.UpdateProgress(newValue);
             DataContext.SaveChanges();
             return Json(task.Progress);
+        }
+
+        public PartialViewResult GetTimeline(Guid taskId) {
+            IEnumerable<EventSnapshot> snapshots;
+
+            snapshots = _historyService.GetByTask(taskId);
+
+            return PartialView("~/Views/Task/_TaskTimelineWidget.cshtml", snapshots.ToList());
         }
 
     } //class

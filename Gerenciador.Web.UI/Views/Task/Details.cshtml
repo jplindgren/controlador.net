@@ -118,13 +118,13 @@
 
     <div class="row">
         <!-- accepted payments column -->
-        <div class="col-xs-6">
+        <div class="col-md-6">
             <div id="taskComments">
-
-            </div>            
+            </div>
         </div><!-- /.col -->
-        <div class="col-xs-6">
-            @Html.Partial("~/Views/Task/_TaskTimelineWidget.cshtml")
+        <div class="col-md-6">
+            <div id="taskTimeline"></div>
+            @*@Html.Partial("~/Views/Task/_TaskTimelineWidget.cshtml")*@
         </div><!-- /.col -->
     </div><!-- /.row -->
 
@@ -222,12 +222,13 @@
         });
         $('.slider').slider();
 
-        $(document).ready(function () {
-            //Async Populates Comments 
+        $(document).ready(function () {            
             var _projectId = '@(Model.ProjectId)';
             var _id = '@(Model.Id)';
             LoadComments(_projectId, _id);
+            LoadTimeline();
 
+            //Async Populates Comments 
             function LoadComments(_projectId, _taskId) {
                 this.dataToSend = { projectId: _projectId, taskId: _taskId };
                 $.ajax({
@@ -239,6 +240,22 @@
                 })
                 .success(function (result) {
                     $('#taskComments').html(result);
+                })
+                .error(function (xhr, status) {
+                    alert('erro status: ' + status);
+                });
+            }
+
+            //async populates timeline
+            function LoadTimeline() {
+                $.ajax({
+                    url: '@Url.Action("GetTimeline", "Task", new { taskId = @Model.Id })',
+                    contentType: 'application/html; charset=utf-8',
+                    type: 'GET',
+                    dataType: 'html'
+                })
+                .success(function (result) {
+                    $('#taskTimeline').html(result);
                 })
                 .error(function (xhr, status) {
                     alert('erro status: ' + status);
@@ -278,7 +295,9 @@
                     this._projectId = '@(Model.ProjectId)';
                     this._id = '@(Model.Id)';
                     $('#modalCreateComment').modal('hide');
+                    $('#txtComment').val('');
                     LoadComments(this._projectId, this._id);
+                    LoadTimeline();
                 });
             });
         });
