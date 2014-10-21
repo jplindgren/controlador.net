@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -8,8 +9,7 @@
         @*@Styles.Render("~/Content/css")*@
         @Styles.Render("~/Content/newcss")
         @Styles.Render("~/Content/newcsscommon")
-        @Scripts.Render("~/bundles/modernizr")        
-        <link href="~/Scripts/testJgrid/css/ui.jqgrid.css" rel="stylesheet" />
+        @Scripts.Render("~/bundles/modernizr")
     </head>
     <body class="skin-blue">
         @Html.Partial("_Header")
@@ -36,9 +36,6 @@
 
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/customscripts")
-        @*<script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>*@
-        <script src="~/Scripts/testJgrid/js/jquery.jqGrid.src.js"></script>
-        <script src="~/Scripts/testJgrid/js/i18n/grid.locale-pt-br.js"></script>
         @RenderSection("scripts", required: false)
     </body>
 </html>
