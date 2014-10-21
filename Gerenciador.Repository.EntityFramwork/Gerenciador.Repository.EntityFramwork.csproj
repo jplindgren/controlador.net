@@ -111,6 +111,10 @@
     <Compile Include="Migrations\201410192153395_AddContentToEventSnapshot.Designer.cs">
       <DependentUpon>201410192153395_AddContentToEventSnapshot.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410202153593_AddSubTask.cs" />
+    <Compile Include="Migrations\201410202153593_AddSubTask.Designer.cs">
+      <DependentUpon>201410202153593_AddSubTask.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ProjectManagementConfiguration.cs" />
     <Compile Include="ProjectManagementContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -158,6 +162,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410192153395_AddContentToEventSnapshot.resx">
       <DependentUpon>201410192153395_AddContentToEventSnapshot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410202153593_AddSubTask.resx">
+      <DependentUpon>201410202153593_AddSubTask.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

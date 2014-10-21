@@ -3,7 +3,7 @@
 @foreach (var item in Model) {
     <!-- Progress bars -->
     <div class="clearfix">
-        <span class="pull-left">@Html.ActionLink(@item.Name, "Details", "Task", new { projectId = @item.ProjectId, id = @item.Id }, null)</span>
+        <span class="pull-left">@Html.ActionLink(@item.Name, "Details", "Task", new { projectId = @item.ProjectId, id = @item.Id }, new { title = item.Description })</span>
         <small class="pull-right">@item.Progress%</small>
     </div>
     <div class="progress xs">

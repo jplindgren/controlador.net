@@ -214,7 +214,7 @@
                         <li class="user-header bg-light-blue">
                             <img src="@Url.Content("~/Images/avatar4.png")" class="img-circle" alt="User Image" />
                             <p>
-                                Jane Doe - Web Developer
+                                @User.Identity.Name - Web Developer
                                 <small>Member since Nov. 2012</small>
                             </p>
                         </li>
@@ -236,7 +236,10 @@
                                 <a href="#" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
-                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
+                                    @Html.AntiForgeryToken()
+                                    <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-default btn-flat">Sign out</a>
+                                }
                             </div>
                         </li>
                     </ul>

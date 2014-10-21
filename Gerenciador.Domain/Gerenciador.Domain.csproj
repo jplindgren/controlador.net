@@ -52,6 +52,7 @@
     <Compile Include="Snapshot\EventSnapshot.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SubTask.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="TaskStatus.cs" />
   </ItemGroup>

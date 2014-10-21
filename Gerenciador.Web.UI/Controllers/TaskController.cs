@@ -63,6 +63,29 @@ namespace Gerenciador.Web.UI.Controllers{
             return Json(task.Progress);
         }
 
+        // POST: /Task/CreateSubTask
+        [HttpPost]
+        public JsonResult CreateSubTask(Guid projectId, Guid taskId, string name, DateTime startDate, DateTime endDate) {
+            var project = _projectService.GetProject(projectId);
+            var task = project.Tasks.Where(x => x.Id == taskId).FirstOrDefault();
+
+            SubTask subtask = new SubTask();
+            subtask.Name = name;
+            subtask.CreatedAt = DateTime.Now;
+            subtask.StartDate = startDate;
+            subtask.ExpectedEndDate = endDate;
+            subtask.Status = TaskStatus.Open;
+
+            task.SubTasks.Add(subtask);
+
+            DataContext.SaveChanges();
+            return Json(new { name = subtask.Name, 
+                              createdAt = subtask.CreatedAt, 
+                              startDate = subtask.StartDate, 
+                              expectedEndDate = subtask.ExpectedEndDate, 
+                              status = subtask.Status });
+        }
+
         public PartialViewResult GetTimeline(Guid taskId) {
             IEnumerable<EventSnapshot> snapshots;
 

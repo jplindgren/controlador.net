@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-xs-12">
             <h2 class="page-header">
-                <i class="fa fa-file-text-o"> @Model.Name</i> 
+                <i class="fa fa-file-text-o">@Model.Name</i>
                 <span id="taskStatus" class="pull-right label label-@(Model.IsDone() ? "success" : "warning")">
                     @Html.Raw(Model.IsDone() ? "Completo" : "Pendente")
                 </span>
@@ -19,126 +19,104 @@
                     <span id="progressLegend"><strong>@Model.Progress% Completo</strong></span>
                 </div>
             </div>
-        </div><!-- /.col -->
+        </div>
+        <!-- /.col -->
     </div>
     <!-- info row -->
     <div class="row invoice-info">
         <div class="col-sm-4 invoice-col">
-            <strong>Início </strong><br />
+            <strong>Início </strong>
+            <br />
             Criado: <strong>@Model.CreatedAt</strong><br>
             Iniciado: <strong>@DateTime.Now</strong><br />
             <strong>Término</strong><br>
-            Expectativa inicial: <strong>xxxxx</strong> <br>
+            Expectativa inicial: <strong>xxxxx</strong>
+            <br>
             Data de término: <strong>xxxx</strong><br>
             Variação: <strong>+/- 3 dias</strong>
-        </div><!-- /.col -->
+        </div>
+        <!-- /.col -->
 
         <div class="col-sm-4 invoice-col">
             <div class="box box-solid bg-light-blue-gradient">
                 <div class="box-body no-padding">
                     <!--The calendar -->
                     <div id="calendar" style="width: 100%"></div>
-                </div><!-- /.box-body -->
-            </div>            
-        </div><!-- /.col -->
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
 
         <div class="col-sm-4 invoice-col">
-            <strong>Ações </strong><br />
+            <strong>Ações </strong>
+            <br />
             <a class="btn btn-app">
-                <i class="fa fa-edit"></i> Conteúdo
+                <i class="fa fa-edit"></i>Conteúdo
             </a>
             <button class="btn btn-app" data-toggle="modal" data-target="#modalUpdateProgress">
-                <i class="fa fa-play"></i> Progresso
+                <i class="fa fa-play"></i>Progresso
             </button>
-            <a class="btn btn-app">
-                <i class="fa fa-arrow-circle-o-right"></i> Sub-tarefa
-            </a>
+            <button class="btn btn-app" data-toggle="modal" data-target="#modalCreateSubTask">
+                <i class="fa fa-arrow-circle-o-right"></i>Sub-Task
+            </button>
             <button class="btn btn-app" data-toggle="modal" data-target="#modalCreateComment">
-                <i class="fa fa-bullhorn"></i> Comentário
+                <i class="fa fa-bullhorn"></i>Comentário
             </button>
-        </div><!-- /.col -->
-    </div><!-- /.row -->    
+            <button class="btn btn-app" data-toggle="modal" data-target="">
+                <i class="fa fa-users"></i>Usuários
+            </button>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
 
     <br />
 
     <div class="row">
         <div class="col-md-12">
-            <blockquote>@Html.DisplayFor(x => x.Description)</blockquote> 
+            <blockquote>@Html.DisplayFor(x => x.Description)</blockquote>
         </div>
     </div>
 
-    <!-- Table row -->
-    <h2>Micro tarefas</h2>
+    <!-- JQGrid Table row -->
+    @*<h2>Micro tarefas</h2>
     <div class="row">
         <div class="col-xs-12 table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Data de início</th>
-                        <th>Data fim</th>
-                        <th>Terminada?</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>3dc22228-851e-4611-b33d-d96f4f9c53aa</td>
-                        <td>Sub tarefa 1</td>
-                        <td>13/10/2014</td>
-                        <td>16/10/2014</td>
-                        <td>Sim</td>
-                    </tr>
-                    <tr>
-                        <td>3dc22228-851e-4611-b33d-d96f4f9c53aa</td>
-                        <td>Sub tarefa 2</td>
-                        <td>13/10/2014</td>
-                        <td>16/10/2014</td>
-                        <td>Sim</td>
-                    </tr>
-                    <tr>
-                        <td>3dc22228-851e-4611-b33d-d96f4f9c53aa</td>
-                        <td>Sub tarefa 3</td>
-                        <td>13/10/2014</td>
-                        <td>16/10/2014</td>
-                        <td>Não</td>
-                    </tr>
-                    <tr>
-                        <td>3dc22228-851e-4611-b33d-d96f4f9c53aa</td>
-                        <td>Sub tarefa 4</td>
-                        <td>13/10/2014</td>
-                        <td>16/10/2014</td>
-                        <td>Não</td>
-                    </tr>
-                </tbody>
+            <table id="grid" class="table table-striped">
             </table>
         </div><!-- /.col -->
-    </div><!-- /.row -->
+    </div><!-- /.row -->*@
 
+    <h2>Micro tarefas responsivo</h2>
+    @Html.Partial("~/Views/Task/_SubTaskWidget.cshtml", @Model.SubTasks)
+    
     <div class="row">
         <!-- accepted payments column -->
         <div class="col-md-6">
             <div id="taskComments">
             </div>
-        </div><!-- /.col -->
+        </div>
+        <!-- /.col -->
         <div class="col-md-6">
             <div id="taskTimeline"></div>
-            @*@Html.Partial("~/Views/Task/_TaskTimelineWidget.cshtml")*@
-        </div><!-- /.col -->
-    </div><!-- /.row -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
 
     <!-- this row will not appear when printing -->
     <div class="row no-print">
         <div class="col-xs-12">
-            <button class="btn btn-default pull-right" onclick="window.print();"><i class="fa fa-print"></i> Imprimir</button>
-            <button class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Edita</button>
-            <button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i> Gerar PDF</button>
+            <button class="btn btn-default pull-right" onclick="window.print();"><i class="fa fa-print"></i>Imprimir</button>
+            <button class="btn btn-success pull-right"><i class="fa fa-credit-card"></i>Edita</button>
+            <button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i>Gerar PDF</button>
         </div>
     </div>
 </section>
 
 <p>
-    @Html.ActionLink("Editar", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 
@@ -151,7 +129,7 @@
                 <h4 class="modal-title" id="modalUpdateProgressLabel">Progresso</h4>
             </div>
             <div class="modal-body">
-               <input id="progressUpdaterSlider" type="text" value="" class="slider form-control" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="@Model.Progress" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show" data-slider-id="blue">
+                <input id="progressUpdaterSlider" type="text" value="" class="slider form-control" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="@Model.Progress" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show" data-slider-id="blue">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
@@ -170,22 +148,70 @@
                 <h4 class="modal-title" id="modalCreateCommentLabel">Comentário</h4>
             </div>
             <div class="modal-body">
-            <div class="box box-warning">
-                <div class="box-header">
-                    <h3 class="box-title">Escrever comentário</h3>
-                </div><!-- /.box-header -->
-                <div class="box-body">
+                <div class="box box-warning">
+                    <div class="box-header">
+                        <h3 class="box-title">Escrever comentário</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
                         <!-- text input -->
                         <div class="form-group">
-                            Comentário: <br />
-                            ​<textarea id="txtComment" rows="10" style="width:100%"></textarea>
+                            Comentário:
+                            <br />
+                            ​<textarea id="txtComment" rows="10" style="width: 100%"></textarea>
                         </div>
-                </div><!-- /.box-body -->
-            </div><!-- /.box -->
-        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                 <button id="btnCreateComment" type="button" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalCreateSubTask" tabindex="-1" role="dialog" aria-labelledby="modalCreateSubTaskLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+                <h4 class="modal-title" id="modalCreateSubTaskLabel">Sub Task</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box box-warning">
+                    <div class="box-header">
+                        <h3 class="box-title">Criar uma nova SubTask</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <!-- text input -->
+                        <div class="form-group">
+                            Nome:
+                            <br />
+                            ​<input type="text" id="txtSubTaskName" style="width: 100%" />
+                        </div>
+                        <div class="form-group">
+                            Data de Início:
+                            <br />
+                            ​<input type="date" id="txtStartDate" style="width: 100%" /> 
+                        </div>
+                        <div class="form-group">
+                            Data de Término:
+                            <br />
+                            ​<input type="date" id="txtEndDate" style="width: 100%" /> 
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                <button id="btnCreateSubTask" type="button" class="btn btn-primary">Salvar</button>
             </div>
         </div>
     </div>
@@ -219,10 +245,10 @@
                 }
             }
         });
-        $('.slider').slider();
+            $('.slider').slider();
 
-        $(document).ready(function () {            
-            var _projectId = '@(Model.ProjectId)';
+            $(document).ready(function () {
+                var _projectId = '@(Model.ProjectId)';
             var _id = '@(Model.Id)';
             LoadComments(_projectId, _id);
             LoadTimeline();
@@ -279,7 +305,7 @@
                         $('#taskStatus').attr("class", "label label-warning").html('Pending');
                     }
                     LoadTimeline();
-                });                
+                });
             });
 
             //Create Comments
@@ -300,6 +326,60 @@
                     LoadTimeline();
                 });
             });
+
+            //Create Subtask
+            $(".modal-footer").on("click", "#btnCreateSubTask", function () {
+                this._projectId = '@(Model.ProjectId)';
+                this._id = '@(Model.Id)';
+                var posting = $.post('@Url.Action("CreateSubTask", "Task")', {
+                    projectId: this._projectId,
+                    taskId: this._id,
+                    name: $('#txtSubTaskName').val(),
+                    startDate: $('#txtStartDate').val(),
+                    endDate: $('#txtEndDate').val()
+                });
+                posting.done(function (result) {
+                    console.log(result);0
+                    this._projectId = '@(Model.ProjectId)';
+                    this._id = '@(Model.Id)';
+                    $('#modalCreateSubTask').modal('hide');
+                    $('#txtSubTaskName').val('');
+                    $('#txtStartDate').val('');
+                    $('#txtEndDate').val('');
+                });
+            });
+
+            ////JQGrid
+            //$("#grid").jqGrid({
+            //    datatype: "local",
+            //    colNames: ["Código", "Nome", "Data Criação", "Estimativa Início", "Estimativa Término", "Status"],
+            //    colModel: [
+            //                   { name: "Id", index: "Código" },
+            //                   { name: "Name", index: "Nome" },
+            //                   { name: "CreatedAt", index: "Data Criação" },
+            //                   { name: "StartDate", index: "Estimativa Início" },
+            //                   { name: "ExpectedEndDate", index: "Estimativa Término" },
+            //                   { name: "Status", index: "Status", sorttype: "int" },
+            //    ],
+            //    multiselect: false,
+            //    autowidth: true,
+            //    height:'auto',
+            //    shrinkToFit: true
+            //});
+
+            //var students = [
+            //               { Id: "JC200300001", Name: "Jessica Cohen", CreatedAt: "Applied Arts and Sciences", StartDate: "1", ExpectedEndDate: "1", Status: "1" },
+            //               { Id: "SF200800002", Name: "Shane Foster", CreatedAt: "Business Administration", StartDate: "2", ExpectedEndDate: "1", Status: "1" },
+            //               { Id: "KK200800003", Name: "Kellan Kher", CreatedAt: "Social Sciences", StartDate: "4", ExpectedEndDate: "1", Status: "1" },
+            //               { Id: "PS200100004", Name: "Patrick Shirazi", CreatedAt: "Education", StartDate: "1", ExpectedEndDate: "1", Status: "1" },
+            //               { Id: "CB200400005", Name: "Constance Barry", CreatedAt: "Social Sciences", StartDate: "3", ExpectedEndDate: "1", Status: "1" },
+            //               { Id: "DW200400006", Name: "Dustin Wallace", CreatedAt: "Philosophy", StartDate: "1", ExpectedEndDate: "1", Status: "1" },
+            //               { Id: "AG200900007", Name: "Amal Goodman", CreatedAt: "Education", StartDate: "2", ExpectedEndDate: "1", Status: "1" }
+            //];
+
+            //for (var x = 0; x <= students.length; x++) {
+            //    $("#grid").addRowData(x, students[x]);
+            //}
         });
-    </script>    
+    </script>
 }

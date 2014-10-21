@@ -95,7 +95,7 @@
             <div class="box-body">
                 <!-- task item -->
                 <div class="item">
-                    @Html.Partial("Widgets/_TaskListWidget", @Model.Project.OpenTasks())
+                    @Html.Partial("Widgets/_TaskListWidget", @Model.Project.OpenTasks().OrderByDescending(x => x.CreatedAt))
                 </div><!-- /.item -->
             </div><!-- /.body -->
             <div class="box-footer">
