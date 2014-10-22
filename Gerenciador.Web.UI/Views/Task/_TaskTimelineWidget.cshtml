@@ -13,7 +13,12 @@
             
             Type type = Type.GetType(item.Resource);
             if (type == typeof(Gerenciador.Domain.Task)) {
-                cssClass = "fa-plus-circle bg-olive"; 
+                if (item.Action == "Create") {
+                    cssClass = "fa-plus-circle bg-olive";
+                } else {
+                    cssClass = " fa-caret-square-o-right bg-olive"; 
+                }
+                    
             }
             
             <!-- timeline time label -->

@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Gerenciador.Domain.SubTask>
+@using Gerenciador.Web.UI.Helpers
 
 <div class="table-responsive">
     <table class="table table-condensed table-striped table-bordered table-hover no-margin">
@@ -7,9 +8,9 @@
                 <th style="width: 5%">
                     <input class="no-margin" type="checkbox">
                 </th>
-                <th style="width: 20%" >Código</th>
-                <th style="width: 20%" class="hidden-phone">Nome</th>
-                <th style="width: 15%" class="hidden-phone">Criação</th>
+                <th style="width: 20%" class="hidden-xs">Código</th>
+                <th style="width: 20%">Nome</th>
+                <th style="width: 15%" class="hidden-xs">Criação</th>
                 <th style="width: 15%" class="hidden-phone">Início</th>
                 <th style="width: 15%" class="hidden-phone">Término</th>
                 <th style="width: 10%" class="hidden-phone">Status</th>
@@ -18,19 +19,21 @@
         </thead>
         <tbody>
             @foreach (var item in Model) { 
+                var rowid = "taskStatus#" + item.Id.ToString();
                 <tr>
                     <td>
                         <input class="no-margin" type="checkbox">
                     </td>
-                    <td>
+                    <td class="hidden-xs">
                         <span class="name">@Html.DisplayFor(x => item.Id)</span>
                     </td>
                     <td class="hidden-phone">@Html.DisplayFor(x => item.Name)</td>
-                    <td class="hidden-phone">@Html.DisplayFor(x => item.CreatedAt)</td>
+                    <td class="hidden-xs">@Html.DisplayFor(x => item.CreatedAt)</td>
                     <td class="hidden-phone">@Html.DisplayFor(x => item.StartDate)</td>
                     <td class="hidden-phone">@Html.DisplayFor(x => item.ExpectedEndDate)</td>
-                    <td class="hidden-phone">
-                        <span class="label label label-info">@Html.DisplayFor(x => item.Status)</span>
+                    <td class="hidden-phone">                        
+                        @Html.DisplayStatus(rowid, item.Status.ToString(), "")
+                        @*<span class="label label label-info">@Html.DisplayFor(x => item.Status)</span>*@
                     </td>
                     <td class="hidden-phone">
                         <div class="btn-group">

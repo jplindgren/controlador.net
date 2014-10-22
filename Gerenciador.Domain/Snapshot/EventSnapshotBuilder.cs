@@ -51,7 +51,9 @@ namespace Gerenciador.Domain.Snapshot {
         public EventSnapshotBuilder Consume(Task task) {
             systemEventSnapshot.ProjectId = task.ProjectId;
             systemEventSnapshot.EventDate = task.LastUpdatedAt;
-            systemEventSnapshot.Resource = task.GetType().AssemblyQualifiedName;
+            //TODO: Search how can i get type directly from resource. Now it is an proxy generated type from entity framework
+            //systemEventSnapshot.Resource = task.GetType().AssemblyQualifiedName;
+            systemEventSnapshot.Resource = typeof(Task).AssemblyQualifiedName;
             systemEventSnapshot.ResourceId = task.Id;
 
             if (systemEventSnapshot.Action == "Update")
