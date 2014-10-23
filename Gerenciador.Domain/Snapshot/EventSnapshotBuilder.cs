@@ -64,5 +64,19 @@ namespace Gerenciador.Domain.Snapshot {
             systemEventSnapshot.TaskId = task.Id;
             return this;
         }
+
+        public EventSnapshotBuilder Consume(SubTask subtask) {
+            systemEventSnapshot.TaskId = subtask.TaskId;
+            systemEventSnapshot.EventDate = subtask.CreatedAt;
+            systemEventSnapshot.Resource = typeof(SubTask).AssemblyQualifiedName;
+            systemEventSnapshot.ResourceId = subtask.Id;
+
+            if (systemEventSnapshot.Action == "Update")
+                systemEventSnapshot.Subject = string.Format("{0} atualizou a subtask: {1}", systemEventSnapshot.Author, subtask.Id);
+            else
+                systemEventSnapshot.Subject = string.Format("SubTask criada por {0}", systemEventSnapshot.Author);
+
+            return this;
+        }
     } //class
 }

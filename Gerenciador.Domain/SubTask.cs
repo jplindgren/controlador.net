@@ -7,6 +7,15 @@ using System.Threading.Tasks;
 
 namespace Gerenciador.Domain {
     public class SubTask {
+        public SubTask() {}
+        public SubTask(string name, DateTime startDate, DateTime expectedEndDate) {
+            Name = name;
+            CreatedAt = DateTime.Now;
+            StartDate = startDate;
+            ExpectedEndDate = expectedEndDate;
+            Status = TaskStatus.Open;
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public string Name { get; set; }

@@ -33,5 +33,13 @@ namespace Gerenciador.Services.Impl {
             var snapshot = new EventSnapshotBuilder().ForAction("Update").ForUser(username).Consume(task).Create();
             _historyService.CreateEntry(snapshot);
         }
+
+        public void CreateSubTask(Task task, SubTask subtask, string username) {
+            task.SubTasks.Add(subtask);
+            _projectRepository.SaveChanges();
+
+            var snapshot = new EventSnapshotBuilder().ForAction("Create").ForUser(username).Consume(subtask).Create();
+            _historyService.CreateEntry(snapshot);
+        }
     } //class
 }

@@ -3,6 +3,8 @@ using Gerenciador.Domain.Snapshot;
 using Gerenciador.Repository.EntityFramwork;
 using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Services.Impl;
+using Gerenciador.Web.UI.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,21 +70,64 @@ namespace Gerenciador.Web.UI.Controllers{
             var project = _projectService.GetProject(projectId);
             var task = project.Tasks.Where(x => x.Id == taskId).FirstOrDefault();
 
-            SubTask subtask = new SubTask();
-            subtask.Name = name;
-            subtask.CreatedAt = DateTime.Now;
-            subtask.StartDate = startDate;
-            subtask.ExpectedEndDate = endDate;
-            subtask.Status = TaskStatus.Open;
-
-            task.SubTasks.Add(subtask);
-
+            SubTask subtask = new SubTask(name, startDate, endDate);
+            _projectService.CreateSubTask(task, subtask, User.Identity.Name);
             DataContext.SaveChanges();
-            return Json(new { name = subtask.Name, 
-                              createdAt = subtask.CreatedAt, 
-                              startDate = subtask.StartDate, 
-                              expectedEndDate = subtask.ExpectedEndDate, 
-                              status = subtask.Status });
+
+            return Json(new {
+                id = subtask.Id,
+                name = subtask.Name,
+                createdAt = subtask.CreatedAt.ToString("dd/MM/yyyy hh:mm:ss"),
+                startDate = subtask.StartDate.ToString("dd/MM/yyyy hh:mm:ss"),
+                expectedEndDate = subtask.ExpectedEndDate.ToString("dd/MM/yyyy hh:mm:ss"),
+                status = new {
+                    data = TraduzirStatusTeporarioGambiarra(subtask.Status.ToString()),
+                    cssClass = DefineStatusLabelClass(subtask.Status.ToString()),
+                    id = "taskStatus#" + subtask.Id.ToString()
+                } 
+            });
+
+            //JsonNetResult jsonNetResult = new JsonNetResult();
+            //jsonNetResult.Formatting = Formatting.Indented;
+            //jsonNetResult.Data = new {
+            //    id = subtask.Id,
+            //    name = subtask.Name,
+            //    createdAt = subtask.CreatedAt,
+            //    startDate = subtask.StartDate,
+            //    expectedEndDate = subtask.ExpectedEndDate,
+            //    status = subtask.Status
+            //};
+            //return jsonNetResult;
+        }
+
+        //TODO: Remove this shit. Use some AOP in enum
+        private static string TraduzirStatusTeporarioGambiarra(string status) {
+            if (status == "Open") {
+                return "aberta";
+            } else if (status == "Completed") {
+                return "completa";
+            } else if (status == "Cancelled") {
+                return "cancelada";
+            } else if (status == "InProgress") {
+                return "em andamento";
+            } else {
+                return "desconhecida";
+            }
+        }
+
+        //TODO: Apply DRY. We have duplicate logic here and on StatusHelper
+        private string DefineStatusLabelClass(string status) {
+            if (status == "Open") {
+                return "label label-warning";
+            } else if (status == "Completed") {
+                return "label label-success";
+            } else if (status == "Cancelled") {
+                return "label label-danger";
+            } else if (status == "InProgress") {
+                return "label label-info";
+            } else {
+                return "label label-default";
+            }
         }
 
         public PartialViewResult GetTimeline(Guid taskId) {

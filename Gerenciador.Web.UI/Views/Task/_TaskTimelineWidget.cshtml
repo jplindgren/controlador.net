@@ -8,7 +8,7 @@
 <div class="col-md-12">
     <!-- The time line -->
     <ul class="timeline">
-        @foreach (var item in Model) {             
+        @foreach (var item in Model) {      
             string cssClass = "fa-comments-o bg-yellow";
             
             Type type = Type.GetType(item.Resource);
@@ -18,7 +18,13 @@
                 } else {
                     cssClass = " fa-caret-square-o-right bg-olive"; 
                 }
-                    
+
+            } else if (type == typeof(Gerenciador.Domain.SubTask)) {
+                if (item.Action == "Create") {
+                    cssClass = "fa-plus-circle bg-teal";
+                } else {
+                    cssClass = "fa-plus-circle";
+                }
             }
             
             <!-- timeline time label -->

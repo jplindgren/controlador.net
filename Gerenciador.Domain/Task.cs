@@ -62,6 +62,10 @@ namespace Gerenciador.Domain {
             LastUpdatedAt = DateTime.Now;
         }
 
+        public void AddSubTask(SubTask subTask) {
+            SubTasks.Add(subTask);
+        }
+
         public bool IsDone() {
             return (Progress == 100);
         }
