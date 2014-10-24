@@ -16,10 +16,12 @@ namespace Gerenciador.Web.UI.Controllers{
     public class TaskController : BaseController{
         private ProjectService _projectService;
         private HistoryService _historyService;
+        private TaskService _taskService;
 
         public TaskController() {
             _projectService = new ProjectService(new ProjectRepository(DataContext), new HistoryService(new EventSnapshotRepository(DataContext)));
             _historyService = new HistoryService(new EventSnapshotRepository(DataContext));
+            _taskService = new TaskService(new TaskRepository(DataContext));
         }
 
         //
@@ -62,6 +64,25 @@ namespace Gerenciador.Web.UI.Controllers{
             _projectService.UpdateTask(task, newValue, User.Identity.Name);
             DataContext.SaveChanges();
             return Json(task.Progress);
+        }
+
+        [HttpPost]
+        public JsonResult SubTaskDoneV2(Guid taskId, Guid subTaskId) {
+            var updatedSubtask = _taskService.SetSubTaskDone(taskId, subTaskId);
+            DataContext.SaveChanges();
+            return Json(new {
+                data = TraduzirStatusTeporarioGambiarra(updatedSubtask.Status.ToString()),
+                cssClass = DefineStatusLabelClass(updatedSubtask.Status.ToString()),
+                id = "taskStatus#" + updatedSubtask.Id.ToString()
+            });
+        }
+
+        [HttpPost]
+        public PartialViewResult SubTaskDone(Guid taskId, Guid subTaskId) {
+            var updatedSubtask = _taskService.SetSubTaskDone(taskId, subTaskId);
+            DataContext.SaveChanges();
+
+            return PartialView("~/Views/Task/_SubTaskWidget.cshtml", _taskService.GetSubTasks(taskId));
         }
 
         // POST: /Task/CreateSubTask

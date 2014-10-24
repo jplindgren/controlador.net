@@ -19,8 +19,7 @@
         </thead>
         <tbody>
             @foreach (var item in Model) { 
-                var rowid = "taskStatus#" + item.Id.ToString();
-                <tr>
+                <tr data-id="@item.Id.ToString()">
                     <td>
                         <input class="no-margin" type="checkbox">
                     </td>
@@ -32,8 +31,7 @@
                     <td>@Html.DisplayFor(x => item.StartDate)</td>
                     <td>@Html.DisplayFor(x => item.ExpectedEndDate)</td>
                     <td>                        
-                        @Html.DisplayStatus(rowid, item.Status.ToString(), "")
-                        @*<span class="label label label-info">@Html.DisplayFor(x => item.Status)</span>*@
+                        @Html.DisplayStatus(null, item.Status.ToString(), "")
                     </td>
                     <td>
                         <div class="btn-group">
@@ -41,15 +39,15 @@
                                 Ações 
                                 <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu pull-right">
+                            <ul class="dropdown-menu pull-right subtaskActions">
                                 <li>
-                                    <a href="#">Pronta</a>
+                                    <a href="#" data-action="setDone">Pronta</a>
                                 </li>
                                 <li>
-                                    <a href="#">Editar</a>
+                                    <a href="#" data-action="edit">Editar</a>
                                 </li>
                                 <li>
-                                    <a href="#">Excluir</a>
+                                    <a href="#" data-action="deleete">Excluir</a>
                                 </li>
                             </ul>
                         </div>

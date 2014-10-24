@@ -52,6 +52,8 @@ namespace Gerenciador.Web.UI {
 
             bundles.Add(new StyleBundle("~/Content/newcsscommon").Include(
                         "~/Content/common.css"));
+
+            BundleTable.EnableOptimizations = false;
         }
     }
 }

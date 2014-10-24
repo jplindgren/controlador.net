@@ -79,7 +79,9 @@
     </div>
 
     <h2>Micro tarefas</h2>
-    @Html.Partial("~/Views/Task/_SubTaskWidget.cshtml", @Model.SubTasks)
+    <div id="subtasksContainer">
+        @Html.Partial("~/Views/Task/_SubTaskWidget.cshtml", @Model.SubTasks)
+    </div>
     
     <div class="row">
         <!-- accepted payments column -->
@@ -211,6 +213,7 @@
 
 @section scripts{
     <script type="text/javascript">
+        $('.slider').slider();
         $("#calendar").datepicker({
             language: "pt-BR",
             format: 'dd/mm/yyyy',
@@ -235,10 +238,9 @@
                 }
             }
         });
-            $('.slider').slider();
 
-            $(document).ready(function () {
-                var _projectId = '@(Model.ProjectId)';
+         $(document).ready(function () {
+            var _projectId = '@(Model.ProjectId)';
             var _id = '@(Model.Id)';
             LoadComments(_projectId, _id);
             LoadTimeline();
@@ -277,9 +279,9 @@
                 });
             }
 
-            //Update Progress
-            $(".modal-footer").on("click", "#btnProgressSave", function () {
-                this._projectId = '@(Model.ProjectId)';
+             //Update Progress
+             $(".modal-footer").on("click", "#btnProgressSave", function () {
+                 this._projectId = '@(Model.ProjectId)';
                 this._id = '@(Model.Id)';
                 var _valueToUpdate = $('#progressUpdaterSlider')[0].value
                 var posting = $.post('/Task/UpdateProgress', { projectId: _projectId, id: _id, newValue: _valueToUpdate });
@@ -297,6 +299,27 @@
                     LoadTimeline();
                 });
             });
+
+             //subtasks actions
+             $(".subtaskActions").on("click", "a", function (event) {
+                 console.log('setdone');
+                event.preventDefault();
+                var taskId = '@(Model.Id)';
+                var subtaskId = $(this).closest('tr').data("id");
+                var action = $(this).data("action");
+                if (action == "setDone"){
+                    SetTaskDone(taskId, subtaskId);
+                }                
+             });
+
+             //set subktask done
+             function SetTaskDone(_taskId, _subTaskId) {
+                 var posting = $.post('/Task/SubTaskDone', { taskId: _taskId, subTaskId: _subTaskId }, 'html');
+                 posting.done(function (result) {
+                     $('#subtasksContainer').html('');
+                     $('#subtasksContainer').html(result);
+                 });
+             }
 
             //Create Comments
             $(".modal-footer").on("click", "#btnCreateComment", function () {
@@ -329,7 +352,6 @@
                     endDate: $('#txtEndDate').val()
                 });
                 posting.done(function (result) {
-                    console.log(result);0
                     this._projectId = '@(Model.ProjectId)';
                     this._id = '@(Model.Id)';
                     $('#modalCreateSubTask').modal('hide');
@@ -340,7 +362,6 @@
                     LoadTimeline();
 
                     function appendSubtask(result) {
-                        console.log(result);
                         $("#subtasks").find('tbody:last')
                             .append($('<tr>')
                                 .append($('<td>')
@@ -388,22 +409,25 @@
                                             )
                                         )
                                         .append($('<ul>')
-                                            .attr('class', 'dropdown-menu pull-right')
+                                            .attr('class', 'dropdown-menu pull-right subtaskActions')
                                             .append($('<li>')
                                                 .append($('<a>')
                                                     .attr('href', '#')
+                                                    .attr('data-action', 'setDone')
                                                     .text('Pronta')
                                                 )   
                                             )
                                             .append($('<li>')
                                                 .append($('<a>')
                                                     .attr('href', '#')
+                                                    .attr('data-action', 'edit')
                                                     .text('Editar')
                                                 )   
                                             )
                                             .append($('<li>')
                                                 .append($('<a>')
                                                     .attr('href', '#')
+                                                    .attr('data-action', 'delete')
                                                     .text('Excluir')
                                                 )   
                                             )

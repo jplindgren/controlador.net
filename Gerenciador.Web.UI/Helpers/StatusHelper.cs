@@ -12,7 +12,8 @@ namespace Gerenciador.Web.UI.Helpers {
             //var cssClass = DefineStatusLabelClass(value) + " " + @class;
             spanTag.MergeAttribute("class", @class);
             spanTag.AddCssClass(DefineStatusLabelClass(value));
-            spanTag.MergeAttribute("id", id);
+            if (!string.IsNullOrEmpty(id)) 
+                spanTag.MergeAttribute("id", id);            
             spanTag.InnerHtml = TraduzirStatusTeporarioGambiarra(value);
             var result = MvcHtmlString.Create(spanTag.ToString(TagRenderMode.Normal));
             return result;

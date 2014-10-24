@@ -43,6 +43,7 @@
     <Compile Include="Impl\HistoryService.cs" />
     <Compile Include="Impl\ProjectFeaturesService.cs" />
     <Compile Include="Impl\ProjectService.cs" />
+    <Compile Include="Impl\TaskService.cs" />
     <Compile Include="Interface\IProjectSummaryService.cs" />
     <Compile Include="Impl\ProjectSummaryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
