@@ -21,7 +21,7 @@ namespace Gerenciador.Web.UI.Controllers{
         public TaskController() {
             _projectService = new ProjectService(new ProjectRepository(DataContext), new HistoryService(new EventSnapshotRepository(DataContext)));
             _historyService = new HistoryService(new EventSnapshotRepository(DataContext));
-            _taskService = new TaskService(new TaskRepository(DataContext));
+            _taskService = new TaskService(new TaskRepository(DataContext), new HistoryService(new EventSnapshotRepository(DataContext)));
         }
 
         //
@@ -67,19 +67,8 @@ namespace Gerenciador.Web.UI.Controllers{
         }
 
         [HttpPost]
-        public JsonResult SubTaskDoneV2(Guid taskId, Guid subTaskId) {
-            var updatedSubtask = _taskService.SetSubTaskDone(taskId, subTaskId);
-            DataContext.SaveChanges();
-            return Json(new {
-                data = TraduzirStatusTeporarioGambiarra(updatedSubtask.Status.ToString()),
-                cssClass = DefineStatusLabelClass(updatedSubtask.Status.ToString()),
-                id = "taskStatus#" + updatedSubtask.Id.ToString()
-            });
-        }
-
-        [HttpPost]
-        public PartialViewResult SubTaskDone(Guid taskId, Guid subTaskId) {
-            var updatedSubtask = _taskService.SetSubTaskDone(taskId, subTaskId);
+        public PartialViewResult ChangeTaskStatus(Guid taskId, Guid subTaskId, TaskStatus subkTaskStatus) {
+            var updatedSubtask = _taskService.ChangeSubTaskStatus(taskId, subTaskId, subkTaskStatus, User.Identity.Name);
             DataContext.SaveChanges();
 
             return PartialView("~/Views/Task/_SubTaskWidget.cshtml", _taskService.GetSubTasks(taskId));
@@ -87,7 +76,7 @@ namespace Gerenciador.Web.UI.Controllers{
 
         // POST: /Task/CreateSubTask
         [HttpPost]
-        public JsonResult CreateSubTask(Guid projectId, Guid taskId, string name, DateTime startDate, DateTime endDate) {
+        public PartialViewResult CreateSubTask(Guid projectId, Guid taskId, string name, DateTime startDate, DateTime endDate) {
             var project = _projectService.GetProject(projectId);
             var task = project.Tasks.Where(x => x.Id == taskId).FirstOrDefault();
 
@@ -95,30 +84,19 @@ namespace Gerenciador.Web.UI.Controllers{
             _projectService.CreateSubTask(task, subtask, User.Identity.Name);
             DataContext.SaveChanges();
 
-            return Json(new {
-                id = subtask.Id,
-                name = subtask.Name,
-                createdAt = subtask.CreatedAt.ToString("dd/MM/yyyy hh:mm:ss"),
-                startDate = subtask.StartDate.ToString("dd/MM/yyyy hh:mm:ss"),
-                expectedEndDate = subtask.ExpectedEndDate.ToString("dd/MM/yyyy hh:mm:ss"),
-                status = new {
-                    data = TraduzirStatusTeporarioGambiarra(subtask.Status.ToString()),
-                    cssClass = DefineStatusLabelClass(subtask.Status.ToString()),
-                    id = "taskStatus#" + subtask.Id.ToString()
-                } 
-            });
-
-            //JsonNetResult jsonNetResult = new JsonNetResult();
-            //jsonNetResult.Formatting = Formatting.Indented;
-            //jsonNetResult.Data = new {
+            return PartialView("~/Views/Task/_SubTaskWidget.cshtml", _taskService.GetSubTasks(taskId));
+            //return Json(new {
             //    id = subtask.Id,
             //    name = subtask.Name,
-            //    createdAt = subtask.CreatedAt,
-            //    startDate = subtask.StartDate,
-            //    expectedEndDate = subtask.ExpectedEndDate,
-            //    status = subtask.Status
-            //};
-            //return jsonNetResult;
+            //    createdAt = subtask.CreatedAt.ToString("dd/MM/yyyy hh:mm:ss"),
+            //    startDate = subtask.StartDate.ToString("dd/MM/yyyy hh:mm:ss"),
+            //    expectedEndDate = subtask.ExpectedEndDate.ToString("dd/MM/yyyy hh:mm:ss"),
+            //    status = new {
+            //        data = TraduzirStatusTeporarioGambiarra(subtask.Status.ToString()),
+            //        cssClass = DefineStatusLabelClass(subtask.Status.ToString()),
+            //        id = "taskStatus#" + subtask.Id.ToString()
+            //    } 
+            //});
         }
 
         //TODO: Remove this shit. Use some AOP in enum

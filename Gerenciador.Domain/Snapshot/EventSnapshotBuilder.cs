@@ -36,6 +36,11 @@ namespace Gerenciador.Domain.Snapshot {
             return this;
         }
 
+        public EventSnapshotBuilder UsingContent(string content) {
+            systemEventSnapshot.Content = content;
+            return this;
+        }
+
         public EventSnapshotBuilder Consume(Comment comment) {
             systemEventSnapshot.ProjectId = comment.ProjectId;
             systemEventSnapshot.Author = comment.AuthorName;
@@ -67,7 +72,7 @@ namespace Gerenciador.Domain.Snapshot {
 
         public EventSnapshotBuilder Consume(SubTask subtask) {
             systemEventSnapshot.TaskId = subtask.TaskId;
-            systemEventSnapshot.EventDate = subtask.CreatedAt;
+            systemEventSnapshot.EventDate = DateTime.Now;
             systemEventSnapshot.Resource = typeof(SubTask).AssemblyQualifiedName;
             systemEventSnapshot.ResourceId = subtask.Id;
 

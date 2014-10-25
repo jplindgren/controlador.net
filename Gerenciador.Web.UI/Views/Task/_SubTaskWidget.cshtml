@@ -39,15 +39,22 @@
                                 Ações 
                                 <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu pull-right subtaskActions">
-                                <li>
-                                    <a href="#" data-action="setDone">Pronta</a>
-                                </li>
+                            <ul class="subtaskActions dropdown-menu pull-right">
+                                @if (item.Status == Gerenciador.Domain.TaskStatus.Open) { 
+                                    <li>
+                                        <a href="#" data-action="setDone">Pronta</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-action="setCancelled">Cancelar</a>
+                                    </li>
+                                } else {
+                                    <li>
+                                        <a href="#" data-action="setOpen">Reabrir</a>
+                                    </li>
+                                }
+                                <li class="divider"></li>
                                 <li>
                                     <a href="#" data-action="edit">Editar</a>
-                                </li>
-                                <li>
-                                    <a href="#" data-action="deleete">Excluir</a>
                                 </li>
                             </ul>
                         </div>

@@ -52,6 +52,10 @@ namespace Gerenciador.Domain {
         public DateTime LastUpdatedAt { get; set; }
         public virtual ICollection<SubTask> SubTasks { get; set; }
 
+        public IList<SubTask> GetOrderedSubtasks() {
+            return SubTasks.OrderByDescending(x => x.CreatedAt).ToList();
+        }
+
         public void UpdateProgress(int progress) {
             Progress = progress;
             if (progress == 100)

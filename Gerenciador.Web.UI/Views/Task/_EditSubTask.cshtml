@@ -1,0 +1,44 @@
+﻿@model Gerenciador.Domain.SubTask
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>SubTask</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.StartDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.StartDate)
+            @Html.ValidationMessageFor(model => model.StartDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ExpectedEndDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ExpectedEndDate)
+            @Html.ValidationMessageFor(model => model.ExpectedEndDate)
+        </div>
+
+        @*<p>
+            <input type="submit" value="Salvar" />
+        </p>*@
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

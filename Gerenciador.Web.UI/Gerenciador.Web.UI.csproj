@@ -393,6 +393,7 @@
     <Content Include="Views\Task\_TaskTimelineWidget.cshtml" />
     <Content Include="Views\Shared\Widgets\_CommentListWidget.cshtml" />
     <Content Include="Views\Task\_SubTaskWidget.cshtml" />
+    <Content Include="Views\Task\_EditSubTask.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

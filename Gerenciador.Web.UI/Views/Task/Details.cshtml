@@ -80,8 +80,9 @@
 
     <h2>Micro tarefas</h2>
     <div id="subtasksContainer">
-        @Html.Partial("~/Views/Task/_SubTaskWidget.cshtml", @Model.SubTasks)
+        @Html.Partial("~/Views/Task/_SubTaskWidget.cshtml", @Model.GetOrderedSubtasks())
     </div>
+    
     
     <div class="row">
         <!-- accepted payments column -->
@@ -209,6 +210,50 @@
     </div>
 </div>
 
+@*<!-- Edit SubTask Modal -->
+<div class="modal fade" id="modalEditSubTask" tabindex="-1" role="dialog" aria-labelledby="modalEditSubTaskLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+                <h4 class="modal-title" id="modalEditSubTaskLabel">Sub Task</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box box-warning">
+                    <div class="box-header">
+                        <h3 class="box-title">Criar uma nova SubTask</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <!-- text input -->
+                        <div class="form-group">
+                            Nome:
+                            <br />
+                            ​<input type="text" id="txtSubTaskName" style="width: 100%" />
+                        </div>
+                        <div class="form-group">
+                            Data de Início:
+                            <br />
+                            ​<input type="date" id="txtStartDate" style="width: 100%" /> 
+                        </div>
+                        <div class="form-group">
+                            Data de Término:
+                            <br />
+                            ​<input type="date" id="txtEndDate" style="width: 100%" /> 
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                <button id="btnCreateSubTask" type="button" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+
 
 
 @section scripts{
@@ -264,7 +309,7 @@
             }
 
             //async populates timeline
-            function LoadTimeline() {
+             function LoadTimeline() {
                 $.ajax({
                     url: '@Url.Action("GetTimeline", "Task", new { taskId = @Model.Id })',
                     contentType: 'application/html; charset=utf-8',
@@ -301,23 +346,30 @@
             });
 
              //subtasks actions
-             $(".subtaskActions").on("click", "a", function (event) {
-                 console.log('setdone');
+             $("#subtasksContainer").on("click", "a", function (event) {
                 event.preventDefault();
                 var taskId = '@(Model.Id)';
                 var subtaskId = $(this).closest('tr').data("id");
                 var action = $(this).data("action");
-                if (action == "setDone"){
-                    SetTaskDone(taskId, subtaskId);
-                }                
+                
+                if (action == "setDone") {
+                    ChangeTaskStatus(taskId, subtaskId, 4);
+                } else if (action == "setCancelled") {
+                    ChangeTaskStatus(taskId, subtaskId, 5);
+                } else if (action == "setOpen") {
+                    ChangeTaskStatus(taskId, subtaskId, 1);
+                } else if (action == "edit") {
+                    OpenEditScreen(taskId, subtaskId);
+                }
              });
 
              //set subktask done
-             function SetTaskDone(_taskId, _subTaskId) {
-                 var posting = $.post('/Task/SubTaskDone', { taskId: _taskId, subTaskId: _subTaskId }, 'html');
+             function ChangeTaskStatus(_taskId, _subTaskId, _status) {
+                 var posting = $.post('/Task/ChangeTaskStatus', { taskId: _taskId, subTaskId: _subTaskId, subkTaskStatus: _status }, 'html');
                  posting.done(function (result) {
                      $('#subtasksContainer').html('');
                      $('#subtasksContainer').html(result);
+                     LoadTimeline();
                  });
              }
 
@@ -350,7 +402,7 @@
                     name: $('#txtSubTaskName').val(),
                     startDate: $('#txtStartDate').val(),
                     endDate: $('#txtEndDate').val()
-                });
+                }, 'html');
                 posting.done(function (result) {
                     this._projectId = '@(Model.ProjectId)';
                     this._id = '@(Model.Id)';
@@ -358,7 +410,8 @@
                     $('#txtSubTaskName').val('');
                     $('#txtStartDate').val('');
                     $('#txtEndDate').val('');
-                    appendSubtask(result);
+                    //appendSubtask(result);
+                    $('#subtasksContainer').html(result);
                     LoadTimeline();
 
                     function appendSubtask(result) {
@@ -409,7 +462,7 @@
                                             )
                                         )
                                         .append($('<ul>')
-                                            .attr('class', 'dropdown-menu pull-right subtaskActions')
+                                            .attr('class', 'subtaskActions dropdown-menu pull-right')
                                             .append($('<li>')
                                                 .append($('<a>')
                                                     .attr('href', '#')
