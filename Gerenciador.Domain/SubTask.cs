@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,10 @@ namespace Gerenciador.Domain {
         public Guid Id { get; set; }
         public string Name { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime StartDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime ExpectedEndDate { get; set; }
         public TaskStatus Status { get; set; }        
 

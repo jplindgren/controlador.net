@@ -210,7 +210,7 @@
     </div>
 </div>
 
-@*<!-- Edit SubTask Modal -->
+<!-- Edit SubTask Modal -->
 <div class="modal fade" id="modalEditSubTask" tabindex="-1" role="dialog" aria-labelledby="modalEditSubTaskLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -225,22 +225,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <!-- text input -->
-                        <div class="form-group">
-                            Nome:
-                            <br />
-                            ​<input type="text" id="txtSubTaskName" style="width: 100%" />
-                        </div>
-                        <div class="form-group">
-                            Data de Início:
-                            <br />
-                            ​<input type="date" id="txtStartDate" style="width: 100%" /> 
-                        </div>
-                        <div class="form-group">
-                            Data de Término:
-                            <br />
-                            ​<input type="date" id="txtEndDate" style="width: 100%" /> 
-                        </div>
+                        <div id="editSubTask"></div>
                     </div>
                     <!-- /.box-body -->
                 </div>
@@ -248,45 +233,86 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button id="btnCreateSubTask" type="button" class="btn btn-primary">Salvar</button>
+                <button id="btnEditSubTask" type="button" class="btn btn-primary">Salvar</button>
             </div>
         </div>
     </div>
-</div>*@
+</div>
 
 
 
 @section scripts{
     <script type="text/javascript">
-        $('.slider').slider();
-        $("#calendar").datepicker({
-            language: "pt-BR",
-            format: 'dd/mm/yyyy',
-            beforeShowDay: function (date) {
-                var day = '@Model.CreatedAt.Day';
-                //console.log(day);
-                //console.log(date);
-                //console.log(date.getMonth());
-                //console.log(date.getDate());
-                if (date.getMonth() == (new Date()).getMonth()) {
-                    switch (date.getDate()) {
-                        case 4:
-                            return {
-                                tooltip: 'Example tooltip',
-                                classes: 'active'
-                            };
-                        case 8:
-                            return false;
-                        case 12:
-                            return "green";
-                    }
-                }
-            }
-        });
-
          $(document).ready(function () {
             var _projectId = '@(Model.ProjectId)';
             var _id = '@(Model.Id)';
+
+            $('.slider').slider();
+           
+            @*$("#calendar").datepicker({
+                language: "pt-BR",
+                format: 'dd/mm/yyyy',
+                multidate: true,
+                beforeShowDay: function (date) {
+                    var day = '@Model.CreatedAt.Day';
+                    if (date.getMonth() == (new Date()).getMonth()) {
+                        switch (date.getDate()) {
+                            case 4:
+                                return {
+                                    tooltip: 'Example tooltip',
+                                    classes: 'active'
+                                };
+                            case 8:
+                                return false;
+                            case 12:
+                                return "green";
+                        }
+                    }
+                }
+            }).on('changeDate', function (e) {
+                console.log(e);
+            });
+
+                 
+             $('#calendar').datepicker('setDates', new Date(2014, 10, 25));*@
+
+             var gettingLimitDates = $.get('/Task/GetLimitDates', { projectId: _projectId, taskId: _id }, 'json');
+             gettingLimitDates.done(function (result) {
+                 var fixed = [];
+                 result.forEach(function (entry) {
+                     fixed.push({ start: new Date(entry.Start), end: new Date(entry.End), description: entry.Description });
+                     
+                 });
+                 $("#calendar").datepicker({
+                     language: "pt-BR",
+                     format: 'dd/mm/yyyy',
+                     multidate: true,
+                     todayHighlight: true,
+                     beforeShowDay: function (date) {
+                         //var descrption = '';
+                         //var cssClass = '';
+                         var ret = undefined;
+                         fixed.forEach(function (entry) {
+                             if (entry.end.getFullYear() == date.getFullYear() && entry.end.getMonth() == date.getMonth() && entry.end.getUTCDate() == date.getUTCDate()) {
+                                 var today = new Date();
+                                 var limitDate = new Date(entry.end.getFullYear(), entry.end.getMonth(), entry.end.getUTCDate());
+
+                                 cssClass = limitDate >= today ? 'active' : 'whaoo';
+                                 //descrption += entry.description + "; ";
+                                 ret = {
+                                     tooltip: entry.description,
+                                     classes: cssClass
+                                 };
+                            }
+                         });
+                         
+                         if (ret) {
+                             return ret;
+                         }
+                    }   
+                 });
+             });
+             
             LoadComments(_projectId, _id);
             LoadTimeline();
 
@@ -363,20 +389,31 @@
                 }
              });
 
+             //open edit screen
+             function OpenEditScreen(_taskId, _subTaskId) {
+                 var getting = $.get('/Task/EditSubTask', { taskId: _taskId, subTaskId: _subTaskId }, 'html');
+                 getting.done(function (result) {
+                     $('#modalEditSubTask').modal('show');
+                     $('#editSubTask').html('');
+                     $('#editSubTask').html(result);
+                 });
+             }
+
              //set subktask done
              function ChangeTaskStatus(_taskId, _subTaskId, _status) {
                  var posting = $.post('/Task/ChangeTaskStatus', { taskId: _taskId, subTaskId: _subTaskId, subkTaskStatus: _status }, 'html');
                  posting.done(function (result) {
                      $('#subtasksContainer').html('');
                      $('#subtasksContainer').html(result);
-                     LoadTimeline();
+                     LoadTimeline();                     
                  });
              }
 
             //Create Comments
-            $(".modal-footer").on("click", "#btnCreateComment", function () {
+             $(".modal-footer").on("click", "#btnCreateComment", function () {                 
                 this._projectId = '@(Model.ProjectId)';
                 this._id = '@(Model.Id)';
+
                 var posting = $.post('@Url.Action("Create", "Comments")', {
                     projectId: this._projectId,
                     taskId: this._id,
@@ -389,6 +426,7 @@
                     $('#txtComment').val('');
                     LoadComments(this._projectId, this._id);
                     LoadTimeline();
+                    $.growlUI('operação realizada com sucesso...');
                 });
             });
 
@@ -396,6 +434,7 @@
             $(".modal-footer").on("click", "#btnCreateSubTask", function () {
                 this._projectId = '@(Model.ProjectId)';
                 this._id = '@(Model.Id)';
+                $.blockUI({ message: 'Carregando...' });
                 var posting = $.post('@Url.Action("CreateSubTask", "Task")', {
                     projectId: this._projectId,
                     taskId: this._id,
@@ -410,87 +449,31 @@
                     $('#txtSubTaskName').val('');
                     $('#txtStartDate').val('');
                     $('#txtEndDate').val('');
-                    //appendSubtask(result);
                     $('#subtasksContainer').html(result);
                     LoadTimeline();
-
-                    function appendSubtask(result) {
-                        $("#subtasks").find('tbody:last')
-                            .append($('<tr>')
-                                .append($('<td>')
-                                    .append($('<input>')
-                                        .attr('class', 'no-margin')
-                                        .attr('type', 'checkbox')
-                                    )
-                                )
-                                .append($('<td>')
-                                    .attr('class', 'hidden-xs')
-                                    .append($('<span>')
-                                        .attr('class', 'name')
-                                        .text(result.id)
-                                    )
-                                )
-                                .append($('<td>')
-                                    .text(result.name)
-                                )
-                                .append($('<td>')
-                                    .attr('class', 'hidden-xs')
-                                    .text(result.createdAt)
-                                )
-                                .append($('<td>')
-                                    .text(result.startDate)
-                                )
-                                .append($('<td>')
-                                    .text(result.expectedEndDate)
-                                )
-                                .append($('<td>')
-                                    .append($('<span>')
-                                        .attr('class', result.status.cssClass)
-                                        .attr('id', result.status.id)
-                                        .text(result.status.data)
-                                    )
-                                )
-                                .append($('<td>')
-                                    .append($('<div>')
-                                        .attr('class', 'btn-group')
-                                        .append($('<button>')
-                                            .attr('data-toggle', 'dropdown')
-                                            .attr('class', 'btn btn-xs dropdown-toggle')
-                                            .text("Ações")
-                                            .append($('<span>')
-                                                .attr('class', 'caret')
-                                            )
-                                        )
-                                        .append($('<ul>')
-                                            .attr('class', 'subtaskActions dropdown-menu pull-right')
-                                            .append($('<li>')
-                                                .append($('<a>')
-                                                    .attr('href', '#')
-                                                    .attr('data-action', 'setDone')
-                                                    .text('Pronta')
-                                                )   
-                                            )
-                                            .append($('<li>')
-                                                .append($('<a>')
-                                                    .attr('href', '#')
-                                                    .attr('data-action', 'edit')
-                                                    .text('Editar')
-                                                )   
-                                            )
-                                            .append($('<li>')
-                                                .append($('<a>')
-                                                    .attr('href', '#')
-                                                    .attr('data-action', 'delete')
-                                                    .text('Excluir')
-                                                )   
-                                            )
-                                        )
-                                    )
-                                )
-                            );
-                    }
+                });
+                posting.always(function () {
+                    $.unblockUI();
                 });
             });
+
+
+             //Edit SubTask
+             $(".modal-footer").on("click", "#btnEditSubTask", function () {
+                this._projectId = '@(Model.ProjectId)';
+                this._id = '@(Model.Id)';
+                $.blockUI({ message: 'Carregando...' });
+                var posting = $.post('@Url.Action("EditSubTask", "Task")', $('#editSubtaskForm').serialize(), 'html');
+                posting.done(function (result) {
+                    $('#modalEditSubTask').modal('hide');
+                    $('#subtasksContainer').html('');
+                    $('#subtasksContainer').html(result);
+                    LoadTimeline();
+                });
+                 posting.always(function () {
+                     $.unblockUI();
+                 });
+             });
         });
     </script>
 }

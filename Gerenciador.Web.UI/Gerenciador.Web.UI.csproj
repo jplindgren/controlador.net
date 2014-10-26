@@ -197,6 +197,7 @@
     </Compile>
     <Compile Include="Helpers\StatusHelper.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\BoundDates.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +207,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\datepicker3.css" />
     <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\overlay-growl.css" />
+    <Content Include="Images\ajax-loader.gif" />
+    <Content Include="Images\ajax-loader1.gif" />
     <Content Include="Images\avatar.png" />
     <Content Include="Images\avatar4.png" />
     <Content Include="Images\avatar2.png" />
@@ -346,6 +350,7 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
+    <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />

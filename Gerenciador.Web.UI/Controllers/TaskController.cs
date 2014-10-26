@@ -4,6 +4,7 @@ using Gerenciador.Repository.EntityFramwork;
 using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Services.Impl;
 using Gerenciador.Web.UI.Helpers;
+using Gerenciador.Web.UI.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,23 @@ namespace Gerenciador.Web.UI.Controllers{
             return Json(task.Progress);
         }
 
+
+        [HttpGet]
+        public PartialViewResult EditSubTask(Guid taskId, Guid subTaskId) {
+            var subktask = _taskService.GetSubTask(taskId, subTaskId);
+            return PartialView("~/Views/Task/_EditSubTask.cshtml", subktask);
+        }
+
+        [HttpPost]
+        public PartialViewResult EditSubTask(FormCollection collection) {
+            var subtask = _taskService.GetSubTask(Guid.Parse(collection["TaskId"]), Guid.Parse(collection["Id"]));
+            subtask.Name = collection["Name"];
+            subtask.StartDate = Convert.ToDateTime(collection["StartDate"]);
+            subtask.ExpectedEndDate = Convert.ToDateTime(collection["ExpectedEndDate"]);
+            DataContext.SaveChanges();
+            return PartialView("~/Views/Task/_SubTaskWidget.cshtml", _taskService.GetSubTasks(subtask.TaskId));
+        }
+
         [HttpPost]
         public PartialViewResult ChangeTaskStatus(Guid taskId, Guid subTaskId, TaskStatus subkTaskStatus) {
             var updatedSubtask = _taskService.ChangeSubTaskStatus(taskId, subTaskId, subkTaskStatus, User.Identity.Name);
@@ -85,18 +103,27 @@ namespace Gerenciador.Web.UI.Controllers{
             DataContext.SaveChanges();
 
             return PartialView("~/Views/Task/_SubTaskWidget.cshtml", _taskService.GetSubTasks(taskId));
-            //return Json(new {
-            //    id = subtask.Id,
-            //    name = subtask.Name,
-            //    createdAt = subtask.CreatedAt.ToString("dd/MM/yyyy hh:mm:ss"),
-            //    startDate = subtask.StartDate.ToString("dd/MM/yyyy hh:mm:ss"),
-            //    expectedEndDate = subtask.ExpectedEndDate.ToString("dd/MM/yyyy hh:mm:ss"),
-            //    status = new {
-            //        data = TraduzirStatusTeporarioGambiarra(subtask.Status.ToString()),
-            //        cssClass = DefineStatusLabelClass(subtask.Status.ToString()),
-            //        id = "taskStatus#" + subtask.Id.ToString()
-            //    } 
-            //});
+        }
+
+        [HttpGet]
+        public PartialViewResult GetTimeline(Guid taskId) {
+            IEnumerable<EventSnapshot> snapshots;
+            snapshots = _historyService.GetByTask(taskId);
+            return PartialView("~/Views/Task/_TaskTimelineWidget.cshtml", snapshots.ToList());
+        }
+
+        [HttpGet]
+        public JsonResult GetLimitDates(Guid projectId, Guid taskId) {
+            var project = _projectService.GetProject(projectId);
+            var task = project.Tasks.Where(x => x.Id == taskId).FirstOrDefault();
+            var limitDates = task.SubTasks.Where(x => x.Status == TaskStatus.Open).Select(x => new LimitDate(x.StartDate, x.ExpectedEndDate, x.Name));
+
+            JsonNetResult jsonNetResult = new JsonNetResult();
+            jsonNetResult.Formatting = Formatting.Indented;
+            jsonNetResult.Data = limitDates;
+            return jsonNetResult;
+
+            //return Json(limitDates, JsonRequestBehavior.AllowGet);
         }
 
         //TODO: Remove this shit. Use some AOP in enum
@@ -128,14 +155,5 @@ namespace Gerenciador.Web.UI.Controllers{
                 return "label label-default";
             }
         }
-
-        public PartialViewResult GetTimeline(Guid taskId) {
-            IEnumerable<EventSnapshot> snapshots;
-
-            snapshots = _historyService.GetByTask(taskId);
-
-            return PartialView("~/Views/Task/_TaskTimelineWidget.cshtml", snapshots.ToList());
-        }
-
     } //class
 }

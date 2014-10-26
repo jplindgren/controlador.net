@@ -14,7 +14,6 @@ namespace Gerenciador.Domain {
         public string Content { get; set; }
         public string AuthorName { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:ss}")]
         public DateTime CreatedAt { get; set; }
 
         [ForeignKey("TaskId")]

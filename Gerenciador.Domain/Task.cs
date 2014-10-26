@@ -50,6 +50,7 @@ namespace Gerenciador.Domain {
 
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdatedAt { get; set; }
+
         public virtual ICollection<SubTask> SubTasks { get; set; }
 
         public IList<SubTask> GetOrderedSubtasks() {

@@ -16,6 +16,12 @@ namespace Gerenciador.Services.Impl {
             this.historyService = historyService;
         }
 
+        public SubTask GetSubTask(Guid taskId, Guid subTaskId) {
+            var task = this.taskRepository.Get(taskId);
+            var subtask = task.SubTasks.Where(x => x.Id == subTaskId).First();
+            return subtask;
+        }
+
         public IList<SubTask> GetSubTasks(Guid taskId) {
             var task = this.taskRepository.Get(taskId);
             return task.GetOrderedSubtasks();

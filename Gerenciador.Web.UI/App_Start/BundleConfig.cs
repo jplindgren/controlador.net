@@ -18,6 +18,7 @@ namespace Gerenciador.Web.UI {
             bundles.Add(new ScriptBundle("~/bundles/customscripts").Include(
                         "~/Scripts/app.js",
                         "~/Scripts/bootstrap.js",
+                        "~/Scripts/jquery.blockUI.js",
                         "~/Scripts/bootstrap-slider/bootstrap-slider.js",
                         "~/Scripts/datepicker/bootstrap-datepicker.js"));
 
@@ -45,6 +46,7 @@ namespace Gerenciador.Web.UI {
                         "~/Content/bootstrap.css",
                         "~/Content/datepicker3.css",
                         "~/Content/slider.css",
+                        "~/Content/overlay-growl.css",
                         "~/Content/bootstrap-theme.css"));
 
             bundles.Add(new StyleBundle("~/Content/newcsslogin").Include(
@@ -53,7 +55,7 @@ namespace Gerenciador.Web.UI {
             bundles.Add(new StyleBundle("~/Content/newcsscommon").Include(
                         "~/Content/common.css"));
 
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = false;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@model Gerenciador.Domain.SubTask
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "editSubtaskForm", id = "editSubtaskForm" })) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
@@ -8,12 +8,13 @@
         <legend>SubTask</legend>
 
         @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.TaskId)
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Name)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
+            @Html.TextAreaFor(model => model.Name, new { @class = "form-control input-lg", required="" })
             @Html.ValidationMessageFor(model => model.Name)
         </div>
 
@@ -21,7 +22,7 @@
             @Html.LabelFor(model => model.StartDate)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.StartDate)
+            @Html.TextBoxFor(model => model.StartDate, "{0:d}", new { type = "text", @class = "form-control input-lg", required="" })
             @Html.ValidationMessageFor(model => model.StartDate)
         </div>
 
@@ -29,16 +30,12 @@
             @Html.LabelFor(model => model.ExpectedEndDate)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.ExpectedEndDate)
+            @Html.TextBoxFor(model => model.ExpectedEndDate, "{0:d}", new { type = "text", @class = "form-control input-lg", required="" })
             @Html.ValidationMessageFor(model => model.ExpectedEndDate)
         </div>
-
+        
         @*<p>
             <input type="submit" value="Salvar" />
         </p>*@
     </fieldset>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
