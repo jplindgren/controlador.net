@@ -248,73 +248,52 @@
             var _id = '@(Model.Id)';
 
             $('.slider').slider();
-           
-            @*$("#calendar").datepicker({
-                language: "pt-BR",
-                format: 'dd/mm/yyyy',
-                multidate: true,
-                beforeShowDay: function (date) {
-                    var day = '@Model.CreatedAt.Day';
-                    if (date.getMonth() == (new Date()).getMonth()) {
-                        switch (date.getDate()) {
-                            case 4:
-                                return {
-                                    tooltip: 'Example tooltip',
-                                    classes: 'active'
-                                };
-                            case 8:
-                                return false;
-                            case 12:
-                                return "green";
-                        }
-                    }
-                }
-            }).on('changeDate', function (e) {
-                console.log(e);
-            });
-
-                 
-             $('#calendar').datepicker('setDates', new Date(2014, 10, 25));*@
-
-             var gettingLimitDates = $.get('/Task/GetLimitDates', { projectId: _projectId, taskId: _id }, 'json');
-             gettingLimitDates.done(function (result) {
-                 var fixed = [];
-                 result.forEach(function (entry) {
-                     fixed.push({ start: new Date(entry.Start), end: new Date(entry.End), description: entry.Description });
-                     
-                 });
-                 $("#calendar").datepicker({
-                     language: "pt-BR",
-                     format: 'dd/mm/yyyy',
-                     multidate: true,
-                     todayHighlight: true,
-                     beforeShowDay: function (date) {
-                         //var descrption = '';
-                         //var cssClass = '';
-                         var ret = undefined;
-                         fixed.forEach(function (entry) {
-                             if (entry.end.getFullYear() == date.getFullYear() && entry.end.getMonth() == date.getMonth() && entry.end.getUTCDate() == date.getUTCDate()) {
-                                 var today = new Date();
-                                 var limitDate = new Date(entry.end.getFullYear(), entry.end.getMonth(), entry.end.getUTCDate());
-
-                                 cssClass = limitDate >= today ? 'active' : 'whaoo';
-                                 //descrption += entry.description + "; ";
-                                 ret = {
-                                     tooltip: entry.description,
-                                     classes: cssClass
-                                 };
-                            }
-                         });
-                         
-                         if (ret) {
-                             return ret;
-                         }
-                    }   
-                 });
-             });
              
             LoadComments(_projectId, _id);
             LoadTimeline();
+            LoadCalendar();
+
+            //async load calendar dates
+            function LoadCalendar() {
+                $('#calendar').datepicker("remove");
+                var gettingLimitDates = $.get('/Task/GetLimitDates', { projectId: _projectId, taskId: _id }, 'json');
+                gettingLimitDates.done(function (result) {
+                    var fixed = [];
+                    result.forEach(function (entry) {
+                        fixed.push({ start: new Date(entry.Start), end: new Date(entry.End), description: entry.Description });
+                    });
+                    $("#calendar").datepicker({
+                        language: "pt-BR",
+                        format: 'dd/mm/yyyy',
+                        multidate: true,
+                        todayHighlight: true,
+                        beforeShowDay: function (date) {
+                            var ret = {
+                                tooltip: 'não há eventos nessa data',
+                                classes: ''
+                            };
+                            fixed.forEach(function (entry) {
+                                if (entry.end.getFullYear() == date.getFullYear() && entry.end.getMonth() == date.getMonth() && entry.end.getUTCDate() == date.getUTCDate()) {
+                                    var today = new Date();
+                                    var limitDate = new Date(entry.end.getFullYear(), entry.end.getMonth(), entry.end.getUTCDate());
+
+                                    cssClass = limitDate >= today ? 'active' : 'whaoo';
+                                    //descrption += entry.description + "; ";
+                                    ret = {
+                                        tooltip: entry.description,
+                                        classes: cssClass
+                                    };
+                                }
+                            });
+
+                            //if (ret) {
+                            console.log(ret);
+                            return ret;
+                            //}
+                        }
+                    });
+                });
+            }
 
             //Async Populates Comments 
             function LoadComments(_projectId, _taskId) {
@@ -405,7 +384,8 @@
                  posting.done(function (result) {
                      $('#subtasksContainer').html('');
                      $('#subtasksContainer').html(result);
-                     LoadTimeline();                     
+                     LoadTimeline();
+                     LoadCalendar();
                  });
              }
 
@@ -451,6 +431,7 @@
                     $('#txtEndDate').val('');
                     $('#subtasksContainer').html(result);
                     LoadTimeline();
+                    LoadCalendar();
                 });
                 posting.always(function () {
                     $.unblockUI();
@@ -469,6 +450,7 @@
                     $('#subtasksContainer').html('');
                     $('#subtasksContainer').html(result);
                     LoadTimeline();
+                    LoadCalendar();
                 });
                  posting.always(function () {
                      $.unblockUI();
