@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Gerenciador.Domain {
-    public class Task {
+    public class Task : TransitionalItem{
         public Task() {}
-        public Task(string name, string description, Guid projectId, Project project) {
+        public Task(string name, string description, Guid projectId, Project project, DateTime start, DateTime deadline) {
             Name = name;
             Description = description;
             ProjectId = projectId;
@@ -19,17 +19,20 @@ namespace Gerenciador.Domain {
             CreatedAt = DateTime.Now;
             LastUpdatedAt = DateTime.Now;
 
+            StartDate = start;
+            Deadline = deadline;
+
             Status = TaskStatus.Open; //TODO: In future change to create methods an implement propose method by customers
         }
 
-        public static Task CreateTask(string name, string description, Guid projectId, Project project) {
-            var task = new Task(name, description, projectId, project);
+        public static Task CreateTask(string name, string description, Guid projectId, Project project, DateTime start, DateTime deadline) {
+            var task = new Task(name, description, projectId, project, start, deadline);
             task.Status = TaskStatus.Proposed;
             return task;
         }
 
-        public static Task CreateTaskAsAdmin(string name, string description, Guid projectId, Project project) {
-            var task = new Task(name, description, projectId, project);
+        public static Task CreateTaskAsAdmin(string name, string description, Guid projectId, Project project, DateTime start, DateTime deadline) {
+            var task = new Task(name, description, projectId, project, start, deadline);
             task.Status = TaskStatus.Open;
             return task;
         }
@@ -69,6 +72,10 @@ namespace Gerenciador.Domain {
 
         public void AddSubTask(SubTask subTask) {
             SubTasks.Add(subTask);
+        }
+
+        public bool IsDelayed() {
+            return base.IsDelayed() && !IsDone();
         }
 
         public bool IsDone() {

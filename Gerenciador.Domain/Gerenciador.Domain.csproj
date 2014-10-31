@@ -47,6 +47,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comment.cs" />
+    <Compile Include="RangeDate.cs" />
+    <Compile Include="TransitionalItem.cs" />
     <Compile Include="EntityTest.cs" />
     <Compile Include="Snapshot\EventSnapshotBuilder.cs" />
     <Compile Include="Snapshot\EventSnapshot.cs" />

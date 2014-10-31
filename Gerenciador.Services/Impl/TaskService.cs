@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Gerenciador.Services.Impl {
     public class TaskService {
@@ -14,6 +13,10 @@ namespace Gerenciador.Services.Impl {
         public TaskService(ITaskRepository taskRepository, HistoryService historyService) {
             this.taskRepository = taskRepository;
             this.historyService = historyService;
+        }
+
+        public Task GetTask(Guid taskId) {
+            return this.taskRepository.Get(taskId);
         }
 
         public SubTask GetSubTask(Guid taskId, Guid subTaskId) {

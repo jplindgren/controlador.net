@@ -38,11 +38,11 @@ namespace Gerenciador.Web.UI.Controllers {
             project.Owner = User.Identity.Name;
             project.Name = "Controlador.net";
             project.Tasks = new List<Task>(new Task[] {
-                new Task("Create project summary", "Create a view to display everything about a specific project", project.Id, project),
-                new Task("Create a fake project", "Build a method to create a fake project to populate a project summary", project.Id, project) {
+                new Task("Create project summary", "Create a view to display everything about a specific project", project.Id, project, DateTime.Now,DateTime.Now.AddDays(20)),
+                new Task("Create a fake project", "Build a method to create a fake project to populate a project summary", project.Id, project, DateTime.Now.AddDays(-3), DateTime.Now.AddDays(2)) {
                     Progress = 50
                 },
-                new Task("A completed task for you =]", "Just to test if it works", project.Id, project) {
+                new Task("A completed task for you =]", "Just to test if it works", project.Id, project, DateTime.Now,DateTime.Now.AddDays(21)) {
                     Progress = 100,
                     Status = TaskStatus.Completed
                 },

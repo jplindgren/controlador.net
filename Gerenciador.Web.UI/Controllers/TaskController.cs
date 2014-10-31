@@ -47,7 +47,8 @@ namespace Gerenciador.Web.UI.Controllers{
         public ActionResult Create(Task task){
             try{
                 var project = _projectService.GetProject(task.ProjectId);
-                _projectService.CreateTask(project, User.Identity.Name, task.Name, task.Description);
+                var rangeDate = new RangeDate(task.StartDate, task.EndDate);
+                _projectService.CreateTask(project, User.Identity.Name, task.Name, task.Description, rangeDate);
                 DataContext.SaveChanges();
                 return RedirectToAction("Index","Home");
             }catch{
@@ -67,6 +68,12 @@ namespace Gerenciador.Web.UI.Controllers{
             return Json(task.Progress);
         }
 
+
+        [HttpGet]
+        public PartialViewResult EditTask(Guid taskId) {
+            var task = _taskService.GetTask(taskId);
+            return PartialView("~/Views/Task/_EditTask.cshtml", task);
+        }
 
         [HttpGet]
         public PartialViewResult EditSubTask(Guid taskId, Guid subTaskId) {

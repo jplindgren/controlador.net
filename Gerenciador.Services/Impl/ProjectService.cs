@@ -20,8 +20,8 @@ namespace Gerenciador.Services.Impl {
             return _projectRepository.Get(id);
         }
 
-        public void CreateTask(Project project, string username, string taskName, string taskDescription) {
-            var task = project.AddTask(taskName, taskDescription);
+        public void CreateTask(Project project, string username, string taskName, string taskDescription, RangeDate rangeDate) {
+            var task = project.AddTask(taskName, taskDescription, rangeDate);
             _projectRepository.SaveChanges();
 
             var snapshot = new EventSnapshotBuilder().ForAction("Create").ForUser(username).Consume(task).Create();
