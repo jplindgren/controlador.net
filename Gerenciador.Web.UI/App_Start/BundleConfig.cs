@@ -18,6 +18,8 @@ namespace Gerenciador.Web.UI {
             bundles.Add(new ScriptBundle("~/bundles/customscripts").Include(
                         "~/Scripts/app.js",
                         "~/Scripts/bootstrap.js",
+                        "~/Scripts/knockout-2.2.0.debug.js",
+                        "~/Scripts/moment-with-locales.js",                        
                         "~/Scripts/jquery.blockUI.js",
                         "~/Scripts/bootstrap-slider/bootstrap-slider.js",
                         "~/Scripts/datepicker/bootstrap-datepicker.js"));

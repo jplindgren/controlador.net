@@ -30,7 +30,20 @@ namespace Gerenciador.Web.UI.Controllers{
         public ActionResult Details(Guid projectId, Guid id) {
             var project = _projectService.GetProject(projectId);
             var task = project.Tasks.Where(x => x.Id == id).FirstOrDefault();
-            return View(task);
+            return View(new TaskViewModel(){
+                Id = task.Id,
+                Name = task.Name,
+                CreatedAt = task.CreatedAt,
+                Deadline = task.Deadline,
+                Description = task.Description,
+                EndDate = task.EndDate,
+                LastUpdatedAt = task.LastUpdatedAt,
+                Progress = task.Progress,
+                ProjectId = task.ProjectId,
+                StartDate = task.StartDate,
+                Status = task.Status,
+                SubTasks = task.GetOrderedSubtasks()
+            });
         }
 
          //
@@ -47,7 +60,7 @@ namespace Gerenciador.Web.UI.Controllers{
         public ActionResult Create(Task task){
             try{
                 var project = _projectService.GetProject(task.ProjectId);
-                var rangeDate = new RangeDate(task.StartDate, task.EndDate);
+                var rangeDate = new RangeDate(task.StartDate, task.Deadline);
                 _projectService.CreateTask(project, User.Identity.Name, task.Name, task.Description, rangeDate);
                 DataContext.SaveChanges();
                 return RedirectToAction("Index","Home");
@@ -72,7 +85,34 @@ namespace Gerenciador.Web.UI.Controllers{
         [HttpGet]
         public PartialViewResult EditTask(Guid taskId) {
             var task = _taskService.GetTask(taskId);
-            return PartialView("~/Views/Task/_EditTask.cshtml", task);
+            return PartialView("~/Views/Task/_Edit.cshtml", task);
+        }
+
+        [HttpPost]
+        public JsonResult EditTask(FormCollection collection) {
+            var task = _taskService.GetTask(Guid.Parse(collection["Id"]));
+            TryUpdateModel(task);
+
+            DataContext.SaveChanges();
+            var json = JsonConvert.SerializeObject(new TaskViewModel() {
+                Id = task.Id,
+                Name = task.Name,
+                CreatedAt = task.CreatedAt,
+                Deadline = task.Deadline,
+                Description = task.Description,
+                EndDate = task.EndDate,
+                LastUpdatedAt = task.LastUpdatedAt,
+                Progress = task.Progress,
+                ProjectId = task.ProjectId,
+                StartDate = task.StartDate,
+                Status = task.Status,
+                SubTasks = task.GetOrderedSubtasks()
+            },
+                            Formatting.None,
+                            new JsonSerializerSettings() {
+                                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                            });
+            return Json(json);
         }
 
         [HttpGet]
@@ -110,6 +150,27 @@ namespace Gerenciador.Web.UI.Controllers{
             DataContext.SaveChanges();
 
             return PartialView("~/Views/Task/_SubTaskWidget.cshtml", _taskService.GetSubTasks(taskId));
+        }
+
+        // POST: /Task/CreateSubTask
+        [HttpPost]
+        public JsonResult CreateSubTaskV2(Guid projectId, Guid taskId, string name, DateTime startDate, DateTime endDate) {
+            var project = _projectService.GetProject(projectId);
+            var task = project.Tasks.Where(x => x.Id == taskId).FirstOrDefault();
+
+            SubTask subtask = new SubTask(name, startDate, endDate);
+            _projectService.CreateSubTask(task, subtask, User.Identity.Name);
+            DataContext.SaveChanges();
+
+            return Json(new SubTask() { 
+                CreatedAt = subtask.CreatedAt,
+                ExpectedEndDate = subtask.ExpectedEndDate,
+                Id = subtask.Id,
+                Name = subtask.Name,
+                StartDate = subtask.StartDate,
+                Status = subtask.Status,
+                TaskId = subtask.TaskId
+            });
         }
 
         [HttpGet]

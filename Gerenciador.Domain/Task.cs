@@ -62,10 +62,12 @@ namespace Gerenciador.Domain {
 
         public void UpdateProgress(int progress) {
             Progress = progress;
-            if (progress == 100)
+            if (progress == 100) {
                 Status = TaskStatus.Completed;
-            else {
+                EndDate = DateTime.Now;
+            } else {
                 Status = TaskStatus.Open;
+                EndDate = null;
             }
             LastUpdatedAt = DateTime.Now;
         }

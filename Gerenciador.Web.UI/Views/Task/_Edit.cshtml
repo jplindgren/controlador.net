@@ -4,7 +4,7 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editTaskForm" })) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
@@ -12,6 +12,7 @@
         <legend>Task</legend>
 
         @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.ProjectId)
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Name)
@@ -28,8 +29,6 @@
             @Html.TextAreaFor(model => model.Description, new { @class = "form-control input-lg", required="" })
             @Html.ValidationMessageFor(model => model.Description)
         </div>
-
-        @Html.HiddenFor(model => model.ProjectId)
 
         <div class="editor-label">
             @Html.LabelFor(model => model.StartDate)
@@ -51,7 +50,7 @@
             @Html.LabelFor(model => model.EndDate)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.EndDate, new { @class = "form-control input-lg", required="" })
+            @Html.TextBoxFor(model => model.EndDate, new { @class = "form-control input-lg", required="" })
             @Html.ValidationMessageFor(model => model.EndDate)
         </div>
     </fieldset>

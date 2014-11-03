@@ -119,6 +119,10 @@
     <Compile Include="Migrations\201410310233297_AddTransationalItem.Designer.cs">
       <DependentUpon>201410310233297_AddTransationalItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411010359336_ChangeEndDateFromTaskToNullable.cs" />
+    <Compile Include="Migrations\201411010359336_ChangeEndDateFromTaskToNullable.Designer.cs">
+      <DependentUpon>201411010359336_ChangeEndDateFromTaskToNullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ProjectManagementConfiguration.cs" />
     <Compile Include="ProjectManagementContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -172,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410310233297_AddTransationalItem.resx">
       <DependentUpon>201410310233297_AddTransationalItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411010359336_ChangeEndDateFromTaskToNullable.resx">
+      <DependentUpon>201411010359336_ChangeEndDateFromTaskToNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

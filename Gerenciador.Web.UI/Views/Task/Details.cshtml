@@ -1,5 +1,6 @@
-﻿@model Gerenciador.Domain.Task
+﻿@model Gerenciador.Web.UI.Models.TaskViewModel
 @using Gerenciador.Web.UI.Helpers
+@using Newtonsoft.Json
 
 @{
     ViewBag.Title = "Details";
@@ -26,13 +27,13 @@
         <div class="col-sm-4 invoice-col">
             <strong>Início </strong>
             <br />
-            Criado: <strong>@Model.CreatedAt</strong><br>
-            Iniciado: <strong>@DateTime.Now</strong><br />
+            Criado: <strong>@Html.DisplayFor(model => model.CreatedAt)</strong><br>
+            Iniciado: <strong>@DateTime.Now</strong><br /><hr />
             <strong>Término</strong><br>
-            Expectativa inicial: <strong>xxxxx</strong>
+            Expectativa inicial: <strong data-bind="text: moment(Deadline()).format('L')"></strong>
             <br>
-            Data de término: <strong>xxxx</strong><br>
-            Variação: <strong>+/- 3 dias</strong>
+            Data de término: <strong data-bind="text: moment(EndDate()).format('L')"></strong><br />
+            Variação: <strong data-bind="text: Variation()"></strong>
         </div>
         <!-- /.col -->
 
@@ -74,13 +75,71 @@
 
     <div class="row">
         <div class="col-md-12">
-            <blockquote>@Html.DisplayFor(x => x.Description)</blockquote>
+            <blockquote data-bind="text: Description()"></blockquote>
         </div>
     </div>
 
     <h2>Micro tarefas</h2>
     <div id="subtasksContainer">
-        @Html.Partial("~/Views/Task/_SubTaskWidget.cshtml", @Model.GetOrderedSubtasks())
+        @Html.Partial("~/Views/Task/_SubTaskWidget.cshtml", @Model.SubTasks)
+    </div>
+
+    <h2>Micro tarefas - knockout</h2>
+    
+    <div class="table-responsive">
+        <table id="subtasks" class="table table-condensed table-striped table-bordered table-hover no-margin">
+            <thead>
+                <tr>
+                    <th style="width: 5%">
+                        <input class="no-margin" type="checkbox">
+                    </th>
+                    <th style="width: 22%" class="hidden-xs">Código</th>
+                    <th style="width: 20%">Nome</th>
+                    <th style="width: 15%" class="hidden-xs">Criação</th>
+                    <th style="width: 15%" class="hidden-phone">Início</th>
+                    <th style="width: 15%" class="hidden-phone">Término</th>
+                    <th style="width: 8%" class="hidden-phone">Status</th>
+                    <th style="width: 10%" class="hidden-phone"></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: SubTasks">
+                 <tr>
+                     <td>
+                        <input class="no-margin" type="checkbox">
+                    </td>
+                    <td class="hidden-xs">
+                        @*<span class="name" data-bind="text: Id"></span>*@
+                    </td>
+                    <td><span data-bind="text: Name"></span></td>
+                    <td class="hidden-xs"><span></span></td>
+                    <td><span data-bind="text: StartDate"></span></td>
+                    <td><span data-bind="text: ExpectedEndDate"></span></td>
+                    <td>
+                        <span></span>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button data-toggle="dropdown" class="btn btn-xs dropdown-toggle" data-original-title="" title="">
+                                Ações 
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="subtaskActions dropdown-menu pull-right">                                
+                                <li>
+                                    <a href="#" data-action="setDone">Pronta</a>
+                                </li>
+                                <li>
+                                    <a href="#" data-action="setCancelled">Cancelar</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#" data-action="edit">Editar</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                 </tr>
+            </tbody>
+        </table>
     </div>
     
     
@@ -107,6 +166,11 @@
         </div>
     </div>
 </section>
+
+<div class="row">
+    <h2>Debug</h2>
+    <div data-bind="text: ko.toJSON($data)"></div>    
+</div>
 
 <p>
     @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
@@ -185,17 +249,17 @@
                         <div class="form-group">
                             Nome:
                             <br />
-                            ​<input type="text" id="txtSubTaskName" style="width: 100%" />
+                            ​<input type="text" id="txtSubTaskName" style="width: 100%" data-bind="value: subtaskNameToAdd, valueUpdate: 'afterkeydown'" />
                         </div>
                         <div class="form-group">
                             Data de Início:
                             <br />
-                            ​<input type="date" id="txtStartDate" style="width: 100%" /> 
+                            ​<input type="date" id="txtStartDate" style="width: 100%" data-bind="value: subtaskStartDateToAdd, valueUpdate: 'afterkeydown'" /> 
                         </div>
                         <div class="form-group">
                             Data de Término:
                             <br />
-                            ​<input type="date" id="txtEndDate" style="width: 100%" /> 
+                            ​<input type="date" id="txtEndDate" style="width: 100%" data-bind="value: subtaskEndDateToAdd, valueUpdate: 'afterkeydown'" /> 
                         </div>
                     </div>
                     <!-- /.box-body -->
@@ -203,8 +267,8 @@
                 <!-- /.box -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button id="btnCreateSubTask" type="button" class="btn btn-primary">Salvar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" >Fechar</button>
+                <button id="btnCreateSubTask" type="button" class="btn btn-primary" data-bind="click: addSubtask">Salvar</button>
             </div>
         </div>
     </div>
@@ -272,7 +336,77 @@
 
 @section scripts{
     <script type="text/javascript">
-         $(document).ready(function () {
+        moment.locale('pt');
+        var globalLocale = moment();
+        $(document).ready(function () {
+            @{
+                var m = JsonConvert.SerializeObject(Model,
+                            Formatting.None,
+                            new JsonSerializerSettings() {
+                                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                            });
+                }
+            
+            var data = JSON.parse("@Html.Raw(HttpUtility.JavaScriptStringEncode(m))");
+
+            //var subTaskItem = function (subTaskData) {
+            //    return {
+            //        Id: ko.observable(subTaskData.Id),
+            //        Name: ko.observable(subTaskData.Name),
+            //        CreatedAt: ko.observable(subTaskData.CreatedAt),
+            //        StartDate: ko.observable(subTaskData.StartDate),
+            //        ExpectedEndDate: ko.observable(subTaskData.ExpectedEndDate),
+            //        Status: ko.observable(subTaskData.Status),
+            //    };
+            //}
+            viewModel = {
+                Deadline: ko.observable(data.Deadline),
+                EndDate: ko.observable(data.EndDate),
+                Description: ko.observable(data.Description),
+
+                //subtasks
+                SubTasks: ko.observableArray(data.SubTasks),
+                addSubtask: function () {
+                    var dataToSend = { Name: this.subtaskNameToAdd, StartDate: this.subtaskStartDateToAdd, endDate: this.subtaskEndDateToAdd };
+
+                    this._projectId = '@(Model.ProjectId)';
+                    this._id = '@(Model.Id)';
+                    dataToSend.projectId = this._projectId;
+                    dataToSend.taskId = this._id;
+                    
+                    $.blockUI({ message: 'Carregando...' });
+                    var posting = $.post('@Url.Action("CreateSubTaskV2", "Task")', dataToSend, 'json');
+                    posting.done(function (result) {
+                      
+                        $('#modalCreateSubTask').modal('hide');
+                        $('#txtSubTaskName').val('');
+                        $('#txtStartDate').val('');
+                        $('#txtEndDate').val('');                        
+                        
+                        var newSubTask = { Id: result.Id, Name: result.Name, CreatedAt: result.CreatedAt, StartDate: result.StartDate, ExpectedEndDate: result.ExpectedEndDate, Status: result.Status };
+                        viewModel.SubTasks.push(newSubTask);
+
+                        LoadTimeline();
+                        LoadCalendar();
+                    });
+                posting.always(function () {
+                    $.unblockUI();
+                });
+                },
+                subtaskNameToAdd: ko.observable(""),
+                subtaskStartDateToAdd: ko.observable(""),
+                subtaskEndDateToAdd: ko.observable("")
+            };
+            viewModel.Variation = ko.computed(function () {
+                var end = moment(viewModel.EndDate());
+                var deadline = moment(viewModel.Deadline());
+
+                return moment.duration(end.diff(deadline)).asDays() + ' dias';
+            });
+
+            // Activates knockout.js
+            ko.applyBindings(viewModel);
+
             var _projectId = '@(Model.ProjectId)';
             var _id = '@(Model.Id)';
 
@@ -281,16 +415,6 @@
             LoadComments(_projectId, _id);
             LoadTimeline();
             LoadCalendar();
-            $('#actionsPanel').on('click', '#btnEditTaskAction', function (event) {
-                event.preventDefault();
-                var _id = '@(Model.Id)';
-                var getting = $.get('/Task/EditTask', { taskId: _taskId }, 'html');
-                getting.done(function (result) {
-                    $('#modalEditTask').modal('show');
-                    $('#editTask').html('');
-                    $('#editTask').html(result);
-                });
-            });
 
             //async load calendar dates
             function LoadCalendar() {
@@ -449,7 +573,8 @@
 
             //Create Subtask
             $(".modal-footer").on("click", "#btnCreateSubTask", function () {
-                this._projectId = '@(Model.ProjectId)';
+                viewModel.addSubtask();
+               @* this._projectId = '@(Model.ProjectId)';
                 this._id = '@(Model.Id)';
                 $.blockUI({ message: 'Carregando...' });
                 var posting = $.post('@Url.Action("CreateSubTask", "Task")', {
@@ -460,21 +585,21 @@
                     endDate: $('#txtEndDate').val()
                 }, 'html');
                 posting.done(function (result) {
-                    this._projectId = '@(Model.ProjectId)';
-                    this._id = '@(Model.Id)';
                     $('#modalCreateSubTask').modal('hide');
                     $('#txtSubTaskName').val('');
                     $('#txtStartDate').val('');
                     $('#txtEndDate').val('');
                     $('#subtasksContainer').html(result);
+
+                    viewModel.addSubtask(result.Id, result.Name, result.CreatedAt, result.StartDate, result.ExpectedEndDate, result.Status);
+
                     LoadTimeline();
                     LoadCalendar();
                 });
                 posting.always(function () {
                     $.unblockUI();
-                });
+                });*@
             });
-
 
              //Edit SubTask
              $(".modal-footer").on("click", "#btnEditSubTask", function () {
@@ -489,6 +614,39 @@
                     LoadTimeline();
                     LoadCalendar();
                 });
+                 posting.always(function () {
+                     $.unblockUI();
+                 });
+             });
+
+             //open edit task
+             $('#actionsPanel').on('click', '#btnEditTaskAction', function (event) {
+                 event.preventDefault();
+                 var _taskId = '@(Model.Id)';
+                var getting = $.get('/Task/EditTask', { taskId: _taskId }, 'html');
+                getting.done(function (result) {
+                    $('#modalEditTask').modal('show');
+                    $('#editTask').html('');
+                    $('#editTask').html(result);
+                });
+             });
+
+             //Edit task
+             $(".modal-footer").on("click", "#btnEditTask", function () {
+                 this._projectId = '@(Model.ProjectId)';
+                 this._id = '@(Model.Id)';
+                 $.blockUI({ message: 'Carregando...' });
+                 var posting = $.post('@Url.Action("EditTask", "Task")', $('#editTaskForm').serialize(), 'json');
+                 posting.done(function (result) {
+                     $('#modalEditTask').modal('hide');
+
+                     var data = $.parseJSON(result);
+                     viewModel.Deadline(data.Deadline);
+                     viewModel.EndDate(data.EndDate);
+                     viewModel.Description(data.Description);
+
+                     LoadCalendar();
+                 });
                  posting.always(function () {
                      $.unblockUI();
                  });
