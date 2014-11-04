@@ -3,7 +3,7 @@
 @using Newtonsoft.Json
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalhes da Tarefa";
 }
 
 <section class="content invoice">
@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-xs-12">
             <h2 class="page-header">
-                <i class="fa fa-file-text-o">@Model.Name</i>
+                <i class="fa fa-file-text-o"> @Model.Name</i>
                 @Html.DisplayStatus("taskStatus", @Model.Status.ToString(), "pull-right")
             </h2>
             <div class="progress progress">
@@ -28,11 +28,11 @@
             <strong>Início </strong>
             <br />
             Criado: <strong>@Html.DisplayFor(model => model.CreatedAt)</strong><br>
-            Iniciado: <strong>@DateTime.Now</strong><br /><hr />
+            Data de Hoje: <strong>@DateTime.Now</strong><br /><hr />
             <strong>Término</strong><br>
-            Expectativa inicial: <strong data-bind="text: moment(Deadline()).format('L')"></strong>
+            Expectativa inicial: <strong data-bind="text: Deadline()"></strong>
             <br>
-            Data de término: <strong data-bind="text: moment(EndDate()).format('L')"></strong><br />
+            Data de término: <strong data-bind="text: EndDate()"></strong><br />
             Variação: <strong data-bind="text: Variation()"></strong>
         </div>
         <!-- /.col -->
@@ -161,169 +161,10 @@
     <div data-bind="text: ko.toJSON($data)"></div>
 </div>
 
-<p>
-    @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
-
-<!-- Modal -->
-<div class="modal fade" id="modalUpdateProgress" tabindex="-1" role="dialog" aria-labelledby="modalUpdateProgressLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
-                <h4 class="modal-title" id="modalUpdateProgressLabel">Progresso</h4>
-            </div>
-            <div class="modal-body">
-                <input id="progressUpdaterSlider" type="text" value="" class="slider form-control" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="@Model.Progress" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show" data-slider-id="blue">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button id="btnProgressSave" type="button" class="btn btn-primary">Salvar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="modalCreateComment" tabindex="-1" role="dialog" aria-labelledby="modalCreateCommentLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
-                <h4 class="modal-title" id="modalCreateCommentLabel">Comentário</h4>
-            </div>
-            <div class="modal-body">
-                <div class="box box-warning">
-                    <div class="box-header">
-                        <h3 class="box-title">Escrever comentário</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <!-- text input -->
-                        <div class="form-group">
-                            Comentário:
-                            <br />
-                            ​<textarea id="txtComment" rows="10" style="width: 100%"></textarea>
-                        </div>
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-                <!-- /.box -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button id="btnCreateComment" type="button" class="btn btn-primary">Salvar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="modalCreateSubTask" tabindex="-1" role="dialog" aria-labelledby="modalCreateSubTaskLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
-                <h4 class="modal-title" id="modalCreateSubTaskLabel">Sub Task</h4>
-            </div>
-            <div class="modal-body">
-                <div class="box box-warning">
-                    <div class="box-header">
-                        <h3 class="box-title">Criar uma nova SubTask</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <!-- text input -->
-                        <div class="form-group">
-                            Nome:
-                            <br />
-                            ​<input type="text" id="txtSubTaskName" style="width: 100%" data-bind="value: subtaskNameToAdd, valueUpdate: 'afterkeydown'" />
-                        </div>
-                        <div class="form-group">
-                            Data de Início:
-                            <br />
-                            ​<input type="date" id="txtStartDate" style="width: 100%" data-bind="value: subtaskStartDateToAdd, valueUpdate: 'afterkeydown'" /> 
-                        </div>
-                        <div class="form-group">
-                            Data de Término:
-                            <br />
-                            ​<input type="date" id="txtEndDate" style="width: 100%" data-bind="value: subtaskEndDateToAdd, valueUpdate: 'afterkeydown'" /> 
-                        </div>
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-                <!-- /.box -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" >Fechar</button>
-                <button id="btnCreateSubTask" type="button" class="btn btn-primary" data-bind="click: addSubtask">Salvar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Edit SubTask Modal -->
-<div class="modal fade" id="modalEditSubTask" tabindex="-1" role="dialog" aria-labelledby="modalEditSubTaskLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
-                <h4 class="modal-title" id="modalEditSubTaskLabel">Sub Task</h4>
-            </div>
-            <div class="modal-body">
-                <div class="box box-warning">
-                    <div class="box-header">
-                        <h3 class="box-title">Criar uma nova SubTask</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <div id="editSubTask"></div>
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-                <!-- /.box -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button id="btnEditSubTask" type="button" class="btn btn-primary">Salvar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Edit Modal -->
-<div class="modal fade" id="modalEditTask" tabindex="-1" role="dialog" aria-labelledby="modalEditTaskLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
-                <h4 class="modal-title" id="modalEditTaskLabel">Task</h4>
-            </div>
-            <div class="modal-body">
-                <div class="box box-warning">
-                    <div class="box-header">
-                        <h3 class="box-title">Editar uma Task</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <div id="editTask"></div>
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-                <!-- /.box -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button id="btnEditTask" type="button" class="btn btn-primary">Salvar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
+@Html.Partial("~/Views/Task/DetailsPopups.cshtml")
 
 @section scripts{
+    <script src="~/Scripts/custom/task/task_manager.js"></script>
     <script type="text/javascript">
         moment.locale('pt');
         var globalLocale = moment();
@@ -338,14 +179,19 @@
             
             var data = JSON.parse("@Html.Raw(HttpUtility.JavaScriptStringEncode(m))");
 
-            var subTaskItem = function (options) {
+            /*NOVA IMPL*/
+            var _projectId = '@(Model.ProjectId)';
+            var _taskId = '@(Model.Id)';
+            TaskManagement.taskInit(data, _projectId, _taskId);
+            /*NOVO IMPL*/
+
+            @*var subTaskItem = function (options) {
                 return {
                     Id: ko.observable(options.Id),
                     Name: ko.observable(options.Name),
                     CreatedAt: ko.observable(options.CreatedAt),
                     StartDate: ko.observable(options.StartDate),
                     ExpectedEndDate: ko.observable(options.ExpectedEndDate),
-                    //Status: ko.observable(options.Status),
                     Status: ko.computed(function () {
                         var status = "desconhecida";
                         var cssLabel = "label label-default";
@@ -382,18 +228,22 @@
                 };
             }
             viewModel = {
-                Deadline: ko.observable(data.Deadline),
-                EndDate: ko.observable(data.EndDate),
+                Deadline: ko.computed(function () {
+                    var deadLine = moment(data.Deadline);
+                    if (deadLine.isValid())
+                        return deadLine.format('L');
+                }),
+                EndDate: ko.computed(function () {
+                    var endDate = moment(data.EndDate);
+                    if (endDate.isValid())
+                        return endDate.format('L');
+                }),
                 Description: ko.observable(data.Description),
 
                 //subtasks
                 SubTasks: ko.observableArray(ko.utils.arrayMap(data.SubTasks, function (item) {
                     return subTaskItem(item);
                 })),
-                //send the items that we load from storage through the CartItem constructor
-                //SubTasks: ko.utils.arrayMap(data.SubTasks, function (item) {
-                //    return subTaskItem(item);
-                //}),
 
                 addSubtask: function () {
                     var dataToSend = { Name: this.subtaskNameToAdd, StartDate: this.subtaskStartDateToAdd, endDate: this.subtaskEndDateToAdd };
@@ -600,36 +450,6 @@
                 });
             });
 
-          @*  //Create Subtask
-            $(".modal-footer").on("click", "#btnCreateSubTask", function () {
-                viewModel.addSubtask();
-                this._projectId = '@(Model.ProjectId)';
-                this._id = '@(Model.Id)';
-                $.blockUI({ message: 'Carregando...' });
-                var posting = $.post('@Url.Action("CreateSubTask", "Task")', {
-                    projectId: this._projectId,
-                    taskId: this._id,
-                    name: $('#txtSubTaskName').val(),
-                    startDate: $('#txtStartDate').val(),
-                    endDate: $('#txtEndDate').val()
-                }, 'html');
-                posting.done(function (result) {
-                    $('#modalCreateSubTask').modal('hide');
-                    $('#txtSubTaskName').val('');
-                    $('#txtStartDate').val('');
-                    $('#txtEndDate').val('');
-                    $('#subtasksContainer').html(result);
-
-                    viewModel.addSubtask(result.Id, result.Name, result.CreatedAt, result.StartDate, result.ExpectedEndDate, result.Status);
-
-                    LoadTimeline();
-                    LoadCalendar();
-                });
-                posting.always(function () {
-                    $.unblockUI();
-                });
-            });*@
-
              //Edit SubTask
              $(".modal-footer").on("click", "#btnEditSubTask", function () {
                 this._projectId = '@(Model.ProjectId)';
@@ -679,7 +499,7 @@
                  posting.always(function () {
                      $.unblockUI();
                  });
-             });
+             });*@
         });
     </script>
 }

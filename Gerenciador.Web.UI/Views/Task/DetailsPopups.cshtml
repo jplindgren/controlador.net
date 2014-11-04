@@ -1,0 +1,154 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="modalUpdateProgress" tabindex="-1" role="dialog" aria-labelledby="modalUpdateProgressLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+                <h4 class="modal-title" id="modalUpdateProgressLabel">Progresso</h4>
+            </div>
+            <div class="modal-body">
+                <input id="progressUpdaterSlider" type="text" value="" class="slider form-control" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="@Model.Progress" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show" data-slider-id="blue">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                <button id="btnProgressSave" type="button" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalCreateComment" tabindex="-1" role="dialog" aria-labelledby="modalCreateCommentLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+                <h4 class="modal-title" id="modalCreateCommentLabel">Comentário</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box box-warning">
+                    <div class="box-header">
+                        <h3 class="box-title">Escrever comentário</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <!-- text input -->
+                        <div class="form-group">
+                            Comentário:
+                            <br />
+                            ​<textarea id="txtComment" rows="10" style="width: 100%"></textarea>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                <button id="btnCreateComment" type="button" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalCreateSubTask" tabindex="-1" role="dialog" aria-labelledby="modalCreateSubTaskLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+                <h4 class="modal-title" id="modalCreateSubTaskLabel">Sub Task</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box box-warning">
+                    <div class="box-header">
+                        <h3 class="box-title">Criar uma nova SubTask</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <!-- text input -->
+                        <div class="form-group">
+                            Nome:
+                            <br />
+                            ​<input type="text" id="txtSubTaskName" style="width: 100%" data-bind="value: subtaskNameToAdd, valueUpdate: 'afterkeydown'" />
+                        </div>
+                        <div class="form-group">
+                            Data de Início:
+                            <br />
+                            ​<input type="date" id="txtStartDate" style="width: 100%" data-bind="value: subtaskStartDateToAdd, valueUpdate: 'afterkeydown'" /> 
+                        </div>
+                        <div class="form-group">
+                            Data de Término:
+                            <br />
+                            ​<input type="date" id="txtEndDate" style="width: 100%" data-bind="value: subtaskEndDateToAdd, valueUpdate: 'afterkeydown'" /> 
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" >Fechar</button>
+                <button id="btnCreateSubTask" type="button" class="btn btn-primary" data-bind="click: addSubtask">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit SubTask Modal -->
+<div class="modal fade" id="modalEditSubTask" tabindex="-1" role="dialog" aria-labelledby="modalEditSubTaskLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+                <h4 class="modal-title" id="modalEditSubTaskLabel">Sub Task</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box box-warning">
+                    <div class="box-header">
+                        <h3 class="box-title">Criar uma nova SubTask</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div id="editSubTask"></div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                <button id="btnEditSubTask" type="button" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="modalEditTask" tabindex="-1" role="dialog" aria-labelledby="modalEditTaskLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+                <h4 class="modal-title" id="modalEditTaskLabel">Task</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box box-warning">
+                    <div class="box-header">
+                        <h3 class="box-title">Editar uma Task</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div id="editTask"></div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                <button id="btnEditTask" type="button" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>

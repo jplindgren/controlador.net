@@ -293,6 +293,7 @@
     <Content Include="Scripts\bootstrap-slider\bootstrap-slider.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\custom\task\details.js" />
     <Content Include="Scripts\datepicker\bootstrap-datepicker.js" />
     <Content Include="Scripts\datepicker\locales\bootstrap-datepicker.ar.js" />
     <Content Include="Scripts\datepicker\locales\bootstrap-datepicker.az.js" />
@@ -405,6 +406,7 @@
     <Content Include="Views\Task\_SubTaskWidget.cshtml" />
     <Content Include="Views\Task\_EditSubTask.cshtml" />
     <Content Include="Views\Task\_Edit.cshtml" />
+    <Content Include="Views\Task\DetailsPopups.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
