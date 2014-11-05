@@ -19,7 +19,10 @@ namespace Gerenciador.Web.UI {
                         "~/Scripts/app.js",
                         "~/Scripts/bootstrap.js",
                         "~/Scripts/knockout-2.2.0.debug.js",
-                        "~/Scripts/moment-with-locales.js",                        
+                        "~/Scripts/moment-with-locales.js",
+                        "~/Scripts/raphael1.js",
+                        "~/Scripts/morris.js",
+                        "~/Scripts/jquery.unobtrusive-ajax.js",
                         "~/Scripts/jquery.blockUI.js",
                         "~/Scripts/bootstrap-slider/bootstrap-slider.js",
                         "~/Scripts/datepicker/bootstrap-datepicker.js"));
@@ -29,24 +32,25 @@ namespace Gerenciador.Web.UI {
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
-                        "~/Content/themes/base/jquery.ui.core.css",
-                        "~/Content/themes/base/jquery.ui.resizable.css",
-                        "~/Content/themes/base/jquery.ui.selectable.css",
-                        "~/Content/themes/base/jquery.ui.accordion.css",
-                        "~/Content/themes/base/jquery.ui.autocomplete.css",
-                        "~/Content/themes/base/jquery.ui.button.css",
-                        "~/Content/themes/base/jquery.ui.dialog.css",
-                        "~/Content/themes/base/jquery.ui.slider.css",
-                        "~/Content/themes/base/jquery.ui.tabs.css",
-                        "~/Content/themes/base/jquery.ui.datepicker.css",
-                        "~/Content/themes/base/jquery.ui.progressbar.css",
-                        "~/Content/themes/base/jquery.ui.theme.css"));
+            //bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
+            //            "~/Content/themes/base/jquery.ui.core.css",
+            //            "~/Content/themes/base/jquery.ui.resizable.css",
+            //            "~/Content/themes/base/jquery.ui.selectable.css",
+            //            "~/Content/themes/base/jquery.ui.accordion.css",
+            //            "~/Content/themes/base/jquery.ui.autocomplete.css",
+            //            "~/Content/themes/base/jquery.ui.button.css",
+            //            "~/Content/themes/base/jquery.ui.dialog.css",
+            //            "~/Content/themes/base/jquery.ui.slider.css",
+            //            "~/Content/themes/base/jquery.ui.tabs.css",
+            //            "~/Content/themes/base/jquery.ui.datepicker.css",
+            //            "~/Content/themes/base/jquery.ui.progressbar.css",
+            //            "~/Content/themes/base/jquery.ui.theme.css"));
 
             bundles.Add(new StyleBundle("~/Content/newcss").Include(
                         "~/Content/font-awesome.css",
                         "~/Content/bootstrap.css",
                         "~/Content/datepicker3.css",
+                        "~/Content/morris.css",
                         "~/Content/slider.css",
                         "~/Content/overlay-growl.css",
                         "~/Content/bootstrap-theme.css"));

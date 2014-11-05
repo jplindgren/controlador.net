@@ -186,6 +186,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ChartsController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
@@ -208,6 +209,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\datepicker3.css" />
     <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\morris.css" />
     <Content Include="Content\overlay-growl.css" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\ajax-loader1.gif" />
@@ -293,7 +295,7 @@
     <Content Include="Scripts\bootstrap-slider\bootstrap-slider.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\custom\task\details.js" />
+    <Content Include="Scripts\custom\task\task_manager.js" />
     <Content Include="Scripts\datepicker\bootstrap-datepicker.js" />
     <Content Include="Scripts\datepicker\locales\bootstrap-datepicker.ar.js" />
     <Content Include="Scripts\datepicker\locales\bootstrap-datepicker.az.js" />
@@ -366,6 +368,9 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\morris.js" />
+    <Content Include="Scripts\raphael.min1.js" />
+    <Content Include="Scripts\raphael1.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

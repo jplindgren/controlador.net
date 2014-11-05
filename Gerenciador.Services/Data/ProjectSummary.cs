@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace Gerenciador.Services.Data {
     public class ProjectSummary {
         public Project Project { get; set; }
+
         public IEnumerable<Gerenciador.Domain.Task> OpenTasks { get; set; }
         public int PercentageOpenTasks { get; set; }
         public IEnumerable<Gerenciador.Domain.Task> ClosedTasks { get; set; }
