@@ -19,6 +19,7 @@ namespace Gerenciador.Repository.EntityFramwork {
         public IDbSet<Comment> Comments { get; set; }
         public IDbSet<EventSnapshot> Snapshots { get; set; }
         public IDbSet<SubTask> SubTasks { get; set; }
+        public IDbSet<TaskProgressHistory> TaskProgressHistories { get; set; }
 
         public System.Data.Entity.IDbSet<T> Set<T>() where T : class {
             return base.Set<T>();

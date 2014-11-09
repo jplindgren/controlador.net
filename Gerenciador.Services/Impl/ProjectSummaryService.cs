@@ -12,8 +12,11 @@ using System.Threading.Tasks;
 namespace Gerenciador.Services.Impl {
     public class ProjectSummaryService : IProjectSummaryService {
         private IProjectRepository _projectRepository;
-        public ProjectSummaryService(IProjectRepository projectRepository) {
+        private HistoryService historyService;
+
+        public ProjectSummaryService(IProjectRepository projectRepository, HistoryService historyService) {
             _projectRepository = projectRepository;
+            this.historyService = historyService;
         }
 
         public ProjectSummary GetProjectSummary(Guid id) {
@@ -35,6 +38,10 @@ namespace Gerenciador.Services.Impl {
 
         public void CreateProject(Project project) {
             _projectRepository.Add(project);
+        }
+
+        public IList<ProjectUpdateHistory> GetProgressData(Guid projectId) {
+            return this.historyService.GetProgressData(projectId);
         }
     } //class
 }

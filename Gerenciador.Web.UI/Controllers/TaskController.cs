@@ -20,9 +20,9 @@ namespace Gerenciador.Web.UI.Controllers{
         private TaskService _taskService;
 
         public TaskController() {
-            _projectService = new ProjectService(new ProjectRepository(DataContext), new HistoryService(new EventSnapshotRepository(DataContext)));
-            _historyService = new HistoryService(new EventSnapshotRepository(DataContext));
-            _taskService = new TaskService(new TaskRepository(DataContext), new HistoryService(new EventSnapshotRepository(DataContext)));
+            _historyService = new HistoryService(new EventSnapshotRepository(DataContext), new TaskProgressHistoryRepository(DataContext));
+            _projectService = new ProjectService(new ProjectRepository(DataContext), _historyService);
+            _taskService = new TaskService(new TaskRepository(DataContext), _historyService);
         }
 
         //

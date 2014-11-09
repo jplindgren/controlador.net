@@ -55,8 +55,10 @@
     <Compile Include="Impl\CommentRepository.cs" />
     <Compile Include="Impl\EntityTestRepository.cs" />
     <Compile Include="Impl\EventSnapshotRepository.cs" />
+    <Compile Include="Interface\ITaskProgressHistoryRepository.cs" />
     <Compile Include="Impl\ProjectRepository.cs" />
     <Compile Include="Impl\Repository.cs" />
+    <Compile Include="Impl\TaskProgressHistory.cs" />
     <Compile Include="Impl\TaskRepository.cs" />
     <Compile Include="Interface\IEventSnapshotRepository.cs" />
     <Compile Include="Interface\ICommentRepository.cs" />
@@ -123,6 +125,18 @@
     <Compile Include="Migrations\201411010359336_ChangeEndDateFromTaskToNullable.Designer.cs">
       <DependentUpon>201411010359336_ChangeEndDateFromTaskToNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411092039002_AddTaskProgressHistory.cs" />
+    <Compile Include="Migrations\201411092039002_AddTaskProgressHistory.Designer.cs">
+      <DependentUpon>201411092039002_AddTaskProgressHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411092044204_AddProjectColumnToTaskProgressHistory.cs" />
+    <Compile Include="Migrations\201411092044204_AddProjectColumnToTaskProgressHistory.Designer.cs">
+      <DependentUpon>201411092044204_AddProjectColumnToTaskProgressHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411092049093_FixProjectForeingKeyInTaskProgressHistory.cs" />
+    <Compile Include="Migrations\201411092049093_FixProjectForeingKeyInTaskProgressHistory.Designer.cs">
+      <DependentUpon>201411092049093_FixProjectForeingKeyInTaskProgressHistory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ProjectManagementConfiguration.cs" />
     <Compile Include="ProjectManagementContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -179,6 +193,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411010359336_ChangeEndDateFromTaskToNullable.resx">
       <DependentUpon>201411010359336_ChangeEndDateFromTaskToNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411092039002_AddTaskProgressHistory.resx">
+      <DependentUpon>201411092039002_AddTaskProgressHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411092044204_AddProjectColumnToTaskProgressHistory.resx">
+      <DependentUpon>201411092044204_AddProjectColumnToTaskProgressHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411092049093_FixProjectForeingKeyInTaskProgressHistory.resx">
+      <DependentUpon>201411092049093_FixProjectForeingKeyInTaskProgressHistory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

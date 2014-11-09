@@ -11,7 +11,8 @@ namespace Gerenciador.Web.UI.Controllers{
     public class ChartsController : BaseController {
         private ProjectSummaryService _projectSummaryService;
         public ChartsController() {
-            _projectSummaryService = new ProjectSummaryService(new ProjectRepository(DataContext)));
+            var historyService = new HistoryService(new EventSnapshotRepository(DataContext), new TaskProgressHistoryRepository(DataContext));
+            _projectSummaryService = new ProjectSummaryService(new ProjectRepository(DataContext), historyService);
         }
         //
         // GET: /Charts/ProjectBurnDown

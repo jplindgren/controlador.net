@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\ProjectSummary.cs" />
+    <Compile Include="Data\ProjectUpdateHistory.cs" />
     <Compile Include="Impl\HistoryService.cs" />
     <Compile Include="Impl\ProjectFeaturesService.cs" />
     <Compile Include="Impl\ProjectService.cs" />

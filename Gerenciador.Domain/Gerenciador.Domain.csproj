@@ -57,6 +57,7 @@
     <Compile Include="SubTask.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="TaskStatus.cs" />
+    <Compile Include="TaskProgressHistory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

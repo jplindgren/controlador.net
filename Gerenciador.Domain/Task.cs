@@ -55,6 +55,7 @@ namespace Gerenciador.Domain {
         public DateTime LastUpdatedAt { get; set; }
 
         public virtual ICollection<SubTask> SubTasks { get; set; }
+        public virtual ICollection<TaskProgressHistory> ProgressHistory { get; set; }
 
         public IList<SubTask> GetOrderedSubtasks() {
             return SubTasks.OrderByDescending(x => x.CreatedAt).ToList();
@@ -62,14 +63,16 @@ namespace Gerenciador.Domain {
 
         public void UpdateProgress(int progress) {
             Progress = progress;
+            var today = DateTime.Now;
             if (progress == 100) {
                 Status = TaskStatus.Completed;
-                EndDate = DateTime.Now;
+                EndDate = today;
             } else {
                 Status = TaskStatus.Open;
-                EndDate = null;
+                EndDate = today;
             }
-            LastUpdatedAt = DateTime.Now;
+            LastUpdatedAt = today;
+            ProgressHistory.Add(new TaskProgressHistory() { Progress = progress, Task = this, UpdatedAt = today, ProjectId = this.ProjectId });
         }
 
         public void AddSubTask(SubTask subTask) {

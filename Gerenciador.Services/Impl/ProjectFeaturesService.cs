@@ -2,6 +2,7 @@
 using Gerenciador.Domain.Snapshot;
 using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Repository.EntityFramwork.Interface;
+using Gerenciador.Services.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
