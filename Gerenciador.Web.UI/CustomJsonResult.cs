@@ -14,7 +14,9 @@ namespace Gerenciador.Web.UI {
         public Formatting Formatting { get; set; }
 
         public JsonNetResult() {
-            SerializerSettings = new JsonSerializerSettings();
+            SerializerSettings = new JsonSerializerSettings() {
+                                        ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                                    };
         }
 
         public override void ExecuteResult(ControllerContext context) {

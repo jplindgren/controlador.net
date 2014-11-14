@@ -416,37 +416,69 @@
 
 @section scripts{
     <script type="text/javascript">
-        // AREA CHART
-        var data = [
-          { y: '2014-11-4', a: 300, b: 300 },
-          { y: '2014-11-5', a: 290, b: 300 },
-          { y: '2014-11-6', a: 260, b: 290 },
-          { y: '2014-11-7', a: 260, b: 260 },
-          { y: '2014-11-8', a: 200, b: 250 },
-          { y: '2014-11-9', a: 160, b: 170 },
-          { y: '2014-11-10', a: 130, b: 170 },
-          { y: '2014-11-11', a: 50, b: 170 },
-          { y: '2014-11-12', a: 30, b: 170 },
-          { y: '2014-11-13', a: 0, b: 100 },
-        ],
-        config = {
-            data: data,
-            xkey: 'y',
-            ykeys: ['a', 'b'],
-            labels: ['estimativa', 'terminado'],
-            fillOpacity: 0.4,
-            hideHover: 'auto',
-            behaveLikeLine: true,
-            resize: true,
-            pointFillColors: ['#ffffff'],
-            pointStrokeColors: ['black'],
-            lineColors: ['red', 'gray'],
-            parseTime: true,
-            dateFormat: function (x) {
-                return new Date(x).toString();
-            }
-        };
-        config.element = 'burndown-chart';
-        Morris.Area(config);
+        $(function () {
+            // AREA CHART
+            var _projectId = '@Model.Project.Id';
+            $.getJSON('/Charts/ProjectBurnDownData', { projectId: _projectId }, function (result) {
+                var data = [];
+                var totalPoints = result.TotalPoints;
+                console.log(result.TotalPoints);
+                console.log(result.DataPoints);
+                $.each(result.DataPoints, function (index, item) {                    
+                    data.push({ y: item.Date, a: totalPoints - item.Progress });
+                });
+                console.log(data);
+                config = {
+                    data: data,
+                    xkey: 'y',
+                    ykeys: ['a'],
+                    labels: ['pontos'],
+                    fillOpacity: 0.4,
+                    hideHover: 'auto',
+                    behaveLikeLine: true,
+                    resize: true,
+                    pointFillColors: ['#ffffff'],
+                    pointStrokeColors: ['black'],
+                    lineColors: ['red'],
+                    parseTime: true,
+                    dateFormat: function (x) {
+                        return new Date(x).toString();
+                    }
+                };
+                config.element = 'burndown-chart';
+                Morris.Area(config);
+            })
+            //var data = [
+            //  { y: '2014-11-4', a: 300, b: 300 },
+            //  { y: '2014-11-5', a: 290, b: 300 },
+            //  { y: '2014-11-6', a: 260, b: 290 },
+            //  { y: '2014-11-7', a: 260, b: 260 },
+            //  { y: '2014-11-8', a: 200, b: 250 },
+            //  { y: '2014-11-9', a: 160, b: 170 },
+            //  { y: '2014-11-10', a: 130, b: 170 },
+            //  { y: '2014-11-11', a: 50, b: 170 },
+            //  { y: '2014-11-12', a: 30, b: 170 },
+            //  { y: '2014-11-13', a: 0, b: 100 },
+            //],
+            //config = {
+            //    data: data,
+            //    xkey: 'y',
+            //    ykeys: ['a', 'b'],
+            //    labels: ['estimativa', 'terminado'],
+            //    fillOpacity: 0.4,
+            //    hideHover: 'auto',
+            //    behaveLikeLine: true,
+            //    resize: true,
+            //    pointFillColors: ['#ffffff'],
+            //    pointStrokeColors: ['black'],
+            //    lineColors: ['red', 'gray'],
+            //    parseTime: true,
+            //    dateFormat: function (x) {
+            //        return new Date(x).toString();
+            //    }
+            //};
+            //config.element = 'burndown-chart';
+            //Morris.Area(config);
+        });
     </script>
 }

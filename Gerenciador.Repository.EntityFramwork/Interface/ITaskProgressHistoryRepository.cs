@@ -6,6 +6,6 @@ using System.Text;
 
 namespace Gerenciador.Repository.EntityFramwork.Interface {
     public interface ITaskProgressHistoryRepository : IRepository<TaskProgressHistory> {
-        IList<TaskProgressHistory> Test(Guid projectId);
+        IList<TaskProgressHistory> GetProgressHistory(Guid projectId);
     } //interface
 }

@@ -20,16 +20,20 @@ namespace Gerenciador.Domain {
         public DateTime LastUpdatedAt { get; set; }
         public virtual ICollection<Task> Tasks { get;set; }
 
+        private IEnumerable<Task> ValidTasks() {
+            return Tasks.Where(x => x.Status != TaskStatus.Cancelled).AsEnumerable();
+        }
+
         public IEnumerable<Task> OpenTasks() {
-            return Tasks.Where(x => x.Progress != 100).AsEnumerable();
+            return ValidTasks().Where(x => x.Progress != 100).AsEnumerable();
         }
 
         public IEnumerable<Task> ClosedTasks() {
-            return Tasks.Where(x => x.Progress == 100).AsEnumerable();
+            return ValidTasks().Where(x => x.Progress == 100).AsEnumerable();
         }
 
         public IEnumerable<Task> CancelledTasks() {
-            return new List<Task>();
+            return Tasks.Where(x => x.Status == TaskStatus.Cancelled).AsEnumerable();
         }
 
         public int CalculatePercentageForTasks(decimal numberToEvaluate) {
@@ -47,6 +51,10 @@ namespace Gerenciador.Domain {
             Task task = new Task(taskName, taskDescription, this.Id, this, rangeDate.Start, rangeDate.End);
             this.Tasks.Add(task);
             return task;
+        }
+
+        public int AmountEffotrNeeded() {
+            return ValidTasks().Count() * 100;
         }
     } //class
 }

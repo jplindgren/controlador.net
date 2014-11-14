@@ -14,14 +14,11 @@ namespace Gerenciador.Repository.EntityFramwork.Impl {
             _dataContext = dataContext;
         }
 
-        public IList<TaskProgressHistory> Test(Guid projectId) { 
-            var test = GetAll()
+        public IList<TaskProgressHistory> GetProgressHistory(Guid projectId) { 
+            return GetAll()
                 .Where(x => x.ProjectId == projectId && x.Task.Status != Domain.TaskStatus.Cancelled)
                 .OrderBy(x => x.UpdatedAt)
-                .GroupBy(x => DbFunctions.TruncateTime(x.UpdatedAt))
-                .Select(x => new { Date = x.Key, Progress = x.Sum(y => y.Progress) })
                 .ToList();
-            return null; ;
         }
     }//class
 }

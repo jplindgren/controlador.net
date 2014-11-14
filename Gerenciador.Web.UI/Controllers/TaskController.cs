@@ -190,8 +190,6 @@ namespace Gerenciador.Web.UI.Controllers{
             jsonNetResult.Formatting = Formatting.Indented;
             jsonNetResult.Data = limitDates;
             return jsonNetResult;
-
-            //return Json(limitDates, JsonRequestBehavior.AllowGet);
         }
 
         //TODO: Remove this shit. Use some AOP in enum

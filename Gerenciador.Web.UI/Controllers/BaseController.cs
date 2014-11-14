@@ -1,4 +1,5 @@
 ﻿using Gerenciador.Repository.EntityFramwork;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,13 @@ namespace Gerenciador.Web.UI.Controllers {
 
         public BaseController() {
             _dataContext = new ProjectManagementContext();
+        }
+
+        public JsonResult CustomJson(object data) {
+            JsonNetResult jsonNetResult = new JsonNetResult();
+            jsonNetResult.Formatting = Formatting.Indented;
+            jsonNetResult.Data = data;
+            return jsonNetResult;
         }
     } //class
 }

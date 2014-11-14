@@ -1,13 +1,45 @@
-﻿using System;
+﻿using Gerenciador.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Gerenciador.Services.Data {
-    public class ProjectUpdateHistory {
-        public DateTime Date { get; set; }
-        public int EstimatedProgress { get; set; }
-        public int RealProgress { get; set; }
+    public class ProjectUpdateData {
+        public ProjectUpdateData(Project project, IList<DataPoint> dataPoints) {
+            this.Project = project;
+            this.DataPoints = dataPoints;
+        }
+
+        public Project Project { get; set; }
+        public int TotalPoints { 
+            get { return Project.AmountEffotrNeeded();  } 
+        }
+        
+        private IList<DataPoint> dataPoints;
+        public IList<DataPoint> DataPoints {
+            get { return dataPoints; }
+            set {
+                AddEntryDataPointIfNeeded(value);
+                dataPoints = value;                
+            }
+        }
+
+        private void AddEntryDataPointIfNeeded(IList<DataPoint> value) {
+            if (value.Count > 0) { 
+                value.Insert(0, new DataPoint(this.Project.CreatedAt.Date, 0));
+            }
+        }
+
     } //class
+
+    public class DataPoint {
+        public DataPoint(DateTime date, int progress) {
+            this.Date = date;
+            this.Progress = progress;
+        }
+        public DateTime Date { get; set; }
+        public int Progress { get; set; }
+    }
 }

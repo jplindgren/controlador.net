@@ -40,8 +40,12 @@ namespace Gerenciador.Services.Impl {
             _projectRepository.Add(project);
         }
 
-        public IList<ProjectUpdateHistory> GetProgressData(Guid projectId) {
-            return this.historyService.GetProgressData(projectId);
+        public ProjectUpdateData GetProgressData(Guid projectId) {
+            var project = _projectRepository.Get(projectId);
+            var dataPoints = this.historyService.GetProgressData(projectId);
+            return new ProjectUpdateData(project, dataPoints);
         }
+
+
     } //class
 }

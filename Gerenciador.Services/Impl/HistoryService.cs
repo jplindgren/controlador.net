@@ -24,14 +24,21 @@ namespace Gerenciador.Services.Impl {
             return eventSnapshotRepository.GetByTaskId(taskId);
         }
 
-        public IList<ProjectUpdateHistory> GetProgressData(Guid projectId) {
-            DateTime[] dates = new DateTime[3];
-            dates[0] = new DateTime(2014, 11, 6);
-            dates[1] = new DateTime(2014, 11, 7);
-            dates[2] = new DateTime(2014, 11, 9);
+        public IList<DataPoint> GetProgressData(Guid projectId) {
+            var progressHistory = taskProgressRepository.GetProgressHistory(projectId);
+            var result = progressHistory.GroupBy(x => new DateTime(x.UpdatedAt.Year, x.UpdatedAt.Month, x.UpdatedAt.Day))
+                .Select(x => new DataPoint(x.Key, x.Sum(y => y.Progress))).ToList();
 
-            taskProgressRepository.Test(projectId);
-            return null;
+            //var result = progressHistory.GroupBy(x => new DateTime(x.UpdatedAt.Year, x.UpdatedAt.Month, x.UpdatedAt.Day))
+            //    .Select(x => 
+            //        new ProjectUpdatePoint(
+            //            x.Key, 
+            //            progressHistory
+            //                .Where(z => new DateTime(z.UpdatedAt.Year, z.UpdatedAt.Month, z.UpdatedAt.Day) <= x.Key)
+            //                .Sum(y => y.Progress)
+            //        )
+            //    ).ToList();
+            return result;
         }
 
     } //class
