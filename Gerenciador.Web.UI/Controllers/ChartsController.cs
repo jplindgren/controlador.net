@@ -13,8 +13,8 @@ namespace Gerenciador.Web.UI.Controllers{
         private ProjectSummaryService _projectSummaryService;
         private ProjectService _projectService;
         public ChartsController() {
-            var historyService = new HistoryService(new EventSnapshotRepository(DataContext), new TaskProgressHistoryRepository(DataContext));
-            _projectSummaryService = new ProjectSummaryService(new ProjectRepository(DataContext), historyService);
+            var historyService = new HistoryService(new EventSnapshotRepository(DataContext));
+            _projectSummaryService = new ProjectSummaryService(new ProjectRepository(DataContext), new TaskProgressHistoryRepository(DataContext));
             _projectService = new ProjectService(new ProjectRepository(DataContext), historyService);
         }
 

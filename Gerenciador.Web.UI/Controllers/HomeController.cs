@@ -13,8 +13,8 @@ namespace Gerenciador.Web.UI.Controllers {
     public class HomeController : BaseController {
         private ProjectSummaryService _projectSummaryService;
         public HomeController() {
-            var historyService = new HistoryService(new EventSnapshotRepository(DataContext), new TaskProgressHistoryRepository(DataContext));
-            _projectSummaryService = new ProjectSummaryService(new ProjectRepository(DataContext), historyService);
+            var historyService = new HistoryService(new EventSnapshotRepository(DataContext));
+            _projectSummaryService = new ProjectSummaryService(new ProjectRepository(DataContext), new TaskProgressHistoryRepository(DataContext));
         }
 
         [Authorize]
@@ -24,8 +24,6 @@ namespace Gerenciador.Web.UI.Controllers {
             if (projectSummary == null) {
                 throw new Exception("Projeto não encontrado");
             }
-
-            _projectSummaryService.GetProgressData(projectSummary.Project.Id);
 
             return View(projectSummary);
         }

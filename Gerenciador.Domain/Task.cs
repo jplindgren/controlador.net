@@ -34,6 +34,7 @@ namespace Gerenciador.Domain {
         public static Task CreateTaskAsAdmin(string name, string description, Guid projectId, Project project, DateTime start, DateTime deadline) {
             var task = new Task(name, description, projectId, project, start, deadline);
             task.Status = TaskStatus.Open;
+            task.CreateProgressHistoryFromThatTask(0, start);
             return task;
         }
 
@@ -61,7 +62,14 @@ namespace Gerenciador.Domain {
             return SubTasks.OrderByDescending(x => x.CreatedAt).ToList();
         }
 
+        public void CreateProgressHistoryFromThatTask(int progressValue, DateTime date) {
+            if (ProgressHistory == null)
+                ProgressHistory = new List<TaskProgressHistory>();
+            ProgressHistory.Add(new TaskProgressHistory() { Progress = progressValue, Task = this, UpdatedAt = date, ProjectId = this.ProjectId });
+        }
+
         public void UpdateProgress(int progress) {
+            var oldProgress = Progress;
             Progress = progress;
             var today = DateTime.Now;
             if (progress == 100) {
@@ -72,7 +80,8 @@ namespace Gerenciador.Domain {
                 EndDate = today;
             }
             LastUpdatedAt = today;
-            ProgressHistory.Add(new TaskProgressHistory() { Progress = progress, Task = this, UpdatedAt = today, ProjectId = this.ProjectId });
+            var valueUpdated = Progress - oldProgress;
+            CreateProgressHistoryFromThatTask(valueUpdated, today);
         }
 
         public void AddSubTask(SubTask subTask) {

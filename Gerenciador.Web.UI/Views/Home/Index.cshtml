@@ -99,7 +99,7 @@
                 </div><!-- /.item -->
             </div><!-- /.body -->
             <div class="box-footer">
-                @Html.ActionLink("Ver todos", "dssd", "")
+                @Html.ActionLink("Ver todos", "Index", "Task", new { projectId = @Model.Project.Id }, null)
             </div>
         </div><!-- /.box (tasks) -->
        
@@ -417,6 +417,7 @@
 @section scripts{
     <script type="text/javascript">
         $(function () {
+            moment.locale('pt');
             // AREA CHART
             var _projectId = '@Model.Project.Id';
             $.getJSON('/Charts/ProjectBurnDownData', { projectId: _projectId }, function (result) {
@@ -425,24 +426,27 @@
                 console.log(result.TotalPoints);
                 console.log(result.DataPoints);
                 $.each(result.DataPoints, function (index, item) {                    
-                    data.push({ y: item.Date, a: totalPoints - item.Progress });
+                    data.push({ y: item.Date, a: item.Progress, b: item.TotalPointsInTheDay });
                 });
                 console.log(data);
                 config = {
                     data: data,
                     xkey: 'y',
-                    ykeys: ['a'],
-                    labels: ['pontos'],
+                    ykeys: ['a', 'b'],
+                    labels: ['trabalho realizado', 'escopo total em pontos'],
                     fillOpacity: 0.4,
                     hideHover: 'auto',
                     behaveLikeLine: true,
                     resize: true,
                     pointFillColors: ['#ffffff'],
-                    pointStrokeColors: ['black'],
-                    lineColors: ['red'],
+                    pointStrokeColors: ['red', 'black'],
+                    lineColors: ['red', 'black'],
                     parseTime: true,
+                    xLabelFormat: function (x) {
+                        return new moment(x).format('l');
+                    },
                     dateFormat: function (x) {
-                        return new Date(x).toString();
+                        return new moment(x).format('ll');
                     }
                 };
                 config.element = 'burndown-chart';

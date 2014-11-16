@@ -27,19 +27,22 @@ namespace Gerenciador.Services.Data {
         }
 
         private void AddEntryDataPointIfNeeded(IList<DataPoint> value) {
-            if (value.Count > 0) { 
-                value.Insert(0, new DataPoint(this.Project.CreatedAt.Date, 0));
-            }
+            //if (value.Count > 0) {
+            //    value.Insert(0, new DataPoint(this.Project.CreatedAt.Date, 0, this.Project.Tasks.Count()));
+            //}
         }
 
     } //class
 
     public class DataPoint {
-        public DataPoint(DateTime date, int progress) {
+        public DataPoint(DateTime date, int progress, int totalTasksInDay) {
             this.Date = date;
             this.Progress = progress;
+            this.TotalPointsInTheDay = totalTasksInDay * 100;
         }
+
         public DateTime Date { get; set; }
         public int Progress { get; set; }
+        public int TotalPointsInTheDay { get; set; }
     }
 }

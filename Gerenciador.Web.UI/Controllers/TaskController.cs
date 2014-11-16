@@ -20,13 +20,34 @@ namespace Gerenciador.Web.UI.Controllers{
         private TaskService _taskService;
 
         public TaskController() {
-            _historyService = new HistoryService(new EventSnapshotRepository(DataContext), new TaskProgressHistoryRepository(DataContext));
+            _historyService = new HistoryService(new EventSnapshotRepository(DataContext));
             _projectService = new ProjectService(new ProjectRepository(DataContext), _historyService);
             _taskService = new TaskService(new TaskRepository(DataContext), _historyService);
         }
 
         //
-        // GET: /Task/Create
+        // GET: /Task/Index
+        public ActionResult Index(Guid projectId) {
+            var project = _projectService.GetProject(projectId);
+            //var tasks = project.Tasks.Select(x => new TaskViewModel() {
+            //        Id = x.Id,
+            //        Name = x.Name,
+            //        CreatedAt = x.CreatedAt,
+            //        Deadline = x.Deadline,
+            //        Description = x.Description,
+            //        EndDate = x.EndDate,
+            //        LastUpdatedAt = x.LastUpdatedAt,
+            //        Progress = x.Progress,
+            //        ProjectId = x.ProjectId,
+            //        StartDate = x.StartDate,
+            //        Status = x.Status,
+            //        SubTasks = x.GetOrderedSubtasks()
+            //    });
+            return View(project.Tasks);
+        }
+
+        //
+        // GET: /Task/Details/taskId
         public ActionResult Details(Guid projectId, Guid id) {
             var project = _projectService.GetProject(projectId);
             var task = project.Tasks.Where(x => x.Id == id).FirstOrDefault();

@@ -11,7 +11,7 @@ namespace Gerenciador.Web.UI.Controllers{
     public class CommentsController : BaseController{
         private ProjectFeaturesService _projectFeaturesService;
         public CommentsController (){
-            var historyService = new HistoryService(new EventSnapshotRepository(DataContext), new TaskProgressHistoryRepository(DataContext));
+            var historyService = new HistoryService(new EventSnapshotRepository(DataContext));
             _projectFeaturesService = new ProjectFeaturesService(new ProjectRepository(DataContext), new CommentRepository(DataContext), historyService);
 	    }
 

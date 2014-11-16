@@ -412,6 +412,7 @@
     <Content Include="Views\Task\_EditSubTask.cshtml" />
     <Content Include="Views\Task\_Edit.cshtml" />
     <Content Include="Views\Task\DetailsPopups.cshtml" />
+    <Content Include="Views\Task\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
