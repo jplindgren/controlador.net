@@ -25,5 +25,7 @@ namespace Gerenciador.Web.UI.Models {
         public DateTime Deadline { get; set; }
 
         public virtual IList<SubTask> SubTasks { get; set; }
+
+        public Pager Pager { get; set; }
     }
 }

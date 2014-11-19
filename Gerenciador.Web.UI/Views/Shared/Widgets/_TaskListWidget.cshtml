@@ -6,7 +6,7 @@
         <span class="pull-left">@Html.ActionLink(@item.Name, "Details", "Task", new { projectId = @item.ProjectId, id = @item.Id }, new { title = item.Description })</span>
         <small class="pull-right">@item.Progress%</small>
         <div>
-        @if ((bool)ViewData["Complete"]) { 
+        @if (ViewData["Complete"] != null && (bool)ViewData["Complete"]) { 
             <br />
             <div>
                 <p class="pull-left">@item.Description</p>
@@ -18,7 +18,7 @@
     <div class="progress xs">
         <div class="progress-bar progress-bar-green" style="width: @item.Progress%;"></div>
     </div>
-    if ((bool)ViewData["Complete"]) { 
+    if (ViewData["Complete"] != null && (bool)ViewData["Complete"]) { 
         <hr />
     }
 }
