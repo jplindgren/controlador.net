@@ -81,7 +81,7 @@ namespace Gerenciador.Domain {
             }
             LastUpdatedAt = today;
             var valueUpdated = Progress - oldProgress;
-            CreateProgressHistoryFromThatTask(valueUpdated, today);
+            //CreateProgressHistoryFromThatTask(valueUpdated, today);
         }
 
         public void AddSubTask(SubTask subTask) {

@@ -26,6 +26,6 @@ namespace Gerenciador.Web.UI.Models {
 
         public virtual IList<SubTask> SubTasks { get; set; }
 
-        public Pager Pager { get; set; }
+        //public Pager Pager { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Gerenciador.Domain;
 using Gerenciador.Domain.Snapshot;
 using Gerenciador.Repository.EntityFramwork.Interface;
+using Gerenciador.Services.Hangfire;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,9 +30,20 @@ namespace Gerenciador.Services.Impl {
         }
 
         public void UpdateTask(Task task, int progress, string username) {
+            //var valueUpdated = task.Progress - progress;
+
             task.UpdateProgress(progress);
+
             var snapshot = new EventSnapshotBuilder().ForAction("Update").ForUser(username).Consume(task).Create();
             _historyService.CreateEntry(snapshot);
+
+            //DelayedJobs.Execute(() => CreateProgressHistoryFromThatTask(task.ProjectId, task.Id, valueUpdated, DateTime.Now));
+        }
+
+        public void CreateProgressHistoryFromThatTask(Guid projetId, Guid taskId, int valueUpdated, DateTime today){
+            var project = _projectRepository.Get(projetId);
+            var task = project.Tasks.Where(x => x.Id == taskId).FirstOrDefault();
+            task.CreateProgressHistoryFromThatTask(valueUpdated, today);
         }
 
         public void CreateSubTask(Task task, SubTask subtask, string username) {

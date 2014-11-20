@@ -5,6 +5,7 @@ using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Services.Impl;
 using Gerenciador.Web.UI.Helpers;
 using Gerenciador.Web.UI.Models;
+using Hangfire;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -97,11 +98,20 @@ namespace Gerenciador.Web.UI.Controllers{
         public JsonResult UpdateProgress(Guid projectId, Guid id, int newValue) {
             var project = _projectService.GetProject(projectId);
             var task = project.Tasks.Where(x => x.Id == id).FirstOrDefault();
+            var valueUpdated = newValue - task.Progress;
+
             _projectService.UpdateTask(task, newValue, User.Identity.Name);
             DataContext.SaveChanges();
+
+            BackgroundJob.Enqueue<TaskController>(x => x.CreateProgressHistoryFromThatTask(task.ProjectId, task.Id, valueUpdated, DateTime.Now));
+
             return Json(task.Progress);
         }
 
+        public void CreateProgressHistoryFromThatTask(Guid projetId, Guid taskId, int valueUpdated, DateTime today) {
+            _projectService.CreateProgressHistoryFromThatTask(projetId, taskId, valueUpdated, today);
+            DataContext.SaveChanges();
+        }
 
         [HttpGet]
         public PartialViewResult EditTask(Guid taskId) {

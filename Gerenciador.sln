@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gerenciador.Repository.Enti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gerenciador.Services", "Gerenciador.Services\Gerenciador.Services.csproj", "{D5643078-7E4F-4024-B554-2891F824E12F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gerenciador.Services.Hangfire", "Gerenciador.Services.Hangfire\Gerenciador.Services.Hangfire.csproj", "{A80630E3-F2A6-4636-81B6-7327CAF4EC7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{D5643078-7E4F-4024-B554-2891F824E12F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5643078-7E4F-4024-B554-2891F824E12F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5643078-7E4F-4024-B554-2891F824E12F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A80630E3-F2A6-4636-81B6-7327CAF4EC7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A80630E3-F2A6-4636-81B6-7327CAF4EC7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A80630E3-F2A6-4636-81B6-7327CAF4EC7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A80630E3-F2A6-4636-81B6-7327CAF4EC7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
