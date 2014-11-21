@@ -137,6 +137,10 @@
     <Compile Include="Migrations\201411092049093_FixProjectForeingKeyInTaskProgressHistory.Designer.cs">
       <DependentUpon>201411092049093_FixProjectForeingKeyInTaskProgressHistory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411210242053_AddNotNullableToNameAndStatusInTask.cs" />
+    <Compile Include="Migrations\201411210242053_AddNotNullableToNameAndStatusInTask.Designer.cs">
+      <DependentUpon>201411210242053_AddNotNullableToNameAndStatusInTask.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ProjectManagementConfiguration.cs" />
     <Compile Include="ProjectManagementContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -202,6 +206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411092049093_FixProjectForeingKeyInTaskProgressHistory.resx">
       <DependentUpon>201411092049093_FixProjectForeingKeyInTaskProgressHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411210242053_AddNotNullableToNameAndStatusInTask.resx">
+      <DependentUpon>201411210242053_AddNotNullableToNameAndStatusInTask.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

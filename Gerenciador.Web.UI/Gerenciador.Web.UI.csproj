@@ -232,6 +232,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\StatusHelper.cs" />
+    <Compile Include="Helpers\ValidationExtensions.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\BoundDates.cs" />
     <Compile Include="Models\TaskViewModel.cs" />
@@ -449,6 +450,7 @@
     <Content Include="Views\Task\_Edit.cshtml" />
     <Content Include="Views\Task\DetailsPopups.cshtml" />
     <Content Include="Views\Task\Index.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

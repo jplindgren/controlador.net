@@ -54,20 +54,7 @@ namespace Gerenciador.Web.UI.Controllers{
         public ActionResult Details(Guid projectId, Guid id) {
             var project = _projectService.GetProject(projectId);
             var task = project.Tasks.Where(x => x.Id == id).FirstOrDefault();
-            return View(new TaskViewModel(){
-                Id = task.Id,
-                Name = task.Name,
-                CreatedAt = task.CreatedAt,
-                Deadline = task.Deadline,
-                Description = task.Description,
-                EndDate = task.EndDate,
-                LastUpdatedAt = task.LastUpdatedAt,
-                Progress = task.Progress,
-                ProjectId = task.ProjectId,
-                StartDate = task.StartDate,
-                Status = task.Status,
-                SubTasks = task.GetOrderedSubtasks()
-            });
+            return View(TaskViewModel.FromTask(task));
         }
 
          //
@@ -81,16 +68,20 @@ namespace Gerenciador.Web.UI.Controllers{
         //
         // POST: /Task/Create
         [HttpPost]
-        public ActionResult Create(Task task){
+        public ActionResult Create(TaskViewModel taskViewModel){
+            if (!ModelState.IsValid) {
+                ViewBag.ProjectId = taskViewModel.ProjectId;
+                return View(taskViewModel);
+            }
+
             try{
-                var project = _projectService.GetProject(task.ProjectId);
-                var rangeDate = new RangeDate(task.StartDate, task.Deadline);
-                _projectService.CreateTask(project, User.Identity.Name, task.Name, task.Description, rangeDate);
+                var project = _projectService.GetProject(taskViewModel.ProjectId);
+                var rangeDate = new RangeDate(taskViewModel.StartDate, taskViewModel.Deadline);
+                _projectService.CreateTask(project, User.Identity.Name, taskViewModel.Name, taskViewModel.Description, rangeDate);
                 DataContext.SaveChanges();
-                return RedirectToAction("Index","Home");
-            }catch{
-                ViewBag.ProjectId = task.ProjectId;
-                return View(task);
+                return RedirectToAction("Index", "Home");
+            }catch {
+                return RedirectToAction("Error", "Home");
             }
         }
 
