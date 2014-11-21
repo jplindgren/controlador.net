@@ -1,4 +1,5 @@
-﻿using Gerenciador.Domain;
+﻿using Autofac;
+using Gerenciador.Domain;
 using Gerenciador.Domain.Snapshot;
 using Gerenciador.Repository.EntityFramwork;
 using Gerenciador.Repository.EntityFramwork.Impl;
@@ -20,10 +21,11 @@ namespace Gerenciador.Web.UI.Controllers{
         private HistoryService _historyService;
         private TaskService _taskService;
 
-        public TaskController() {
-            _historyService = new HistoryService(new EventSnapshotRepository(DataContext));
-            _projectService = new ProjectService(new ProjectRepository(DataContext), _historyService);
-            _taskService = new TaskService(new TaskRepository(DataContext), _historyService);
+        public TaskController(IDataContext context, HistoryService historyService, ProjectService projectService, TaskService taskService)
+            : base(context) {
+            _historyService = historyService;
+            _projectService = projectService;
+            _taskService = taskService;
         }
 
         //
@@ -103,7 +105,7 @@ namespace Gerenciador.Web.UI.Controllers{
             _projectService.UpdateTask(task, newValue, User.Identity.Name);
             DataContext.SaveChanges();
 
-            BackgroundJob.Enqueue<TaskController>(x => x.CreateProgressHistoryFromThatTask(task.ProjectId, task.Id, valueUpdated, DateTime.Now));
+            BackgroundJob.Enqueue<IMessageDispatcher>(x => x.OnMessage(task.ProjectId, task.Id, valueUpdated, DateTime.Now));
 
             return Json(task.Progress);
         }
@@ -253,4 +255,24 @@ namespace Gerenciador.Web.UI.Controllers{
             }
         }
     } //class
+
+    public class MessageDispatcher : IMessageDispatcher {
+        ILifetimeScope _lifetimeScope;
+
+        public MessageDispatcher(ILifetimeScope lifetimeScope) {
+            _lifetimeScope = lifetimeScope;
+        }
+
+        public void OnMessage(Guid projetId, Guid taskId, int valueUpdated, DateTime today) {
+            using (var messageScope = _lifetimeScope.BeginLifetimeScope("AutofacWebRequest")) {
+                var test = messageScope.Resolve<ProjectService>();
+                var projectService = messageScope.Resolve<ProjectService>();
+                projectService.CreateProgressHistoryFromThatTask(projetId, taskId, valueUpdated, today);
+            }
+        }
+    }//class
+
+    public interface IMessageDispatcher {
+        void OnMessage(Guid projetId, Guid taskId, int valueUpdated, DateTime today);
+    }
 }

@@ -58,7 +58,7 @@
     <Compile Include="Interface\ITaskProgressHistoryRepository.cs" />
     <Compile Include="Impl\ProjectRepository.cs" />
     <Compile Include="Impl\Repository.cs" />
-    <Compile Include="Impl\TaskProgressHistory.cs" />
+    <Compile Include="Impl\TaskProgressHistoryRepository.cs" />
     <Compile Include="Impl\TaskRepository.cs" />
     <Compile Include="Interface\IEventSnapshotRepository.cs" />
     <Compile Include="Interface\ICommentRepository.cs" />

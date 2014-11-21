@@ -13,8 +13,8 @@ namespace Gerenciador.Web.UI.Controllers {
             get { return _dataContext; }
         }
 
-        public BaseController() {
-            _dataContext = new ProjectManagementContext();
+        public BaseController(IDataContext context) {
+            _dataContext = context;
         }
 
         public JsonResult CustomJson(object data) {

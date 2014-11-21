@@ -12,9 +12,10 @@ namespace Gerenciador.Web.UI.Controllers {
     [HandleError]
     public class HomeController : BaseController {
         private ProjectSummaryService _projectSummaryService;
-        public HomeController() {
-            var historyService = new HistoryService(new EventSnapshotRepository(DataContext));
-            _projectSummaryService = new ProjectSummaryService(new ProjectRepository(DataContext), new TaskProgressHistoryRepository(DataContext));
+        public HomeController(IDataContext context, ProjectSummaryService projectSummaryService)
+            : base(context) {                
+            //_projectSummaryService = new ProjectSummaryService(new ProjectRepository(DataContext), new TaskProgressHistoryRepository(DataContext));
+            _projectSummaryService = projectSummaryService;
         }
 
         [Authorize]

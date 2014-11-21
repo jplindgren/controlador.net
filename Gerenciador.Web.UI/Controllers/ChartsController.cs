@@ -1,4 +1,5 @@
-﻿using Gerenciador.Repository.EntityFramwork.Impl;
+﻿using Gerenciador.Repository.EntityFramwork;
+using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Services.Impl;
 using Newtonsoft.Json;
 using System;
@@ -12,10 +13,10 @@ namespace Gerenciador.Web.UI.Controllers{
     public class ChartsController : BaseController {
         private ProjectSummaryService _projectSummaryService;
         private ProjectService _projectService;
-        public ChartsController() {
-            var historyService = new HistoryService(new EventSnapshotRepository(DataContext));
-            _projectSummaryService = new ProjectSummaryService(new ProjectRepository(DataContext), new TaskProgressHistoryRepository(DataContext));
-            _projectService = new ProjectService(new ProjectRepository(DataContext), historyService);
+        public ChartsController(IDataContext context, ProjectSummaryService projectSummaryService, ProjectService projectService)
+            : base(context) {
+            _projectSummaryService = projectSummaryService;
+            _projectService = projectService;
         }
 
         //

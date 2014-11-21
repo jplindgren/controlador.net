@@ -13,7 +13,9 @@ namespace Gerenciador.Web.UI {
                 // Basic setup required to process background jobs.
                 config.UseSqlServerStorage(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
                 config.UseServer();
+                    
             });
+            
         }
     } //class
 }
