@@ -32,21 +32,7 @@ namespace Gerenciador.Web.UI.Controllers{
         // GET: /Task/Index
         public ActionResult Index(Guid projectId) {
             var project = _projectService.GetProject(projectId);
-            //var tasks = project.Tasks.Select(x => new TaskViewModel() {
-            //        Id = x.Id,
-            //        Name = x.Name,
-            //        CreatedAt = x.CreatedAt,
-            //        Deadline = x.Deadline,
-            //        Description = x.Description,
-            //        EndDate = x.EndDate,
-            //        LastUpdatedAt = x.LastUpdatedAt,
-            //        Progress = x.Progress,
-            //        ProjectId = x.ProjectId,
-            //        StartDate = x.StartDate,
-            //        Status = x.Status,
-            //        SubTasks = x.GetOrderedSubtasks()
-            //    });
-            return View(project.Tasks);
+            return View(TaskViewModel.FromTask(project.Tasks));
         }
 
         //
@@ -59,8 +45,8 @@ namespace Gerenciador.Web.UI.Controllers{
 
          //
         // GET: /Task/Create
-        public ActionResult Create(string id){
-            ViewBag.ProjectId = Guid.Parse(id);
+        public ActionResult Create(string projectId){
+            ViewBag.ProjectId = Guid.Parse(projectId);
 
             return View();
         }

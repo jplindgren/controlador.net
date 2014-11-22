@@ -51,5 +51,25 @@ namespace Gerenciador.Web.UI.Models {
                 SubTasks = task.GetOrderedSubtasks()
             };
         }
+
+        public static IEnumerable<TaskViewModel> FromTask(IEnumerable<Task> tasks) {
+            if (tasks == null)
+                throw new ArgumentNullException("tasks");
+
+            return  tasks.Select(x => new TaskViewModel() {
+                Id = x.Id,
+                Name = x.Name,
+                CreatedAt = x.CreatedAt,
+                Deadline = x.Deadline,
+                Description = x.Description,
+                EndDate = x.EndDate,
+                LastUpdatedAt = x.LastUpdatedAt,
+                Progress = x.Progress,
+                ProjectId = x.ProjectId,
+                StartDate = x.StartDate,
+                Status = x.Status,
+                SubTasks = x.GetOrderedSubtasks()
+            }).AsEnumerable();
+        }
     } //class
 }

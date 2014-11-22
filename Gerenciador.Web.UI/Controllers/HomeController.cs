@@ -2,6 +2,7 @@
 using Gerenciador.Repository.EntityFramwork;
 using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Services.Impl;
+using Gerenciador.Web.UI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace Gerenciador.Web.UI.Controllers {
                 throw new Exception("Projeto não encontrado");
             }
 
-            return View(projectSummary);
+            return View(ProjectSummaryViewModel.FromProjectSummary(projectSummary));
         }
 
         [Authorize]
