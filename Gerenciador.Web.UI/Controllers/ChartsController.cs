@@ -1,6 +1,7 @@
 ﻿using Gerenciador.Repository.EntityFramwork;
 using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Services.Impl;
+using Gerenciador.Web.UI.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,8 @@ namespace Gerenciador.Web.UI.Controllers{
     public class ChartsController : BaseController {
         private ProjectSummaryService _projectSummaryService;
         private ProjectService _projectService;
-        public ChartsController(IDataContext context, ProjectSummaryService projectSummaryService, ProjectService projectService)
-            : base(context) {
+        public ChartsController(IDataContext context, ProjectSummaryService projectSummaryService, ProjectService projectService, UserService userService)
+            : base(context, userService) {
             _projectSummaryService = projectSummaryService;
             _projectService = projectService;
         }

@@ -1,4 +1,7 @@
 ﻿using Gerenciador.Repository.EntityFramwork;
+using Gerenciador.Web.UI.Filters;
+using Gerenciador.Web.UI.Models;
+using Gerenciador.Web.UI.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,8 +16,32 @@ namespace Gerenciador.Web.UI.Controllers {
             get { return _dataContext; }
         }
 
-        public BaseController(IDataContext context) {
+        private UserService _userService;
+        protected UserService UserService {
+            get { return _userService; }
+        }
+
+        protected UserProfile CustomUser { 
+            get { return _userService.GetUser(User.Identity.Name); } 
+        }
+
+        private PageMetadataViewModel _pageMetadataViewModel;
+        protected PageMetadataViewModel PageMetadataViewModel {
+            get {
+                if (_pageMetadataViewModel == null)
+                    _pageMetadataViewModel = new PageMetadataViewModel(
+                            CustomUser,
+                            ""
+                        );
+                    return _pageMetadataViewModel;
+            }
+        }
+
+        //protected abstract string GetPageTitle();
+
+        public BaseController(IDataContext context, UserService userService) {
             _dataContext = context;
+            _userService = userService;
         }
 
         public JsonResult CustomJson(object data) {

@@ -17,6 +17,12 @@ using Hangfire;
 using Gerenciador.Web.UI.Controllers;
 using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Repository.EntityFramwork.Interface;
+using System.Data.Entity;
+using WebMatrix.WebData;
+using System.Data.Entity.Infrastructure;
+using Gerenciador.Web.UI.Models;
+using System.Threading;
+using Gerenciador.Web.UI.Services;
 
 namespace Gerenciador.Web.UI {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -49,6 +55,9 @@ namespace Gerenciador.Web.UI {
             //builder.RegisterType<HistoryService>();
             //builder.RegisterType<TaskService>();
 
+
+            builder.RegisterType<UserService>();
+            builder.RegisterType<UsersContext>();
             builder.RegisterType<ProjectManagementContext>().As<IDataContext>().InstancePerDependency();
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(Gerenciador.Services.Impl.ProjectSummaryService)))
                    .Where(t => t.Name.EndsWith("Service")).InstancePerDependency();

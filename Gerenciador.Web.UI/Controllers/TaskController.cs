@@ -6,6 +6,7 @@ using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Services.Impl;
 using Gerenciador.Web.UI.Helpers;
 using Gerenciador.Web.UI.Models;
+using Gerenciador.Web.UI.Services;
 using Hangfire;
 using Newtonsoft.Json;
 using System;
@@ -21,8 +22,8 @@ namespace Gerenciador.Web.UI.Controllers{
         private HistoryService _historyService;
         private TaskService _taskService;
 
-        public TaskController(IDataContext context, HistoryService historyService, ProjectService projectService, TaskService taskService)
-            : base(context) {
+        public TaskController(IDataContext context, HistoryService historyService, ProjectService projectService, TaskService taskService, UserService userService)
+            : base(context, userService) {
             _historyService = historyService;
             _projectService = projectService;
             _taskService = taskService;

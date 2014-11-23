@@ -2,7 +2,9 @@
 using Gerenciador.Repository.EntityFramwork;
 using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Services.Impl;
+using Gerenciador.Web.UI.Filters;
 using Gerenciador.Web.UI.Models;
+using Gerenciador.Web.UI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,16 +15,18 @@ namespace Gerenciador.Web.UI.Controllers {
     [HandleError]
     public class HomeController : BaseController {
         private ProjectSummaryService _projectSummaryService;
-        public HomeController(IDataContext context, ProjectSummaryService projectSummaryService)
-            : base(context) {                
-            //_projectSummaryService = new ProjectSummaryService(new ProjectRepository(DataContext), new TaskProgressHistoryRepository(DataContext));
+        public HomeController(IDataContext context, ProjectSummaryService projectSummaryService, UserService userService)
+            : base(context, userService) {
             _projectSummaryService = projectSummaryService;
         }
 
         [Authorize]
         public ActionResult Index() {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+
             var projectSummary = _projectSummaryService.GetProjectSummary(Guid.Parse("c13e450e-7e54-e411-8278-782bcbbc3811"));
+            //ViewBag.Metadata = base.PageMetadataViewModel;
+
             if (projectSummary == null) {
                 throw new Exception("Projeto não encontrado");
             }

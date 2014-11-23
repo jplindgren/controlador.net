@@ -44,7 +44,7 @@ namespace Gerenciador.Web.UI.Models {
                 PercentageCancelledTasks = projectSummary.PercentageCancelledTasks,
                 OpenTasks = TaskViewModel.FromTask(projectSummary.OpenTasks),
                 ClosedTasks = TaskViewModel.FromTask(projectSummary.ClosedTasks),
-                CancelledTasks = TaskViewModel.FromTask(projectSummary.CancelledTasks)                
+                CancelledTasks = TaskViewModel.FromTask(projectSummary.CancelledTasks)
             };
         }
     } //class

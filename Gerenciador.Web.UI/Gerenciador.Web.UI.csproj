@@ -233,11 +233,23 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\StatusHelper.cs" />
+    <Compile Include="Migrations\201411221807402_AddNameToUserProfile.cs" />
+    <Compile Include="Migrations\201411221807402_AddNameToUserProfile.Designer.cs">
+      <DependentUpon>201411221807402_AddNameToUserProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411222148213_AddCreatedAtToUserProfile.cs" />
+    <Compile Include="Migrations\201411222148213_AddCreatedAtToUserProfile.Designer.cs">
+      <DependentUpon>201411222148213_AddCreatedAtToUserProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\BasePageViewModel.cs" />
+    <Compile Include="Models\PageMetadataViewModel.cs" />
     <Compile Include="Models\BoundDates.cs" />
     <Compile Include="Models\ProjectSummaryViewModel.cs" />
     <Compile Include="Models\TaskViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -472,6 +484,14 @@
       <Project>{d5643078-7e4f-4024-b554-2891f824e12f}</Project>
       <Name>Gerenciador.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201411221807402_AddNameToUserProfile.resx">
+      <DependentUpon>201411221807402_AddNameToUserProfile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411222148213_AddCreatedAtToUserProfile.resx">
+      <DependentUpon>201411222148213_AddCreatedAtToUserProfile.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
