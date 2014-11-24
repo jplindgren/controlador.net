@@ -23,6 +23,11 @@ using System.Data.Entity.Infrastructure;
 using Gerenciador.Web.UI.Models;
 using System.Threading;
 using Gerenciador.Web.UI.Services;
+using Gerenciador.Web.UI.DI.Autofac.Modules;
+using MvcSiteMapProvider.Loader;
+using MvcSiteMapProvider.Xml;
+using System.Web.Hosting;
+using MvcSiteMapProvider.Web.Mvc;
 
 namespace Gerenciador.Web.UI {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -50,10 +55,9 @@ namespace Gerenciador.Web.UI {
             // Register your MVC controllers.
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
-            //builder.RegisterType<ProjectSummaryService>();
-            //builder.RegisterType<ProjectService>();
-            //builder.RegisterType<HistoryService>();
-            //builder.RegisterType<TaskService>();
+            // Register modules
+            builder.RegisterModule(new MvcSiteMapProviderModule()); // Required
+            builder.RegisterModule(new MvcModule()); // Required by MVC. Typically already part of your setup (double check the contents of the module).
 
 
             builder.RegisterType<UserService>();
@@ -80,24 +84,27 @@ namespace Gerenciador.Web.UI {
                    .Where(t => t.Name.EndsWith("Repository"))
                    .AsImplementedInterfaces();
 
-            //// OPTIONAL: Register model binders that require DI.
-            //builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
-            //builder.RegisterModelBinderProvider();
 
             //// OPTIONAL: Register web abstractions like HttpContextBase.
             builder.RegisterModule<AutofacWebTypesModule>();
-
-            //// OPTIONAL: Enable property injection in view pages.
-            //builder.RegisterSource(new ViewRegistrationSource());
-
-            //// OPTIONAL: Enable property injection into action filters.
-            //builder.RegisterFilterProvider();
 
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 
+            //Needed to inject in hangfire
             JobActivator.Current = new AutofacJobActivator(container);
+
+            //MvcSiteMapProvider Section
+            // Setup global sitemap loader (required)
+            MvcSiteMapProvider.SiteMaps.Loader = container.Resolve<ISiteMapLoader>();
+
+            // Check all configured .sitemap files to ensure they follow the XSD for MvcSiteMapProvider (optional)
+            var validator = container.Resolve<ISiteMapXmlValidator>();
+            validator.ValidateXml(HostingEnvironment.MapPath("~/Mvc.sitemap"));
+
+            // Register the Sitemaps routes for search engines (optional)
+            XmlSiteMapController.RegisterRoutes(RouteTable.Routes);
         }
     }//class
 }

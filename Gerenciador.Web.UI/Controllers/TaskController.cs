@@ -8,6 +8,7 @@ using Gerenciador.Web.UI.Helpers;
 using Gerenciador.Web.UI.Models;
 using Gerenciador.Web.UI.Services;
 using Hangfire;
+using MvcSiteMapProvider.Web.Mvc.Filters;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,7 @@ namespace Gerenciador.Web.UI.Controllers{
 
         //
         // GET: /Task/Details/taskId
+        [SiteMapTitle("Name")] 
         public ActionResult Details(Guid projectId, Guid id) {
             var project = _projectService.GetProject(projectId);
             var task = project.Tasks.Where(x => x.Id == id).FirstOrDefault();
