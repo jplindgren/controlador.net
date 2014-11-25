@@ -199,6 +199,7 @@
     <Compile Include="Helpers\StatusHelper.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\BoundDates.cs" />
+    <Compile Include="Models\Pager.cs" />
     <Compile Include="Models\TaskViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
