@@ -1,4 +1,4 @@
-﻿@model Gerenciador.Services.Data.ProjectSummary
+﻿@model Gerenciador.Web.UI.Models.ProjectSummaryViewModel
 @{
     ViewBag.Title = "Home Page";
 }
@@ -9,7 +9,7 @@
         <div class="small-box bg-aqua">
             <div class="inner">
                 <h3>
-                    @Model.Project.Tasks.Count()
+                    @Model.NumberOfTasks
                 </h3>
                 <p>
                     Tasks Criadas
@@ -18,7 +18,7 @@
             <div class="icon">
                 <i class="ion ion-bag"></i>
             </div>
-            <a href="/Task/Create/@Model.Project.Id" class="small-box-footer">
+            <a href="@Url.Action("Create", "Task", new { projectId =  @Model.ProjectId })" class="small-box-footer">
                 Criar Nova Task <i class="fa fa-arrow-circle-right"></i>
             </a>
         </div>
@@ -95,11 +95,11 @@
             <div class="box-body">
                 <!-- task item -->
                 <div class="item">
-                    @Html.Partial("Widgets/_TaskListWidget", @Model.Project.OpenTasks().OrderByDescending(x => x.CreatedAt))
+                    @Html.Partial("Widgets/_TaskListWidget", @Model.LastOpenTasks)
                 </div><!-- /.item -->
             </div><!-- /.body -->
             <div class="box-footer">
-                @Html.ActionLink("Ver todos", "Index", "Task", new { projectId = @Model.Project.Id }, null)
+                @Html.ActionLink("Ver todos", "Index", "Task", new { projectId = @Model.ProjectId }, null)
             </div>
         </div><!-- /.box (tasks) -->
        
@@ -419,13 +419,13 @@
         $(function () {
             moment.locale('pt');
             // AREA CHART
-            var _projectId = '@Model.Project.Id';
+            var _projectId = '@Model.ProjectId';
             $.getJSON('/Charts/ProjectBurnDownData', { projectId: _projectId }, function (result) {
                 var data = [];
                 var totalPoints = result.TotalPoints;
                 console.log(result.TotalPoints);
                 console.log(result.DataPoints);
-                $.each(result.DataPoints, function (index, item) {                    
+                $.each(result.DataPoints, function (index, item) {
                     data.push({ y: item.Date, a: item.Progress, b: item.TotalPointsInTheDay });
                 });
                 console.log(data);
@@ -451,38 +451,7 @@
                 };
                 config.element = 'burndown-chart';
                 Morris.Area(config);
-            })
-            //var data = [
-            //  { y: '2014-11-4', a: 300, b: 300 },
-            //  { y: '2014-11-5', a: 290, b: 300 },
-            //  { y: '2014-11-6', a: 260, b: 290 },
-            //  { y: '2014-11-7', a: 260, b: 260 },
-            //  { y: '2014-11-8', a: 200, b: 250 },
-            //  { y: '2014-11-9', a: 160, b: 170 },
-            //  { y: '2014-11-10', a: 130, b: 170 },
-            //  { y: '2014-11-11', a: 50, b: 170 },
-            //  { y: '2014-11-12', a: 30, b: 170 },
-            //  { y: '2014-11-13', a: 0, b: 100 },
-            //],
-            //config = {
-            //    data: data,
-            //    xkey: 'y',
-            //    ykeys: ['a', 'b'],
-            //    labels: ['estimativa', 'terminado'],
-            //    fillOpacity: 0.4,
-            //    hideHover: 'auto',
-            //    behaveLikeLine: true,
-            //    resize: true,
-            //    pointFillColors: ['#ffffff'],
-            //    pointStrokeColors: ['black'],
-            //    lineColors: ['red', 'gray'],
-            //    parseTime: true,
-            //    dateFormat: function (x) {
-            //        return new Date(x).toString();
-            //    }
-            //};
-            //config.element = 'burndown-chart';
-            //Morris.Area(config);
+            });
         });
     </script>
 }

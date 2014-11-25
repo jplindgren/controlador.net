@@ -1,10 +1,14 @@
-﻿using Gerenciador.Domain;
+﻿using Autofac;
+using Gerenciador.Domain;
 using Gerenciador.Domain.Snapshot;
 using Gerenciador.Repository.EntityFramwork;
 using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Services.Impl;
 using Gerenciador.Web.UI.Helpers;
 using Gerenciador.Web.UI.Models;
+using Gerenciador.Web.UI.Services;
+using Hangfire;
+using MvcSiteMapProvider.Web.Mvc.Filters;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,58 +23,33 @@ namespace Gerenciador.Web.UI.Controllers{
         private HistoryService _historyService;
         private TaskService _taskService;
 
-        public TaskController() {
-            _historyService = new HistoryService(new EventSnapshotRepository(DataContext));
-            _projectService = new ProjectService(new ProjectRepository(DataContext), _historyService);
-            _taskService = new TaskService(new TaskRepository(DataContext), _historyService);
+        public TaskController(IDataContext context, HistoryService historyService, ProjectService projectService, TaskService taskService, UserService userService)
+            : base(context, userService) {
+            _historyService = historyService;
+            _projectService = projectService;
+            _taskService = taskService;
         }
 
         //
         // GET: /Task/Index
         public ActionResult Index(Guid projectId) {
             var project = _projectService.GetProject(projectId);
-            //var tasks = project.Tasks.Select(x => new TaskViewModel() {
-            //        Id = x.Id,
-            //        Name = x.Name,
-            //        CreatedAt = x.CreatedAt,
-            //        Deadline = x.Deadline,
-            //        Description = x.Description,
-            //        EndDate = x.EndDate,
-            //        LastUpdatedAt = x.LastUpdatedAt,
-            //        Progress = x.Progress,
-            //        ProjectId = x.ProjectId,
-            //        StartDate = x.StartDate,
-            //        Status = x.Status,
-            //        SubTasks = x.GetOrderedSubtasks()
-            //    });
-            return View(project.Tasks);
+            return View(TaskViewModel.FromTask(project.Tasks));
         }
 
         //
         // GET: /Task/Details/taskId
+        [SiteMapTitle("Name")] 
         public ActionResult Details(Guid projectId, Guid id) {
             var project = _projectService.GetProject(projectId);
             var task = project.Tasks.Where(x => x.Id == id).FirstOrDefault();
-            return View(new TaskViewModel(){
-                Id = task.Id,
-                Name = task.Name,
-                CreatedAt = task.CreatedAt,
-                Deadline = task.Deadline,
-                Description = task.Description,
-                EndDate = task.EndDate,
-                LastUpdatedAt = task.LastUpdatedAt,
-                Progress = task.Progress,
-                ProjectId = task.ProjectId,
-                StartDate = task.StartDate,
-                Status = task.Status,
-                SubTasks = task.GetOrderedSubtasks()
-            });
+            return View(TaskViewModel.FromTask(task));
         }
 
          //
         // GET: /Task/Create
-        public ActionResult Create(string id){
-            ViewBag.ProjectId = Guid.Parse(id);
+        public ActionResult Create(string projectId){
+            ViewBag.ProjectId = Guid.Parse(projectId);
 
             return View();
         }
@@ -78,16 +57,20 @@ namespace Gerenciador.Web.UI.Controllers{
         //
         // POST: /Task/Create
         [HttpPost]
-        public ActionResult Create(Task task){
+        public ActionResult Create(TaskViewModel taskViewModel){
+            if (!ModelState.IsValid) {
+                ViewBag.ProjectId = taskViewModel.ProjectId;
+                return View(taskViewModel);
+            }
+
             try{
-                var project = _projectService.GetProject(task.ProjectId);
-                var rangeDate = new RangeDate(task.StartDate, task.Deadline);
-                _projectService.CreateTask(project, User.Identity.Name, task.Name, task.Description, rangeDate);
+                var project = _projectService.GetProject(taskViewModel.ProjectId);
+                var rangeDate = new RangeDate(taskViewModel.StartDate, taskViewModel.Deadline);
+                _projectService.CreateTask(project, User.Identity.Name, taskViewModel.Name, taskViewModel.Description, rangeDate);
                 DataContext.SaveChanges();
-                return RedirectToAction("Index","Home");
-            }catch{
-                ViewBag.ProjectId = task.ProjectId;
-                return View(task);
+                return RedirectToAction("Index", "Home");
+            }catch {
+                return RedirectToAction("Error", "Home");
             }
         }
 
@@ -97,11 +80,20 @@ namespace Gerenciador.Web.UI.Controllers{
         public JsonResult UpdateProgress(Guid projectId, Guid id, int newValue) {
             var project = _projectService.GetProject(projectId);
             var task = project.Tasks.Where(x => x.Id == id).FirstOrDefault();
+            var valueUpdated = newValue - task.Progress;
+
             _projectService.UpdateTask(task, newValue, User.Identity.Name);
             DataContext.SaveChanges();
+
+            BackgroundJob.Enqueue<IMessageDispatcher>(x => x.OnMessage(task.ProjectId, task.Id, valueUpdated, DateTime.Now));
+
             return Json(task.Progress);
         }
 
+        public void CreateProgressHistoryFromThatTask(Guid projetId, Guid taskId, int valueUpdated, DateTime today) {
+            _projectService.CreateProgressHistoryFromThatTask(projetId, taskId, valueUpdated, today);
+            DataContext.SaveChanges();
+        }
 
         [HttpGet]
         public PartialViewResult EditTask(Guid taskId) {
@@ -243,4 +235,24 @@ namespace Gerenciador.Web.UI.Controllers{
             }
         }
     } //class
+
+    public class MessageDispatcher : IMessageDispatcher {
+        ILifetimeScope _lifetimeScope;
+
+        public MessageDispatcher(ILifetimeScope lifetimeScope) {
+            _lifetimeScope = lifetimeScope;
+        }
+
+        public void OnMessage(Guid projetId, Guid taskId, int valueUpdated, DateTime today) {
+            using (var messageScope = _lifetimeScope.BeginLifetimeScope("AutofacWebRequest")) {
+                var test = messageScope.Resolve<ProjectService>();
+                var projectService = messageScope.Resolve<ProjectService>();
+                projectService.CreateProgressHistoryFromThatTask(projetId, taskId, valueUpdated, today);
+            }
+        }
+    }//class
+
+    public interface IMessageDispatcher {
+        void OnMessage(Guid projetId, Guid taskId, int valueUpdated, DateTime today);
+    }
 }

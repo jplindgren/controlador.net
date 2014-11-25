@@ -1,6 +1,8 @@
 ﻿using Gerenciador.Domain;
+using Gerenciador.Repository.EntityFramwork;
 using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Services.Impl;
+using Gerenciador.Web.UI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +12,9 @@ using System.Web.Mvc;
 namespace Gerenciador.Web.UI.Controllers{
     public class CommentsController : BaseController{
         private ProjectFeaturesService _projectFeaturesService;
-        public CommentsController (){
-            var historyService = new HistoryService(new EventSnapshotRepository(DataContext));
-            _projectFeaturesService = new ProjectFeaturesService(new ProjectRepository(DataContext), new CommentRepository(DataContext), historyService);
+        public CommentsController(IDataContext context, ProjectFeaturesService projectFeatureService, UserService userService)
+            : base(context, userService) {
+            _projectFeaturesService = projectFeatureService;
 	    }
 
         // GET: /Comments/1

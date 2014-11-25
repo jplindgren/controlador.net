@@ -40,11 +40,14 @@ namespace Gerenciador.Domain {
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
+
+        [Required]
         public string Name { get; set; }
 
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
+        [Required]
         public TaskStatus Status { get; set; }
         public int Progress { get; set; }
         public Guid ProjectId { get; set; }
@@ -52,6 +55,7 @@ namespace Gerenciador.Domain {
         [ForeignKey("ProjectId")]
         public Project Project { get; set; }
 
+        [Required]
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdatedAt { get; set; }
 
@@ -81,7 +85,7 @@ namespace Gerenciador.Domain {
             }
             LastUpdatedAt = today;
             var valueUpdated = Progress - oldProgress;
-            CreateProgressHistoryFromThatTask(valueUpdated, today);
+            //CreateProgressHistoryFromThatTask(valueUpdated, today);
         }
 
         public void AddSubTask(SubTask subTask) {

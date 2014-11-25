@@ -46,6 +46,8 @@
             };
         }
         viewModel = {
+            RawDeadline: ko.observable(data.Deadline),
+            RawEndDate: ko.observable(data.EndDate),
             Deadline: ko.computed(function () {
                 var deadLine = moment(data.Deadline);
                 if (deadLine.isValid())
@@ -53,6 +55,7 @@
             }),
             EndDate: ko.computed(function () {
                 var endDate = moment(data.EndDate);
+                console.log(endDate);
                 if (endDate.isValid())
                     return endDate.format('L');
             }),
@@ -292,8 +295,9 @@
                 $('#modalEditTask').modal('hide');
 
                 var data = $.parseJSON(result);
-                viewModel.Deadline(data.Deadline);
-                viewModel.EndDate(data.EndDate);
+
+                viewModel.RawDeadline(data.Deadline);
+                viewModel.RawEndDate(data.EndDate);
                 viewModel.Description(data.Description);
 
                 LoadCalendar();

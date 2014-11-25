@@ -10,16 +10,17 @@ using System.Threading.Tasks;
 
 namespace Gerenciador.Services.Impl {
     public class HistoryService {
-        private EventSnapshotRepository eventSnapshotRepository;
+        private IEventSnapshotRepository eventSnapshotRepository;
 
-        public HistoryService(EventSnapshotRepository eventSnapshotRepository) {
+        public HistoryService(IEventSnapshotRepository eventSnapshotRepository) {
             this.eventSnapshotRepository = eventSnapshotRepository;
         }
+
         public void CreateEntry(EventSnapshot snapshot) {
-            eventSnapshotRepository.Add(snapshot);
+            this.eventSnapshotRepository.Add(snapshot);
         }
         public IEnumerable<EventSnapshot> GetByTask(Guid taskId) {
-            return eventSnapshotRepository.GetByTaskId(taskId);
+            return this.eventSnapshotRepository.GetByTaskId(taskId);
         }
 
     } //class

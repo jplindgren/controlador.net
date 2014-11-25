@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gerenciador.Repository.EntityFramwork;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,6 +14,14 @@ namespace Gerenciador.Web.UI.Models {
         }
 
         public DbSet<UserProfile> UserProfiles { get; set; }
+
+        public System.Data.Entity.IDbSet<T> Set<T>() where T : class {
+            return base.Set<T>();
+        }
+
+        public void ExecuteCommand(string command, params object[] parameters) {
+            base.Database.ExecuteSqlCommand(command, parameters);
+        }
     }
 
     [Table("UserProfile")]
@@ -21,11 +30,13 @@ namespace Gerenciador.Web.UI.Models {
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string UserName { get; set; }
+        public string Name { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 
     public class RegisterExternalLoginModel {
         [Required]
-        [Display(Name = "User name")]
+        [Display(Name = "Email")]
         public string UserName { get; set; }
 
         public string ExternalLoginData { get; set; }
@@ -51,7 +62,7 @@ namespace Gerenciador.Web.UI.Models {
 
     public class LoginModel {
         [Required]
-        [Display(Name = "User name")]
+        [Display(Name = "Email")]
         public string UserName { get; set; }
 
         [Required]
@@ -65,8 +76,12 @@ namespace Gerenciador.Web.UI.Models {
 
     public class RegisterModel {
         [Required]
-        [Display(Name = "User name")]
+        [Display(Name = "Email")]
         public string UserName { get; set; }
+
+        [Required]
+        [Display(Name = "Nome")]
+        public string Name { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
