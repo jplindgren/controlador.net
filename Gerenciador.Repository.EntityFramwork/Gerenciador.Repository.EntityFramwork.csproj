@@ -141,6 +141,10 @@
     <Compile Include="Migrations\201411210242053_AddNotNullableToNameAndStatusInTask.Designer.cs">
       <DependentUpon>201411210242053_AddNotNullableToNameAndStatusInTask.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411270225043_AddCreatedByAndLastUpdatedByToTask.cs" />
+    <Compile Include="Migrations\201411270225043_AddCreatedByAndLastUpdatedByToTask.Designer.cs">
+      <DependentUpon>201411270225043_AddCreatedByAndLastUpdatedByToTask.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ProjectManagementConfiguration.cs" />
     <Compile Include="ProjectManagementContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -209,6 +213,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411210242053_AddNotNullableToNameAndStatusInTask.resx">
       <DependentUpon>201411210242053_AddNotNullableToNameAndStatusInTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411270225043_AddCreatedByAndLastUpdatedByToTask.resx">
+      <DependentUpon>201411270225043_AddCreatedByAndLastUpdatedByToTask.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

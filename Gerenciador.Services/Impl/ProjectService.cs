@@ -23,19 +23,19 @@ namespace Gerenciador.Services.Impl {
         }
 
         public void CreateTask(Project project, string username, string taskName, string taskDescription, RangeDate rangeDate) {
-            var task = project.AddTask(taskName, taskDescription, rangeDate);
+            var task = project.AddTask(taskName, taskDescription, rangeDate, username);
             _projectRepository.SaveChanges();
 
-            var snapshot = new EventSnapshotBuilder().ForAction("Create").ForUser(username).Consume(task).Create();
+            var snapshot = new EventSnapshotBuilder().ForAction("Create").Consume(task).Create();
             _historyService.CreateEntry(snapshot);
         }
 
         public void UpdateTask(Task task, int progress, string username) {
             var valueUpdated = progress - task.Progress;
 
-            task.UpdateProgress(progress);
+            task.UpdateProgress(progress, username);
 
-            var snapshot = new EventSnapshotBuilder().ForAction("Update").ForUser(username).Consume(task).Create();
+            var snapshot = new EventSnapshotBuilder().ForAction("UpdateProgress").Consume(task).Create();
             _historyService.CreateEntry(snapshot);
 
             //DelayedJobs.Execute(() => CreateProgressHistoryFromThatTask(task.ProjectId, task.Id, valueUpdated, DateTime.Now));

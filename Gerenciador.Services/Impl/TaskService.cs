@@ -19,6 +19,22 @@ namespace Gerenciador.Services.Impl {
             return this.taskRepository.Get(taskId);
         }
 
+
+        public Task UpdateTask(Guid id, string name, string description, DateTime startDate, DateTime deadline, string username) {
+            var task = GetTask(id);
+            task.PropertyUpdated += Task_PropertyChanged;
+            task.Update(name, description, startDate, deadline, username);
+            return task;
+        }
+
+        void Task_PropertyChanged(object sender, PropertyUpdatedEventArgs e) {
+            var snapshotBuilder = new EventSnapshotBuilder()
+                .ForAction("Update")
+                .UsingContent(string.Format("A propriedade {0} foi atualizada de {1} para {2}", e.PropertyName, e.OldValue, e.NewValue))
+                .Consume((Task)sender);
+            historyService.CreateEntry(snapshotBuilder.Create());
+        }
+
         public SubTask GetSubTask(Guid taskId, Guid subTaskId) {
             var task = this.taskRepository.Get(taskId);
             var subtask = task.SubTasks.Where(x => x.Id == subTaskId).First();

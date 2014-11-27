@@ -47,8 +47,8 @@ namespace Gerenciador.Domain {
             return (int)percentage;
         }
 
-        public Task AddTask(string taskName, string taskDescription, RangeDate rangeDate) {
-            Task task = Task.CreateTaskAsAdmin(taskName, taskDescription, this.Id, this, rangeDate.Start, rangeDate.End);
+        public Task AddTask(string taskName, string taskDescription, RangeDate rangeDate, string username) {
+            Task task = Task.CreateTaskAsAdmin(taskName, taskDescription, this.Id, this, rangeDate.Start, rangeDate.End, username);
             this.Tasks.Add(task);
             return task;
         }

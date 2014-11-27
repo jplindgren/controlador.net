@@ -10,28 +10,44 @@ namespace Gerenciador.Web.UI.Models {
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = " ")]
+        [Display(Name="Nome")]
         public string Name { get; set; }
 
         [DataType(DataType.MultilineText)]
+        [Display(Name = "Descrição")]
         public string Description { get; set; }
+
         public TaskStatus Status { get; set; }
+
+        [Display(Name = "Progresso")]
         public int Progress { get; set; }
         public Guid ProjectId { get; set; }
+
+        [Display(Name = "Criado em")]
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdatedAt { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:d}")]
         [Required(ErrorMessage = " ")]
+        [Display(Name = "Data de início")]
         public DateTime StartDate { get; set; }
 
+        [Display(Name = "Data de término")]
         [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime? EndDate { get; set; }
 
         [Required(ErrorMessage = " ")]
         [DisplayFormat(DataFormatString = "{0:d}")]
+        [Display(Name = "Prazo")]
         public DateTime Deadline { get; set; }
 
-        public virtual IList<SubTask> SubTasks { get; set; }
+        private IList<SubTask> subTasks;
+        public virtual IList<SubTask> SubTasks { 
+            get {
+                return subTasks.OrderByDescending(x => x.CreatedAt).ToList();
+            } 
+            set { subTasks = value; } 
+        }
 
         //public Pager Pager { get; set; }
 

@@ -3,8 +3,9 @@
             xmlns="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0"
             xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
 
-  <mvcSiteMapNode title="Project Summary" controller="Home" action="Index">
+  <mvcSiteMapNode title="Info Projeto" controller="Home" action="Index">
     <mvcSiteMapNode title="Tasks" controller="Task" action="Index"/>
+    <mvcSiteMapNode title="Criar Task" controller="Task" action="Create" />
     <mvcSiteMapNode title="Task" controller="Task" action="Details" preservedRouteParameters="projectId; id"/>
   </mvcSiteMapNode>
 

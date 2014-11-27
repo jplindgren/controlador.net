@@ -300,6 +300,7 @@
                 viewModel.RawEndDate(data.EndDate);
                 viewModel.Description(data.Description);
 
+                LoadTimeline();
                 LoadCalendar();
             });
             posting.always(function () {

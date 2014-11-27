@@ -4,17 +4,23 @@
 @using MvcSiteMapProvider.Web.Html.Models
 
 <ol class="breadcrumb">
-@*@foreach (var node in Model) { 
-    @Html.DisplayFor(m => node);
-    
-    if (node != Model.Last()) {
-        <text> &gt; </text>
-    }
-}*@
 @foreach (var node in Model) { 
     <li>
-        @Html.DisplayFor(m => node)
+        @if (node.IsRootNode) {
+            <a href="@node.Url"><i class="fa fa-home"></i></a>
+        } else { 
+            @Html.DisplayFor(m => node)
+        }
     </li>
 }
-
 </ol>
+
+@*<div id="bc1" class="btn-group btn-breadcrumb">
+    @foreach (var node in Model) {
+        if (node.IsRootNode) {
+            <a href="@node.Url" class="btn btn-default"><i class="fa fa-home"></i></a>
+        } else { 
+            <a href="@node.Url" class="btn btn-default"><div>@node.Title</div></a>                    
+        }         
+    }
+</div>*@

@@ -12,6 +12,8 @@ using MvcSiteMapProvider.Web.Mvc.Filters;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -47,7 +49,7 @@ namespace Gerenciador.Web.UI.Controllers{
         }
 
          //
-        // GET: /Task/Create
+        // GET: /Task/Create 
         public ActionResult Create(string projectId){
             ViewBag.ProjectId = Guid.Parse(projectId);
 
@@ -98,28 +100,30 @@ namespace Gerenciador.Web.UI.Controllers{
         [HttpGet]
         public PartialViewResult EditTask(Guid taskId) {
             var task = _taskService.GetTask(taskId);
-            return PartialView("~/Views/Task/_Edit.cshtml", task);
+            return PartialView("~/Views/Task/_Edit.cshtml", TaskViewModel.FromTask(task));
         }
 
         [HttpPost]
-        public JsonResult EditTask(FormCollection collection) {
-            var task = _taskService.GetTask(Guid.Parse(collection["Id"]));
-            TryUpdateModel(task);
+        public JsonResult EditTask(TaskViewModel taskViewModel) {
+            Task task = _taskService.UpdateTask(taskViewModel.Id, taskViewModel.Name, 
+                                    taskViewModel.Description, taskViewModel.StartDate, 
+                                    taskViewModel.Deadline, User.Identity.Name);
 
             DataContext.SaveChanges();
+            var viewModel = TaskViewModel.FromTask(task);
             var json = JsonConvert.SerializeObject(new TaskViewModel() {
-                Id = task.Id,
-                Name = task.Name,
-                CreatedAt = task.CreatedAt,
-                Deadline = task.Deadline,
-                Description = task.Description,
-                EndDate = task.EndDate,
-                LastUpdatedAt = task.LastUpdatedAt,
-                Progress = task.Progress,
-                ProjectId = task.ProjectId,
-                StartDate = task.StartDate,
-                Status = task.Status,
-                SubTasks = task.GetOrderedSubtasks()
+                Id = viewModel.Id,
+                Name = viewModel.Name,
+                CreatedAt = viewModel.CreatedAt,
+                Deadline = viewModel.Deadline,
+                Description = viewModel.Description,
+                EndDate = viewModel.EndDate,
+                LastUpdatedAt = viewModel.LastUpdatedAt,
+                Progress = viewModel.Progress,
+                ProjectId = viewModel.ProjectId,
+                StartDate = viewModel.StartDate,
+                Status = viewModel.Status,
+                SubTasks = viewModel.SubTasks
             },
                             Formatting.None,
                             new JsonSerializerSettings() {

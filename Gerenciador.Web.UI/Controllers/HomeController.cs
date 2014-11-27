@@ -5,6 +5,7 @@ using Gerenciador.Services.Impl;
 using Gerenciador.Web.UI.Filters;
 using Gerenciador.Web.UI.Models;
 using Gerenciador.Web.UI.Services;
+using MvcSiteMapProvider.Web.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace Gerenciador.Web.UI.Controllers {
         }
 
         [Authorize]
+        [SiteMapTitle("Consolidado do Projeto")]
         public ActionResult Index() {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
@@ -46,11 +48,11 @@ namespace Gerenciador.Web.UI.Controllers {
             project.Owner = User.Identity.Name;
             project.Name = "Controlador.net";
             project.Tasks = new List<Task>(new Task[] {
-                new Task("Create project summary", "Create a view to display everything about a specific project", project.Id, project, DateTime.Now,DateTime.Now.AddDays(20)),
-                new Task("Create a fake project", "Build a method to create a fake project to populate a project summary", project.Id, project, DateTime.Now.AddDays(-3), DateTime.Now.AddDays(2)) {
+                new Task("Create project summary", "Create a view to display everything about a specific project", project.Id, project, DateTime.Now,DateTime.Now.AddDays(20), User.Identity.Name),
+                new Task("Create a fake project", "Build a method to create a fake project to populate a project summary", project.Id, project, DateTime.Now.AddDays(-3), DateTime.Now.AddDays(2), User.Identity.Name) {
                     Progress = 50
                 },
-                new Task("A completed task for you =]", "Just to test if it works", project.Id, project, DateTime.Now,DateTime.Now.AddDays(21)) {
+                new Task("A completed task for you =]", "Just to test if it works", project.Id, project, DateTime.Now,DateTime.Now.AddDays(21), User.Identity.Name) {
                     Progress = 100,
                     Status = TaskStatus.Completed
                 },

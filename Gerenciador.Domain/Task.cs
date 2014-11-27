@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace Gerenciador.Domain {
     public class Task : TransitionalItem{
         public Task() {}
-        public Task(string name, string description, Guid projectId, Project project, DateTime start, DateTime deadline) {
+        public Task(string name, string description, Guid projectId, Project project, DateTime start, DateTime deadline, string createdBy) {
             Name = name;
             Description = description;
             ProjectId = projectId;
@@ -18,6 +19,8 @@ namespace Gerenciador.Domain {
             Progress = 0;
             CreatedAt = DateTime.Now;
             LastUpdatedAt = DateTime.Now;
+            CreatedBy = createdBy;
+            LastUpdatedBy = createdBy;
 
             StartDate = start;
             Deadline = deadline;
@@ -25,15 +28,15 @@ namespace Gerenciador.Domain {
             Status = TaskStatus.Open; //TODO: In future change to create methods an implement propose method by customers
         }
 
-        public static Task CreateTask(string name, string description, Guid projectId, Project project, DateTime start, DateTime deadline) {
-            var task = new Task(name, description, projectId, project, start, deadline);
+        public static Task CreateTask(string name, string description, Guid projectId, Project project, DateTime start, DateTime deadline, string createdBy) {
+            var task = new Task(name, description, projectId, project, start, deadline, createdBy);
             task.Status = TaskStatus.Proposed;
             return task;
         }
 
-        public static Task CreateTaskAsAdmin(string name, string description, Guid projectId, Project project, DateTime start, DateTime deadline) {
-            var task = new Task(name, description, projectId, project, start, deadline);
-            task.Status = TaskStatus.Open;
+        public static Task CreateTaskAsAdmin(string name, string description, Guid projectId, Project project, DateTime start, DateTime deadline, string createdBy) {
+            var task = new Task(name, description, projectId, project, start, deadline, createdBy);
+            //task.Status = TaskStatus.Open;
             task.CreateProgressHistoryFromThatTask(0, start);
             return task;
         }
@@ -41,14 +44,84 @@ namespace Gerenciador.Domain {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
+        private string name;
         [Required]
-        public string Name { get; set; }
+        public string Name { 
+            get { return name; }
+                set {
+                var oldValue = name;
+                name = value;
+                // Call OnPropertyUpdated whenever the property is updated
+                if (oldValue != name)
+                    OnPropertyUpdated("Nome", oldValue, name);
+            }
+        }
 
+        private string description;
         [DataType(DataType.MultilineText)]
-        public string Description { get; set; }
+        public string Description {
+            get { return description; }
+            set {
+                var oldValue = description;
+                description = value;
+                // Call OnPropertyUpdated whenever the property is updated
+                if (oldValue != description)
+                    OnPropertyUpdated("Descricao", oldValue, description);
+            } 
+        }
 
+        private TaskStatus status;
         [Required]
-        public TaskStatus Status { get; set; }
+        public TaskStatus Status { 
+            get { return status; }
+            set {
+                var oldValue = status;
+                status = value;
+                // Call OnPropertyUpdated whenever the property is updated
+                if (oldValue != status)
+                    OnPropertyUpdated("Status", oldValue, status);
+            }
+        }
+
+        public override DateTime Deadline {
+            get {
+                return base.Deadline.Date;
+            }
+            set {
+                var oldValue = base.Deadline.Date;
+                base.Deadline = value.Date;
+                // Call OnPropertyUpdated whenever the property is updated
+                if (oldValue != base.Deadline)
+                    OnPropertyUpdated("Prazo", oldValue, base.Deadline);                
+            }
+        }
+
+        public override DateTime StartDate {
+            get {
+                return base.StartDate.Date;
+            }
+            set {
+                var oldValue = base.StartDate.Date;
+                base.StartDate = value.Date;
+                // Call OnPropertyUpdated whenever the property is updated
+                if (oldValue != base.StartDate)
+                    OnPropertyUpdated("Data de Início", oldValue, base.StartDate);
+            }
+        }
+
+        public override DateTime? EndDate {
+            get {
+                return base.EndDate;
+            }
+            set {
+                var oldValue = base.EndDate;
+                base.EndDate = value;
+                // Call OnPropertyUpdated whenever the property is updated
+                if (oldValue != base.EndDate)
+                    OnPropertyUpdated("Data Término", oldValue, base.EndDate);
+            }
+        }
+
         public int Progress { get; set; }
         public Guid ProjectId { get; set; }
 
@@ -58,6 +131,10 @@ namespace Gerenciador.Domain {
         [Required]
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdatedAt { get; set; }
+
+        [Required]
+        public string CreatedBy { get; set; }
+        public string LastUpdatedBy { get; set; }
 
         public virtual ICollection<SubTask> SubTasks { get; set; }
         public virtual ICollection<TaskProgressHistory> ProgressHistory { get; set; }
@@ -72,7 +149,7 @@ namespace Gerenciador.Domain {
             ProgressHistory.Add(new TaskProgressHistory() { Progress = progressValue, Task = this, UpdatedAt = date, ProjectId = this.ProjectId });
         }
 
-        public void UpdateProgress(int progress) {
+        public void UpdateProgress(int progress, string username) {
             var oldProgress = Progress;
             Progress = progress;
             var today = DateTime.Now;
@@ -84,8 +161,8 @@ namespace Gerenciador.Domain {
                 EndDate = today;
             }
             LastUpdatedAt = today;
+            LastUpdatedBy = username;
             var valueUpdated = Progress - oldProgress;
-            //CreateProgressHistoryFromThatTask(valueUpdated, today);
         }
 
         public void AddSubTask(SubTask subTask) {
@@ -99,5 +176,38 @@ namespace Gerenciador.Domain {
         public bool IsDone() {
             return (Progress == 100);
         }
+
+        public void Update(string name, string description, DateTime startDate, DateTime deadline, string username) {
+            if (string.IsNullOrEmpty(username))
+                throw new InvalidOperationException("Para atualizar uma task é preciso fornecer o usuário que está efetuando a operação.");
+
+            LastUpdatedAt = DateTime.Now;
+            LastUpdatedBy = username;
+
+            Name = name;
+            Description = description;
+            StartDate = startDate;
+            Deadline = deadline;            
+        }
+
+        public delegate void PropertyUpdatedEventHandler(object sender, PropertyUpdatedEventArgs args);
+        public virtual event PropertyUpdatedEventHandler PropertyUpdated;
+        protected void OnPropertyUpdated(string name, object oldValue, object newValue) {
+            PropertyUpdatedEventHandler handler = PropertyUpdated;
+            if (handler != null) {
+                handler(this, new PropertyUpdatedEventArgs(name, oldValue, newValue));
+            }
+        }
     } //class
+
+    public class PropertyUpdatedEventArgs : PropertyChangedEventArgs {
+        public PropertyUpdatedEventArgs(string propertName, object oldValue, object newValue)
+            : base(propertName) {
+            this.OldValue = oldValue;
+            this.NewValue = newValue;
+        }
+
+        public object NewValue { get; private set; }
+        public object OldValue { get; private set; }
+    }
 }

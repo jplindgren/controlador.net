@@ -60,9 +60,12 @@ namespace Gerenciador.Domain.Snapshot {
             //systemEventSnapshot.Resource = task.GetType().AssemblyQualifiedName;
             systemEventSnapshot.Resource = typeof(Task).AssemblyQualifiedName;
             systemEventSnapshot.ResourceId = task.Id;
+            systemEventSnapshot.Author = task.LastUpdatedBy;
 
-            if (systemEventSnapshot.Action == "Update")
+            if (systemEventSnapshot.Action == "UpdateProgress")
                 systemEventSnapshot.Subject = string.Format("{0} atualizou o progresso da task para: {1}", systemEventSnapshot.Author, task.Progress);
+            else if (systemEventSnapshot.Action == "Update")
+                systemEventSnapshot.Subject = string.Format("Task alterada por {0}", systemEventSnapshot.Author);
             else
                 systemEventSnapshot.Subject = string.Format("Task criada por {0}", systemEventSnapshot.Author);
             
