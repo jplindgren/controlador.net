@@ -66,6 +66,10 @@ namespace Gerenciador.Web.UI {
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(Gerenciador.Services.Impl.ProjectSummaryService)))
                    .Where(t => t.Name.EndsWith("Service")).InstancePerDependency();
 
+            //builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(Gerenciador.Services.Hangfire.HistoryBackgroundService)))
+            //       .Where(t => t.Name.EndsWith("Service")).InstancePerLifetimeScope();
+            builder.RegisterType<Gerenciador.Services.Hangfire.HistoryBackgroundService>().InstancePerDependency();
+
             builder.RegisterType<ProjectManagementContext>().As<IDataContext>().InstancePerHttpRequest();
             // Scan entityframework repository an assembly trying to resolve all of them
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(Gerenciador.Repository.EntityFramwork.ProjectManagementContext)))

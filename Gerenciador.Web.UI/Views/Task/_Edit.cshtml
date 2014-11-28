@@ -31,7 +31,7 @@
             @Html.LabelFor(model => model.StartDate)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.StartDate, new { @class = "form-control input-lg", required="" })
+            @Html.TextBox("StartDate", Model.StartDate.ToString("yyyy-MM-dd"), new { @class = "form-control input-lg", required="", type = "date" })
             @Html.ValidationMessageFor(model => model.StartDate)
         </div>
 
@@ -39,7 +39,7 @@
             @Html.LabelFor(model => model.Deadline)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.Deadline, new { @class = "form-control input-lg", required="" })
+            @Html.TextBox("Deadline", Model.Deadline.ToString("yyyy-MM-dd"), new { @class = "form-control input-lg", required="", type = "date" })
             @Html.ValidationMessageFor(model => model.Deadline)
         </div>
 

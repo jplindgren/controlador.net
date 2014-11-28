@@ -28,6 +28,8 @@ namespace Gerenciador.Web.UI.Models {
         public DateTime LastUpdatedAt { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:d}")]
+        [DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = " ")]
         [Display(Name = "Data de início")]
         public DateTime StartDate { get; set; }

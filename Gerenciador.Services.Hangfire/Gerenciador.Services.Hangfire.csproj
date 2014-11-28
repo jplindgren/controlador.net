@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.1.0\lib\net40\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="Common.Logging">
       <HintPath>..\packages\Common.Logging.2.2.0\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
@@ -68,9 +71,20 @@
   <ItemGroup>
     <Compile Include="DelayedJobs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="HistoryBackgroundService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gerenciador.Domain\Gerenciador.Domain.csproj">
+      <Project>{991276d5-eed7-4260-a17b-a011422c484f}</Project>
+      <Name>Gerenciador.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gerenciador.Repository.EntityFramwork\Gerenciador.Repository.EntityFramwork.csproj">
+      <Project>{0dadca26-2721-43af-8d81-dc06aab25809}</Project>
+      <Name>Gerenciador.Repository.EntityFramwork</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

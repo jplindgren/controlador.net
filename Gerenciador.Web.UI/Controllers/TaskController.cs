@@ -158,19 +158,6 @@ namespace Gerenciador.Web.UI.Controllers{
 
         // POST: /Task/CreateSubTask
         [HttpPost]
-        public PartialViewResult CreateSubTask(Guid projectId, Guid taskId, string name, DateTime startDate, DateTime endDate) {
-            var project = _projectService.GetProject(projectId);
-            var task = project.Tasks.Where(x => x.Id == taskId).FirstOrDefault();
-
-            SubTask subtask = new SubTask(name, startDate, endDate);
-            _projectService.CreateSubTask(task, subtask, User.Identity.Name);
-            DataContext.SaveChanges();
-
-            return PartialView("~/Views/Task/_SubTaskWidget.cshtml", _taskService.GetSubTasks(taskId));
-        }
-
-        // POST: /Task/CreateSubTask
-        [HttpPost]
         public JsonResult CreateSubTaskV2(Guid projectId, Guid taskId, string name, DateTime startDate, DateTime endDate) {
             var project = _projectService.GetProject(projectId);
             var task = project.Tasks.Where(x => x.Id == taskId).FirstOrDefault();
@@ -179,7 +166,7 @@ namespace Gerenciador.Web.UI.Controllers{
             _projectService.CreateSubTask(task, subtask, User.Identity.Name);
             DataContext.SaveChanges();
 
-            return Json(new SubTask() { 
+            return Json(new SubTask() {
                 CreatedAt = subtask.CreatedAt,
                 ExpectedEndDate = subtask.ExpectedEndDate,
                 Id = subtask.Id,

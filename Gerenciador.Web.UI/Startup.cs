@@ -1,4 +1,5 @@
 ﻿using Hangfire;
+using Hangfire.Dashboard;
 using Hangfire.SqlServer;
 using Microsoft.Owin;
 using Owin;
@@ -13,6 +14,13 @@ namespace Gerenciador.Web.UI {
                 // Basic setup required to process background jobs.
                 config.UseSqlServerStorage(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
                 config.UseServer();
+
+                //config.UseAuthorizationFilters(new AuthorizationFilter {
+                //    Users = "jplindgren", // allow only specified users
+                //    Roles = "admins" // allow only specified roles
+                //});
+
+                config.UseAuthorizationFilters(new ClaimsBasedAuthorizationFilter("hangfire", "access"));
                     
             });
             

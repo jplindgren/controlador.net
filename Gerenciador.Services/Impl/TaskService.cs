@@ -1,6 +1,8 @@
 ﻿using Gerenciador.Domain;
 using Gerenciador.Domain.Snapshot;
 using Gerenciador.Repository.EntityFramwork.Interface;
+using Gerenciador.Services.Hangfire;
+using Hangfire;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +32,12 @@ namespace Gerenciador.Services.Impl {
         void Task_PropertyChanged(object sender, PropertyUpdatedEventArgs e) {
             var snapshotBuilder = new EventSnapshotBuilder()
                 .ForAction("Update")
-                .UsingContent(string.Format("A propriedade {0} foi atualizada de {1} para {2}", e.PropertyName, e.OldValue, e.NewValue))
+                .UsingContent(string.Format("A propriedade {0} foi atualizada de '{1}' para '{2}'", e.PropertyName, e.OldValue, e.NewValue))
                 .Consume((Task)sender);
-            historyService.CreateEntry(snapshotBuilder.Create());
+            //historyService.CreateEntry(snapshotBuilder.Create());
+
+            //DelayedJobs.Execute(() => CreateProgressHistoryFromThatTask(task.ProjectId, task.Id, valueUpdated, DateTime.Now));
+            BackgroundJob.Enqueue<HistoryBackgroundService>(x => x.CreateEntry(snapshotBuilder.Create()));
         }
 
         public SubTask GetSubTask(Guid taskId, Guid subTaskId) {

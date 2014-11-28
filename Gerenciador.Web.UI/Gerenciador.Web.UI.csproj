@@ -67,6 +67,9 @@
     <Reference Include="Hangfire.Core">
       <HintPath>..\packages\Hangfire.Core.1.2.0\lib\net45\Hangfire.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Hangfire.Dashboard.Authorization">
+      <HintPath>..\packages\Hangfire.Dashboard.Authorization.2.0.0\lib\net45\Hangfire.Dashboard.Authorization.dll</HintPath>
+    </Reference>
     <Reference Include="Hangfire.SqlServer">
       <HintPath>..\packages\Hangfire.SqlServer.1.2.0\lib\net45\Hangfire.SqlServer.dll</HintPath>
     </Reference>
@@ -508,6 +511,10 @@
     <ProjectReference Include="..\Gerenciador.Repository.EntityFramwork\Gerenciador.Repository.EntityFramwork.csproj">
       <Project>{0dadca26-2721-43af-8d81-dc06aab25809}</Project>
       <Name>Gerenciador.Repository.EntityFramwork</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gerenciador.Services.Hangfire\Gerenciador.Services.Hangfire.csproj">
+      <Project>{a80630e3-f2a6-4636-81b6-7327caf4ec7a}</Project>
+      <Name>Gerenciador.Services.Hangfire</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gerenciador.Services\Gerenciador.Services.csproj">
       <Project>{d5643078-7e4f-4024-b554-2891f824e12f}</Project>
