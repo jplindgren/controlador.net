@@ -2,7 +2,6 @@
 using Gerenciador.Repository.EntityFramwork;
 using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Services.Impl;
-using Gerenciador.Web.UI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

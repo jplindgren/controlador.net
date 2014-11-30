@@ -10,11 +10,18 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using Gerenciador.Web.UI.Filters;
 using Gerenciador.Web.UI.Models;
+using Gerenciador.Services.Impl;
+using Gerenciador.Domain;
+using Gerenciador.Repository.EntityFramwork;
 
 namespace Gerenciador.Web.UI.Controllers {
     [Authorize]
     [InitializeSimpleMembership]
-    public class AccountController : Controller {
+    public class AccountController : BaseController {
+        private UserService userService;
+        public AccountController(IDataContext context, UserService userService) : base(context, userService) {
+            this.userService = userService;
+        }
         //
         // GET: /Account/Login
 
@@ -224,22 +231,21 @@ namespace Gerenciador.Web.UI.Controllers {
 
             if (ModelState.IsValid) {
                 // Insert a new user into the database
-                using (UsersContext db = new UsersContext()) {
-                    UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
+                UserProfile user = this.userService.GetUser(model.UserName);
                     // Check if user already exists
-                    if (user == null) {
-                        // Insert name into the profile table
-                        db.UserProfiles.Add(new UserProfile { UserName = model.UserName });
-                        db.SaveChanges();
+                if (user == null) {
+                    // Insert name into the profile table
+                    this.userService.CreateUser(model.UserName);
+                    DataContext.SaveChanges();
 
-                        OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
-                        OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
+                    OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
+                    OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
 
-                        return RedirectToLocal(returnUrl);
-                    } else {
-                        ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
-                    }
+                    return RedirectToLocal(returnUrl);
+                } else {
+                    ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
                 }
+
             }
 
             ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(provider).DisplayName;
@@ -345,5 +351,6 @@ namespace Gerenciador.Web.UI.Controllers {
             }
         }
         #endregion
+
     }
 }

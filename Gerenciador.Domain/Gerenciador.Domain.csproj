@@ -58,6 +58,7 @@
     <Compile Include="Task.cs" />
     <Compile Include="TaskStatus.cs" />
     <Compile Include="TaskProgressHistory.cs" />
+    <Compile Include="UserProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

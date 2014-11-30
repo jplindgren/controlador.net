@@ -1,9 +1,9 @@
-namespace Gerenciador.Web.UI.Migrations
+namespace Gerenciador.Repository.EntityFramwork.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddNameToUserProfile : DbMigration
+    public partial class AddUserProfileTable : DbMigration
     {
         public override void Up()
         {
@@ -12,8 +12,9 @@ namespace Gerenciador.Web.UI.Migrations
                 c => new
                     {
                         UserId = c.Int(nullable: false, identity: true),
-                        UserName = c.String(),
+                        UserName = c.String(nullable: false),
                         Name = c.String(),
+                        CreatedAt = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.UserId);
             

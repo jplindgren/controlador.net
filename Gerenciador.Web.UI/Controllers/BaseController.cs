@@ -1,7 +1,8 @@
-﻿using Gerenciador.Repository.EntityFramwork;
+﻿using Gerenciador.Domain;
+using Gerenciador.Repository.EntityFramwork;
+using Gerenciador.Services.Impl;
 using Gerenciador.Web.UI.Filters;
 using Gerenciador.Web.UI.Models;
-using Gerenciador.Web.UI.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

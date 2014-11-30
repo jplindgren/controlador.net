@@ -53,8 +53,10 @@
     <Compile Include="DatabaseSeed.cs" />
     <Compile Include="IDataContext.cs" />
     <Compile Include="Impl\CommentRepository.cs" />
+    <Compile Include="Impl\UserProfileRepository.cs" />
     <Compile Include="Impl\EntityTestRepository.cs" />
     <Compile Include="Impl\EventSnapshotRepository.cs" />
+    <Compile Include="Interface\IUserProfileRepository.cs" />
     <Compile Include="Interface\ITaskProgressHistoryRepository.cs" />
     <Compile Include="Impl\ProjectRepository.cs" />
     <Compile Include="Impl\Repository.cs" />
@@ -145,6 +147,10 @@
     <Compile Include="Migrations\201411270225043_AddCreatedByAndLastUpdatedByToTask.Designer.cs">
       <DependentUpon>201411270225043_AddCreatedByAndLastUpdatedByToTask.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411301819511_AddUserProfileTable.cs" />
+    <Compile Include="Migrations\201411301819511_AddUserProfileTable.Designer.cs">
+      <DependentUpon>201411301819511_AddUserProfileTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ProjectManagementConfiguration.cs" />
     <Compile Include="ProjectManagementContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -216,6 +222,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411270225043_AddCreatedByAndLastUpdatedByToTask.resx">
       <DependentUpon>201411270225043_AddCreatedByAndLastUpdatedByToTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411301819511_AddUserProfileTable.resx">
+      <DependentUpon>201411301819511_AddUserProfileTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

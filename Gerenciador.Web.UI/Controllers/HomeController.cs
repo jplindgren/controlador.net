@@ -4,7 +4,6 @@ using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Services.Impl;
 using Gerenciador.Web.UI.Filters;
 using Gerenciador.Web.UI.Models;
-using Gerenciador.Web.UI.Services;
 using MvcSiteMapProvider.Web.Mvc.Filters;
 using System;
 using System.Collections.Generic;

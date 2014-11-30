@@ -22,7 +22,6 @@ using WebMatrix.WebData;
 using System.Data.Entity.Infrastructure;
 using Gerenciador.Web.UI.Models;
 using System.Threading;
-using Gerenciador.Web.UI.Services;
 using Gerenciador.Web.UI.DI.Autofac.Modules;
 using MvcSiteMapProvider.Loader;
 using MvcSiteMapProvider.Xml;
@@ -61,7 +60,6 @@ namespace Gerenciador.Web.UI {
 
 
             builder.RegisterType<UserService>();
-            builder.RegisterType<UsersContext>();
             builder.RegisterType<ProjectManagementContext>().As<IDataContext>().InstancePerDependency();
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(Gerenciador.Services.Impl.ProjectSummaryService)))
                    .Where(t => t.Name.EndsWith("Service")).InstancePerDependency();

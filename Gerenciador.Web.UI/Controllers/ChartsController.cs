@@ -1,7 +1,6 @@
 ﻿using Gerenciador.Repository.EntityFramwork;
 using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Services.Impl;
-using Gerenciador.Web.UI.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

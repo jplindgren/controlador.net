@@ -8,32 +8,6 @@ using System.Globalization;
 using System.Web.Security;
 
 namespace Gerenciador.Web.UI.Models {
-    public class UsersContext : DbContext {
-        public UsersContext()
-            : base("DefaultConnection") {
-        }
-
-        public DbSet<UserProfile> UserProfiles { get; set; }
-
-        public System.Data.Entity.IDbSet<T> Set<T>() where T : class {
-            return base.Set<T>();
-        }
-
-        public void ExecuteCommand(string command, params object[] parameters) {
-            base.Database.ExecuteSqlCommand(command, parameters);
-        }
-    }
-
-    [Table("UserProfile")]
-    public class UserProfile {
-        [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
-        public string UserName { get; set; }
-        public string Name { get; set; }
-        public DateTime CreatedAt { get; set; }
-    }
-
     public class RegisterExternalLoginModel {
         [Required]
         [Display(Name = "Email")]

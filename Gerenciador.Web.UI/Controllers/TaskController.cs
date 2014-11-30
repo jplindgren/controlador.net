@@ -6,7 +6,6 @@ using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Services.Impl;
 using Gerenciador.Web.UI.Helpers;
 using Gerenciador.Web.UI.Models;
-using Gerenciador.Web.UI.Services;
 using Hangfire;
 using MvcSiteMapProvider.Web.Mvc.Filters;
 using Newtonsoft.Json;
