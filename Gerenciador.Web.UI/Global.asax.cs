@@ -27,6 +27,8 @@ using MvcSiteMapProvider.Loader;
 using MvcSiteMapProvider.Xml;
 using System.Web.Hosting;
 using MvcSiteMapProvider.Web.Mvc;
+using System.Configuration;
+using System.Web.Security;
 
 namespace Gerenciador.Web.UI {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -43,6 +45,8 @@ namespace Gerenciador.Web.UI {
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+            Seed();
 
             //DbInterception.Add(new DbChaosMonkey());
             DbInterception.Add(new InterceptorLogging());
@@ -107,6 +111,29 @@ namespace Gerenciador.Web.UI {
 
             // Register the Sitemaps routes for search engines (optional)
             XmlSiteMapController.RegisterRoutes(RouteTable.Routes);
+        }
+
+        private void Seed() {
+                WebSecurity.InitializeDatabaseConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].Name,
+                                                                               "UserProfile",
+                                                                               "UserId",
+                                                                               "UserName",
+                                                                               autoCreateTables: true);
+
+                if (!Roles.RoleExists("Administrator"))
+                    Roles.CreateRole("Administrator");
+
+                if (!Roles.RoleExists("Regular"))
+                    Roles.CreateRole("Regular");
+ 
+                if (!WebSecurity.UserExists("joaopozo@gmail.com"))
+                    WebSecurity.CreateUserAndAccount(
+                        "joaopozo@gmail.com",
+                        "123456",
+                        new { Name = "João Paulo Lindgren" , CreatedAt = DateTime.Now});
+ 
+                if (!Roles.GetRolesForUser("joaopozo@gmail.com").Contains("Administrator"))
+                    Roles.AddUsersToRoles(new[] { "joaopozo@gmail.com" }, new[] { "Administrator" });
         }
     }//class
 }

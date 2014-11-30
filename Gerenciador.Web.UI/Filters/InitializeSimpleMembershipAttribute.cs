@@ -3,9 +3,12 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Threading;
 using System.Web.Mvc;
+using System.Linq;
 using WebMatrix.WebData;
 using Gerenciador.Web.UI.Models;
 using Gerenciador.Repository.EntityFramwork;
+using System.Configuration;
+using System.Web.Security;
 
 namespace Gerenciador.Web.UI.Filters {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
@@ -21,22 +24,12 @@ namespace Gerenciador.Web.UI.Filters {
 
         private class SimpleMembershipInitializer {
             public SimpleMembershipInitializer() {
-                WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
-                //Database.SetInitializer<ProjectManagementContext>(null);
-
-                //try {
-                //    using (var context = new ProjectManagementContext()) {
-                //        if (!context.Database.Exists()) {
-                //            // Create the SimpleMembership database without Entity Framework migration schema
-                //            ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
-                //        }
-                //    }
-
-                //    WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
-                //} catch (Exception ex) {
-                //    throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
-                //}
+                WebSecurity.InitializeDatabaseConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].Name,
+                                                                "UserProfile",
+                                                                "UserId",
+                                                                "UserName",
+                                                                autoCreateTables: true);
             }
-        }
-    }
+        }//inner class
+    }  //outer class
 }
