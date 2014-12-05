@@ -114,26 +114,26 @@ namespace Gerenciador.Web.UI {
         }
 
         private void Seed() {
-                WebSecurity.InitializeDatabaseConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].Name,
-                                                                               "UserProfile",
-                                                                               "UserId",
-                                                                               "UserName",
-                                                                               autoCreateTables: true);
+            WebSecurity.InitializeDatabaseConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].Name,
+                                                                            "UserProfile",
+                                                                            "UserId",
+                                                                            "UserName",
+                                                                            autoCreateTables: true);
 
-                if (!Roles.RoleExists("Administrator"))
-                    Roles.CreateRole("Administrator");
+            if (!Roles.RoleExists("Administrator"))
+                Roles.CreateRole("Administrator");
 
-                if (!Roles.RoleExists("Regular"))
-                    Roles.CreateRole("Regular");
+            if (!Roles.RoleExists("Regular"))
+                Roles.CreateRole("Regular");
  
-                if (!WebSecurity.UserExists("joaopozo@gmail.com"))
-                    WebSecurity.CreateUserAndAccount(
-                        "joaopozo@gmail.com",
-                        "123456",
-                        new { Name = "João Paulo Lindgren" , CreatedAt = DateTime.Now});
+            if (!WebSecurity.UserExists("joaopozo@gmail.com"))
+                WebSecurity.CreateUserAndAccount(
+                    "joaopozo@gmail.com",
+                    "123456",
+                    new { Name = "João Paulo Lindgren" , CreatedAt = DateTime.Now});
  
-                if (!Roles.GetRolesForUser("joaopozo@gmail.com").Contains("Administrator"))
-                    Roles.AddUsersToRoles(new[] { "joaopozo@gmail.com" }, new[] { "Administrator" });
+            if (!Roles.GetRolesForUser("joaopozo@gmail.com").Contains("Administrator"))
+                Roles.AddUsersToRoles(new[] { "joaopozo@gmail.com" }, new[] { "Administrator" });
         }
     }//class
 }

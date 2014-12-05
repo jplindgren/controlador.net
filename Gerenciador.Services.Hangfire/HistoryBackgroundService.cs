@@ -19,7 +19,7 @@ namespace Gerenciador.Services.Hangfire {
                 var eventSnapshotRepository = scope.Resolve<IEventSnapshotRepository>();
                 eventSnapshotRepository.Add(snapshot);
                 eventSnapshotRepository.SaveChanges();
-            } 
+            }
         }
     }//class
 }

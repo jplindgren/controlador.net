@@ -7,9 +7,9 @@ namespace Gerenciador.Repository.EntityFramwork.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class AddUserProfileTable : IMigrationMetadata
+    public sealed partial class UpdateUserProfileTable : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddUserProfileTable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdateUserProfileTable));
         
         string IMigrationMetadata.Id
         {

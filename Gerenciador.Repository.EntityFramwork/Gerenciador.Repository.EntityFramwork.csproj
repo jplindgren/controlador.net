@@ -147,9 +147,9 @@
     <Compile Include="Migrations\201411270225043_AddCreatedByAndLastUpdatedByToTask.Designer.cs">
       <DependentUpon>201411270225043_AddCreatedByAndLastUpdatedByToTask.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201411301819511_AddUserProfileTable.cs" />
-    <Compile Include="Migrations\201411301819511_AddUserProfileTable.Designer.cs">
-      <DependentUpon>201411301819511_AddUserProfileTable.cs</DependentUpon>
+    <Compile Include="Migrations\201411301819511_UpdateUserProfileTable.cs" />
+    <Compile Include="Migrations\201411301819511_UpdateUserProfileTable.Designer.cs">
+      <DependentUpon>201411301819511_UpdateUserProfileTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ProjectManagementConfiguration.cs" />
     <Compile Include="ProjectManagementContext.cs" />
@@ -223,8 +223,8 @@
     <EmbeddedResource Include="Migrations\201411270225043_AddCreatedByAndLastUpdatedByToTask.resx">
       <DependentUpon>201411270225043_AddCreatedByAndLastUpdatedByToTask.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411301819511_AddUserProfileTable.resx">
-      <DependentUpon>201411301819511_AddUserProfileTable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201411301819511_UpdateUserProfileTable.resx">
+      <DependentUpon>201411301819511_UpdateUserProfileTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

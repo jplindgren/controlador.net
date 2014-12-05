@@ -24,7 +24,8 @@ namespace Gerenciador.Web.UI.Filters {
 
         private class SimpleMembershipInitializer {
             public SimpleMembershipInitializer() {
-                WebSecurity.InitializeDatabaseConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].Name,
+                if (!WebSecurity.Initialized)
+                    WebSecurity.InitializeDatabaseConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].Name,
                                                                 "UserProfile",
                                                                 "UserId",
                                                                 "UserName",
