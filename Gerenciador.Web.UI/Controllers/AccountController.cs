@@ -13,6 +13,7 @@ using Gerenciador.Web.UI.Models;
 using Gerenciador.Services.Impl;
 using Gerenciador.Domain;
 using Gerenciador.Repository.EntityFramwork;
+using Gerenciador.Domain.UserContext;
 
 namespace Gerenciador.Web.UI.Controllers {
     [Authorize]
@@ -81,6 +82,7 @@ namespace Gerenciador.Web.UI.Controllers {
                         model.Password,
                         new { Name = model.Name, CreatedAt = DateTime.Now }
                     );
+                    Roles.AddUserToRole(model.UserName, UserRole.Regular);
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 } catch (MembershipCreateUserException e) {

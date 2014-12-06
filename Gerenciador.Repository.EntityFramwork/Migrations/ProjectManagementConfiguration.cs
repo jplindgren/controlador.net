@@ -6,7 +6,7 @@ namespace Gerenciador.Repository.EntityFramwork.Migrations{
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class ProjectManagementConfiguration : DbMigrationsConfiguration<Gerenciador.Repository.EntityFramwork.ProjectManagementContext>{
+    public sealed class ProjectManagementConfiguration : DbMigrationsConfiguration<Gerenciador.Repository.EntityFramwork.ProjectManagementContext>{
         public ProjectManagementConfiguration(){
             AutomaticMigrationsEnabled = false;
             ContextKey = "Gerenciador.Repository.EntityFramwork.ProjectManagementContext";

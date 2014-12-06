@@ -9,13 +9,12 @@ namespace Gerenciador.Repository.EntityFramwork.Migrations
         {
             //CreateTable(
             //    "dbo.UserProfile",
-            //    c => new
-            //        {
-            //            UserId = c.Int(nullable: false, identity: true),
-            //            UserName = c.String(nullable: false),
-            //            Name = c.String(),
-            //            CreatedAt = c.DateTime(nullable: false),
-            //        })
+            //    c => new {
+            //        UserId = c.Int(nullable: false, identity: true),
+            //        UserName = c.String(nullable: false),
+            //        Name = c.String(),
+            //        CreatedAt = c.DateTime(nullable: false),
+            //    })
             //    .PrimaryKey(t => t.UserId);
             AddColumn("dbo.UserProfile", "Name", c => c.String(maxLength: 100));
             AddColumn("dbo.UserProfile", "CreatedAt", c => c.DateTime(nullable: false));

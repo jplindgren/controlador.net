@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace Gerenciador.Web.UI.Controllers {
+    [HandleError]
     public class BaseController : Controller{
         private IDataContext _dataContext;
         protected IDataContext DataContext {

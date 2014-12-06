@@ -29,6 +29,8 @@ using System.Web.Hosting;
 using MvcSiteMapProvider.Web.Mvc;
 using System.Configuration;
 using System.Web.Security;
+using System.Data.Entity.Migrations;
+using Gerenciador.Domain.UserContext;
 
 namespace Gerenciador.Web.UI {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -46,6 +48,11 @@ namespace Gerenciador.Web.UI {
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
+            if (bool.Parse(ConfigurationManager.AppSettings["MigrateDatabaseToLatestVersion"])) {
+                var configuration = new Gerenciador.Repository.EntityFramwork.Migrations.ProjectManagementConfiguration();
+                var migrator = new DbMigrator(configuration);
+                migrator.Update();
+            }
             Seed();
 
             //DbInterception.Add(new DbChaosMonkey());
@@ -120,11 +127,10 @@ namespace Gerenciador.Web.UI {
                                                                             "UserName",
                                                                             autoCreateTables: true);
 
-            if (!Roles.RoleExists("Administrator"))
-                Roles.CreateRole("Administrator");
-
-            if (!Roles.RoleExists("Regular"))
-                Roles.CreateRole("Regular");
+            foreach (var roleName in UserRole.GetRoles()) {
+                if (!Roles.RoleExists(roleName))
+                    Roles.CreateRole(roleName);
+            }
  
             if (!WebSecurity.UserExists("joaopozo@gmail.com"))
                 WebSecurity.CreateUserAndAccount(
@@ -132,8 +138,8 @@ namespace Gerenciador.Web.UI {
                     "123456",
                     new { Name = "João Paulo Lindgren" , CreatedAt = DateTime.Now});
  
-            if (!Roles.GetRolesForUser("joaopozo@gmail.com").Contains("Administrator"))
-                Roles.AddUsersToRoles(new[] { "joaopozo@gmail.com" }, new[] { "Administrator" });
+            if (!Roles.GetRolesForUser("joaopozo@gmail.com").Contains(UserRole.Administrator.ToString()))
+                Roles.AddUsersToRoles(new[] { "joaopozo@gmail.com" }, new[] { UserRole.Administrator.ToString() });
         }
     }//class
 }
