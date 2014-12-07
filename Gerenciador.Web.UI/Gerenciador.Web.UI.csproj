@@ -250,6 +250,7 @@
     </Compile>
     <Compile Include="Helpers\StatusHelper.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\AdminDashboardViewModel.cs" />
     <Compile Include="Models\BasePageViewModel.cs" />
     <Compile Include="Models\PageMetadataViewModel.cs" />
     <Compile Include="Models\BoundDates.cs" />
@@ -427,6 +428,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
+    <Content Include="Scripts\mansory\masonry.pkgd.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
@@ -487,6 +489,8 @@
     <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
+    <Content Include="Views\Home\AdminDashboard.cshtml" />
+    <Content Include="Views\Home\UserDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

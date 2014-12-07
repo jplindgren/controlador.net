@@ -20,6 +20,7 @@ namespace Gerenciador.Web.UI {
                         "~/Scripts/bootstrap.js",
                         "~/Scripts/knockout-2.2.0.debug.js",
                         "~/Scripts/moment-with-locales.js",
+                        "~/Scripts/mansory/masonry.pkgd.js",
                         "~/Scripts/raphael1.js",
                         "~/Scripts/morris.js",
                         "~/Scripts/jquery.unobtrusive-ajax.js",

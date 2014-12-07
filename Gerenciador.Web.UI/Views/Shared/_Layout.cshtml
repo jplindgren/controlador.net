@@ -35,6 +35,7 @@
         </div><!-- ./wrapper -->
 
         @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryui")        
         @Scripts.Render("~/bundles/customscripts")
         <script type="text/javascript">
             $(document).ready(function () {
@@ -62,6 +63,16 @@
            })
 
        });
+
+       jQuery.browser = {};
+       (function () {
+           jQuery.browser.msie = false;
+           jQuery.browser.version = 0;
+           if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+               jQuery.browser.msie = true;
+               jQuery.browser.version = RegExp.$1;
+           }
+       })();
    </script>    
 
     </body>

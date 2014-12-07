@@ -32,6 +32,18 @@ namespace Gerenciador.Web.UI.Controllers{
            return View(ProjectSummaryViewModel.FromProjectSummary(projectSummary));
        }
 
+       [SiteMapTitle("ProjectName")]
+       [Authorize(Roles="Administrator")]
+       public ActionResult Details(Guid projectId) {
+           var projectSummary = _projectSummaryService.GetProjectSummary(projectId);
+
+           if (projectSummary == null) {
+               throw new Exception("Projeto não encontrado");
+           }
+
+           return View("Index", ProjectSummaryViewModel.FromProjectSummary(projectSummary));
+       }
+
        public ActionResult PopulateProject() {
            if (!User.Identity.IsAuthenticated || string.IsNullOrEmpty(User.Identity.Name)) {
                throw new Exception("User is not defined or authenticaed");

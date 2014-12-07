@@ -151,6 +151,14 @@
     <Compile Include="Migrations\201411301819511_UpdateUserProfileTable.Designer.cs">
       <DependentUpon>201411301819511_UpdateUserProfileTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201412072159292_AddStatusToProjectAndRequiredFields.cs" />
+    <Compile Include="Migrations\201412072159292_AddStatusToProjectAndRequiredFields.Designer.cs">
+      <DependentUpon>201412072159292_AddStatusToProjectAndRequiredFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412072202512_WhatMigration.cs" />
+    <Compile Include="Migrations\201412072202512_WhatMigration.Designer.cs">
+      <DependentUpon>201412072202512_WhatMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ProjectManagementConfiguration.cs" />
     <Compile Include="ProjectManagementContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -225,6 +233,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411301819511_UpdateUserProfileTable.resx">
       <DependentUpon>201411301819511_UpdateUserProfileTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412072159292_AddStatusToProjectAndRequiredFields.resx">
+      <DependentUpon>201412072159292_AddStatusToProjectAndRequiredFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412072202512_WhatMigration.resx">
+      <DependentUpon>201412072202512_WhatMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

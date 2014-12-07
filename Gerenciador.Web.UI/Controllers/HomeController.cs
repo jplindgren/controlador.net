@@ -8,6 +8,7 @@ using Gerenciador.Web.UI.Models;
 using MvcSiteMapProvider.Web.Mvc.Filters;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -17,13 +18,15 @@ using WebMatrix.WebData;
 namespace Gerenciador.Web.UI.Controllers {
     [Authorize]
     public class HomeController : BaseController {
+        private ProjectService _projectService;
         private ProjectSummaryService _projectSummaryService;
-        public HomeController(IDataContext context, ProjectSummaryService projectSummaryService, UserService userService)
+        public HomeController(IDataContext context, ProjectSummaryService projectSummaryService, UserService userService, ProjectService projectService)
             : base(context, userService) {
             _projectSummaryService = projectSummaryService;
+            _projectService = projectService;
         }
 
-        [SiteMapTitle("Consolidado do Projeto")]
+        [SiteMapTitle("Painel de controle")]
         public RedirectToRouteResult Index() {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
@@ -34,13 +37,29 @@ namespace Gerenciador.Web.UI.Controllers {
             }
         }
 
-
+        [SiteMapTitle("Painel de controle")]
+        [Authorize(Roles = "Administrator")]
         public ActionResult AdminDashboard() {
-            ViewBag.Message = "AdminDashboard";
+            ViewBag.Message = "Painel de Controle";
 
-            return View();
+            //dynamic activeProjectsInfo = new ExpandoObject();
+            dynamic activeProjectsInfo = _projectService.GetLastActiveProjects(); 
+
+            AdminDashboardViewModel model = new AdminDashboardViewModel();
+            model.NumberActiveProjects = activeProjectsInfo.NumberOfActiveProjects;
+            model.LastActivesProjects = activeProjectsInfo.LastActiveProjects;
+            
+            model.Users = UserService.GetAllUsers();
+
+            //Mocks            
+            model.NumberOfNewMessages = 4;
+            model.NumberOfProposals = 1;
+            model.NumberOfTickets = 1;
+
+            return View(model);
         }
 
+        [SiteMapTitle("Painel de controle")]
         public ActionResult UserDashboard() {
             ViewBag.Message = "UserDashboard";
 
@@ -50,5 +69,6 @@ namespace Gerenciador.Web.UI.Controllers {
         public ActionResult Error() {
             return View();
         }
+
     } //class
 }

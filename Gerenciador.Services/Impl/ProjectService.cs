@@ -5,6 +5,7 @@ using Gerenciador.Services.Hangfire;
 using Hangfire;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 
@@ -55,6 +56,21 @@ namespace Gerenciador.Services.Impl {
 
             var snapshot = new EventSnapshotBuilder().ForAction("Create").ForUser(username).Consume(subtask).Create();
             _historyService.CreateEntry(snapshot);
+        }
+
+        public object GetLastActiveProjects() {
+            var activeProjects = _projectRepository.GetAll()
+                                        .Where(x => x.Status == ProjectStatus.InProgress || x.Status == ProjectStatus.Open)
+                                        .OrderBy(x => x.CreatedAt)
+                                        .ToList();
+            var numberActiveProjects = activeProjects.Count();
+            var lastActiveProjects = activeProjects.Take(5).ToList();
+
+            dynamic result = new ExpandoObject();
+            result.LastActiveProjects = lastActiveProjects;
+            result.NumberOfActiveProjects = numberActiveProjects;
+
+            return result;
         }
     } //class
 }

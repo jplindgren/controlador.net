@@ -10,15 +10,24 @@ namespace Gerenciador.Domain {
     public class Project {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
+
+        [Required]
         public string Name { get; set; }
 
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
         public string Owner { get; set; }
+
+        [Required]
         public DateTime CreatedAt { get; set; }
+
         public DateTime LastUpdatedAt { get; set; }
         public virtual ICollection<Task> Tasks { get;set; }
+        private TaskStatus status;
+
+        [Required]
+        public ProjectStatus Status { get; set; }
 
         private IEnumerable<Task> ValidTasks() {
             return Tasks.Where(x => x.Status != TaskStatus.Cancelled).AsEnumerable();

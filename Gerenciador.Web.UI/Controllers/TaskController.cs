@@ -40,7 +40,7 @@ namespace Gerenciador.Web.UI.Controllers{
 
         //
         // GET: /Task/Details/taskId
-        [SiteMapTitle("Name")] 
+        [SiteMapTitle("Name")]
         public ActionResult Details(Guid projectId, Guid id) {
             var project = _projectService.GetProject(projectId);
             var task = project.Tasks.Where(x => x.Id == id).FirstOrDefault();
