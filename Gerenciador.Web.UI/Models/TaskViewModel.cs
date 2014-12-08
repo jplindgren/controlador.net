@@ -21,7 +21,9 @@ namespace Gerenciador.Web.UI.Models {
 
         [Display(Name = "Progresso")]
         public int Progress { get; set; }
+
         public Guid ProjectId { get; set; }
+        public Project Project { get; set; }
 
         [Display(Name = "Criado em")]
         public DateTime CreatedAt { get; set; }
@@ -64,6 +66,7 @@ namespace Gerenciador.Web.UI.Models {
                 LastUpdatedAt = task.LastUpdatedAt,
                 Progress = task.Progress,
                 ProjectId = task.ProjectId,
+                Project = task.Project,
                 StartDate = task.StartDate,
                 Status = task.Status,
                 SubTasks = task.GetOrderedSubtasks()
@@ -74,20 +77,7 @@ namespace Gerenciador.Web.UI.Models {
             if (tasks == null)
                 throw new ArgumentNullException("tasks");
 
-            return  tasks.Select(x => new TaskViewModel() {
-                Id = x.Id,
-                Name = x.Name,
-                CreatedAt = x.CreatedAt,
-                Deadline = x.Deadline,
-                Description = x.Description,
-                EndDate = x.EndDate,
-                LastUpdatedAt = x.LastUpdatedAt,
-                Progress = x.Progress,
-                ProjectId = x.ProjectId,
-                StartDate = x.StartDate,
-                Status = x.Status,
-                SubTasks = x.GetOrderedSubtasks()
-            }).AsEnumerable();
+            return tasks.Select(x => FromTask(x)).AsEnumerable();
         }
     } //class
 }

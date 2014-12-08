@@ -41,6 +41,7 @@ namespace Gerenciador.Web.UI.Controllers{
         //
         // GET: /Task/Details/taskId
         [SiteMapTitle("Name")]
+        [SiteMapTitle("Project.Name", Target = AttributeTarget.ParentNode)]
         public ActionResult Details(Guid projectId, Guid id) {
             var project = _projectService.GetProject(projectId);
             var task = project.Tasks.Where(x => x.Id == id).FirstOrDefault();
@@ -84,7 +85,23 @@ namespace Gerenciador.Web.UI.Controllers{
             var valueUpdated = newValue - task.Progress;
 
             _projectService.UpdateTask(task, newValue, User.Identity.Name);
-            DataContext.SaveChanges();
+
+            try {
+                DataContext.SaveChanges();
+            } catch (System.Data.Entity.Validation.DbEntityValidationException dbEx) {
+                Exception raise = dbEx;
+                foreach (var validationErrors in dbEx.EntityValidationErrors) {
+                    foreach (var validationError in validationErrors.ValidationErrors) {
+                        string message = string.Format("{0}:{1}",
+                            validationErrors.Entry.Entity.ToString(),
+                            validationError.ErrorMessage);
+                        // raise a new exception nesting
+                        // the current instance as InnerException
+                        raise = new InvalidOperationException(message, raise);
+                    }
+                }
+                throw raise;
+            }
 
             BackgroundJob.Enqueue<IMessageDispatcher>(x => x.OnMessage(task.ProjectId, task.Id, valueUpdated, DateTime.Now));
 
