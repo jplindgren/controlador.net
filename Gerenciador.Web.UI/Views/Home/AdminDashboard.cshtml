@@ -99,24 +99,14 @@
                 <h3 class="box-title">Próximas tasks</h3>
             </div>
             <div class="box-body">
-                <dl>
-                  <dt><a href="#"><i class="fa fa-exclamation-circle text-danger"></i> Criar mural de recados e enviar email para dona clotilde.</a></dt>
-                  <dd>Projeto: Nascer do Sol</dd>
-                  <dd>06/12/2014</dd>
-                    <dd><a href="#"><i class="fa fa-circle text-success"></i> Aline Alves</a></dd>
-                </dl>
-                <dl>
-                  <dt><a href="#"><i class="fa fa-exclamation-circle text-danger"></i> Publicar artigo sobre roberto bolanos, kiko, que antigamente era conhecido como Quico. Nunca esquecendo claro, do classico Seu Madruga. O que acontece se for grande demais?</a></dt>
-                  <dd>Projeto: Cloud Bees</dd>
-                    <dd>07/12/2014</dd>
-                    <dd><a href="#"><i class="fa fa-circle text-danger"></i> Armando Pinto</a></dd>
-                </dl>
-                <dl>
-                  <dt><a href="#"><i class="fa fa-exclamation-triangle text-warning"></i> Implementar botão de login</a></dt>
-                  <dd>Projeto: Nascer do Sol</dd>
-                    <dd>31/12/2014</dd>
-                    <dd><a href="#"><i class="fa fa-circle text-success"></i> Aline Alves</a></dd>
-                </dl>
+                @foreach (var task in Model.NextTasks) { 
+                    <dl>
+                        <dt><a href="#"><i class="fa fa-exclamation-circle text-danger"></i> @task.Name</a></dt>
+                        <dd>Projeto: @task.Project.Name</dd>
+                        <dd>@task.Deadline</dd>
+                        <dd><a href="#"><i class="fa fa-circle text-success"></i> @task.Project.Owner</a></dd>
+                    </dl>
+                }
             </div><!-- /.box-body -->
         </div><!-- /.box -->
     </div><!-- /.col -->

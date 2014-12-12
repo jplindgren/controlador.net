@@ -19,11 +19,14 @@ namespace Gerenciador.Web.UI.Controllers {
     [Authorize]
     public class HomeController : BaseController {
         private ProjectService _projectService;
+        private TaskService _taskService;
         private ProjectSummaryService _projectSummaryService;
-        public HomeController(IDataContext context, ProjectSummaryService projectSummaryService, UserService userService, ProjectService projectService)
+        public HomeController(IDataContext context, ProjectSummaryService projectSummaryService, UserService userService, 
+                                ProjectService projectService, TaskService taskService)
             : base(context, userService) {
             _projectSummaryService = projectSummaryService;
             _projectService = projectService;
+            _taskService = taskService;
         }
 
         [SiteMapTitle("Painel de controle")]
@@ -48,7 +51,8 @@ namespace Gerenciador.Web.UI.Controllers {
             AdminDashboardViewModel model = new AdminDashboardViewModel();
             model.NumberActiveProjects = activeProjectsInfo.NumberOfActiveProjects;
             model.LastActivesProjects = activeProjectsInfo.LastActiveProjects;
-            
+            model.NextTasks = TaskViewModel.FromTask(_taskService.GetNextTasksForAdmin());
+
             model.Users = UserService.GetAllUsers();
 
             //Mocks            

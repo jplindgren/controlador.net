@@ -29,6 +29,15 @@ namespace Gerenciador.Services.Impl {
             return task;
         }
 
+        public IList<Task> GetNextTasksForAdmin() {
+            var tasks = this.taskRepository.GetAll()
+                .Where(x => x.Status == TaskStatus.Open)
+                .OrderBy(x => x.Deadline)
+                .Take(5)
+                .ToList();
+            return tasks;
+        }
+
         void Task_PropertyChanged(object sender, PropertyUpdatedEventArgs e) {
             var snapshotBuilder = new EventSnapshotBuilder()
                 .ForAction("Update")

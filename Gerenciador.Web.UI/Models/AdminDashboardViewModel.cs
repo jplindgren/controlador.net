@@ -9,7 +9,7 @@ namespace Gerenciador.Web.UI.Models {
         public IList<Project> LastActivesProjects { get; set; }
         public int NumberActiveProjects { get; set; }
 
-        public TaskViewModel NextTasks { get; set; }
+        public IEnumerable<TaskViewModel> NextTasks { get; set; }
         public IList<UserProfile> Users { get; set; }
 
 
