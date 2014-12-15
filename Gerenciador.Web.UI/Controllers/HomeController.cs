@@ -54,6 +54,7 @@ namespace Gerenciador.Web.UI.Controllers {
             model.NextTasks = TaskViewModel.FromTask(_taskService.GetNextTasksForAdmin());
 
             model.Users = UserService.GetAllUsers();
+            model.CurrentUser = model.Users.Where(x => x.UserName == User.Identity.Name).First();
 
             //Mocks            
             model.NumberOfNewMessages = 4;
@@ -71,6 +72,10 @@ namespace Gerenciador.Web.UI.Controllers {
         }
 
         public ActionResult Error() {
+            return View();
+        }
+
+        public ActionResult Test() {
             return View();
         }
 

@@ -11,7 +11,6 @@ namespace Gerenciador.Repository.EntityFramwork.Impl {
     public class TaskProgressHistoryRepository : Repository<TaskProgressHistory>, ITaskProgressHistoryRepository {
         public TaskProgressHistoryRepository(IDataContext dataContext)
             : base(dataContext) {
-            _dataContext = dataContext;
         }
 
         public IList<TaskProgressHistory> GetProgressHistory(Guid projectId) { 

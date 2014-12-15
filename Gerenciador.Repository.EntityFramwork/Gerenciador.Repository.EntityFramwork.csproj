@@ -53,9 +53,11 @@
     <Compile Include="DatabaseSeed.cs" />
     <Compile Include="IDataContext.cs" />
     <Compile Include="Impl\CommentRepository.cs" />
+    <Compile Include="Impl\TodoRepository.cs" />
     <Compile Include="Impl\UserProfileRepository.cs" />
     <Compile Include="Impl\EntityTestRepository.cs" />
     <Compile Include="Impl\EventSnapshotRepository.cs" />
+    <Compile Include="Interface\ITodoRepository.cs" />
     <Compile Include="Interface\IUserProfileRepository.cs" />
     <Compile Include="Interface\ITaskProgressHistoryRepository.cs" />
     <Compile Include="Impl\ProjectRepository.cs" />
@@ -159,6 +161,14 @@
     <Compile Include="Migrations\201412072202512_WhatMigration.Designer.cs">
       <DependentUpon>201412072202512_WhatMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201412150101213_CreateTodoItem.cs" />
+    <Compile Include="Migrations\201412150101213_CreateTodoItem.Designer.cs">
+      <DependentUpon>201412150101213_CreateTodoItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412150208591_AddDoneToTodoItem.cs" />
+    <Compile Include="Migrations\201412150208591_AddDoneToTodoItem.Designer.cs">
+      <DependentUpon>201412150208591_AddDoneToTodoItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ProjectManagementConfiguration.cs" />
     <Compile Include="ProjectManagementContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -239,6 +249,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201412072202512_WhatMigration.resx">
       <DependentUpon>201412072202512_WhatMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412150101213_CreateTodoItem.resx">
+      <DependentUpon>201412150101213_CreateTodoItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412150208591_AddDoneToTodoItem.resx">
+      <DependentUpon>201412150208591_AddDoneToTodoItem.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

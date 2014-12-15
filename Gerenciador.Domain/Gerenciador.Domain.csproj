@@ -49,6 +49,7 @@
     <Compile Include="Comment.cs" />
     <Compile Include="ProjectStatus.cs" />
     <Compile Include="RangeDate.cs" />
+    <Compile Include="Todo\TodoItem.cs" />
     <Compile Include="TransitionalItem.cs" />
     <Compile Include="EntityTest.cs" />
     <Compile Include="Snapshot\EventSnapshotBuilder.cs" />
@@ -60,7 +61,7 @@
     <Compile Include="TaskStatus.cs" />
     <Compile Include="TaskProgressHistory.cs" />
     <Compile Include="UserContext\UserRole.cs" />
-    <Compile Include="UserProfile.cs" />
+    <Compile Include="UserContext\UserProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

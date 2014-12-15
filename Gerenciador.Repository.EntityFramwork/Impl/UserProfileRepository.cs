@@ -1,4 +1,4 @@
-﻿using Gerenciador.Domain;
+﻿using Gerenciador.Domain.UserContext;
 using Gerenciador.Repository.EntityFramwork.Interface;
 using System;
 using System.Collections.Generic;

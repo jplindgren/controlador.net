@@ -240,6 +240,7 @@
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\TodoController.cs" />
     <Compile Include="CustomJsonResult.cs" />
     <Compile Include="DI\Autofac\Modules\MvcModule.cs" />
     <Compile Include="DI\Autofac\Modules\MvcSiteMapProviderModule.cs" />
@@ -266,6 +267,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\custom-breadcumb.css" />
+    <Content Include="Content\custom-todo-list.css" />
     <Content Include="Content\datepicker3.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\morris.css" />
@@ -361,6 +363,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\custom\task\task_manager.js" />
+    <Content Include="Scripts\custom\todo-list\todo.js" />
     <Content Include="Scripts\datepicker\bootstrap-datepicker.js" />
     <Content Include="Scripts\datepicker\locales\bootstrap-datepicker.ar.js" />
     <Content Include="Scripts\datepicker\locales\bootstrap-datepicker.az.js" />
@@ -426,8 +429,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\knockout-2.2.0.debug.js" />
-    <Content Include="Scripts\knockout-2.2.0.js" />
+    <Content Include="Scripts\knockout-2.2.1.debug.js" />
+    <Content Include="Scripts\knockout-2.2.1.js" />
     <Content Include="Scripts\mansory\masonry.pkgd.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment-with-locales.js" />
@@ -491,6 +494,7 @@
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Home\AdminDashboard.cshtml" />
     <Content Include="Views\Home\UserDashboard.cshtml" />
+    <Content Include="Views\Home\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

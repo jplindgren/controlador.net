@@ -1,4 +1,4 @@
-﻿using Gerenciador.Domain;
+﻿using Gerenciador.Domain.UserContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;

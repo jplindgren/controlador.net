@@ -9,7 +9,6 @@ namespace Gerenciador.Repository.EntityFramwork.Impl {
     public class TaskRepository : Repository<Gerenciador.Domain.Task>, ITaskRepository {
         public TaskRepository(IDataContext dataContext)
             : base(dataContext) {
-            _dataContext = dataContext;
         }
         
     } //class

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Gerenciador.Domain {
     public class Comment{
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public string Content { get; set; }

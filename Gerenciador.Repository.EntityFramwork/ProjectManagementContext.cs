@@ -1,5 +1,7 @@
 ﻿using Gerenciador.Domain;
 using Gerenciador.Domain.Snapshot;
+using Gerenciador.Domain.Todo;
+using Gerenciador.Domain.UserContext;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -20,7 +22,8 @@ namespace Gerenciador.Repository.EntityFramwork {
         public IDbSet<EventSnapshot> Snapshots { get; set; }
         public IDbSet<SubTask> SubTasks { get; set; }
         public IDbSet<TaskProgressHistory> TaskProgressHistories { get; set; }
-        public DbSet<UserProfile> UserProfiles { get; set; }
+        public IDbSet<UserProfile> UserProfiles { get; set; }
+        public IDbSet<TodoItem> TodoItem { get; set; }
 
         public System.Data.Entity.IDbSet<T> Set<T>() where T : class {
             return base.Set<T>();

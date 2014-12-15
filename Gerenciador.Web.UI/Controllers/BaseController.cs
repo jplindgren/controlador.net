@@ -1,4 +1,5 @@
 ﻿using Gerenciador.Domain;
+using Gerenciador.Domain.UserContext;
 using Gerenciador.Repository.EntityFramwork;
 using Gerenciador.Services.Impl;
 using Gerenciador.Web.UI.Filters;

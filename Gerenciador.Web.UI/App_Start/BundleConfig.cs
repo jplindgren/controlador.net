@@ -18,7 +18,7 @@ namespace Gerenciador.Web.UI {
             bundles.Add(new ScriptBundle("~/bundles/customscripts").Include(
                         "~/Scripts/app.js",
                         "~/Scripts/bootstrap.js",
-                        "~/Scripts/knockout-2.2.0.debug.js",
+                        "~/Scripts/knockout-2.2.1.debug.js",
                         "~/Scripts/moment-with-locales.js",
                         "~/Scripts/mansory/masonry.pkgd.js",
                         "~/Scripts/raphael1.js",
@@ -41,7 +41,8 @@ namespace Gerenciador.Web.UI {
                         "~/Content/slider.css",
                         "~/Content/overlay-growl.css",
                         "~/Content/bootstrap-theme.css",
-                        "~/Content/custom-breadcumb.css"));
+                        "~/Content/custom-breadcumb.css",
+                        "~/Content/custom-todo-list.css"));
 
             bundles.Add(new StyleBundle("~/Content/newcsslogin").Include(
                         "~/Content/newSiteLogin.css"));

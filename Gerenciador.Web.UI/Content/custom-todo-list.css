@@ -1,0 +1,90 @@
+﻿.todo-container {
+	background: #fff;
+	/*padding: 20px;
+	margin-bottom: 40px;*/
+}
+
+.todo-container h1 {
+	font-size: 36px;
+	text-align: center;
+}
+
+.todo-container input[type="text"] {
+	width: 100%;
+	font-size: 24px;
+	line-height: 1.4em;
+	padding: 3px;
+}
+
+.todo-container.main {
+	display: none;
+}
+
+#todo-list {
+    padding-top:15px;
+}
+
+#todo-list li .edit {
+    display: none;
+}
+#todo-list li.editing {
+	border-bottom: 1px solid #778899;
+}
+
+#todo-list li.editing .view {
+	display: none;
+}
+#todo-list li.editing .edit {
+	display: block;
+	width: 100%;
+	padding: 13px 15px 14px 20px;
+	margin: 0;
+}
+
+#todo-list li.done label {
+    color: #777777;
+    text-decoration: line-through;
+}
+
+
+#todo-list .destroy {
+	position: absolute;
+	right: 5px;
+	top: 20px;
+	display: none;
+	cursor: pointer;
+	width: 20px;
+	height: 20px;
+}
+
+.todo-container footer {
+	display: none;
+	/*margin: 0 -20px -20px -20px;*/
+	overflow: hidden;
+	color: #555555;
+	background: #f4fce8;
+	border-top: 1px solid #ededed;
+	padding: 0 20px;
+	line-height: 37px;
+}
+
+.todo-count {
+    float:left;    
+}
+
+.todo-count .count{
+    font-weight:bold;    
+}
+
+#clear-completed {
+	float: right;
+	line-height: 20px;
+	text-decoration: none;
+	background: rgba(0, 0, 0, 0.1);
+	color: #555555;
+	font-size: 11px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	padding: 0 10px 1px;
+	cursor: pointer;
+}

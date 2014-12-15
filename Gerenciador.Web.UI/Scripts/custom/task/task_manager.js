@@ -55,7 +55,6 @@
             }),
             EndDate: ko.computed(function () {
                 var endDate = moment(data.EndDate);
-                console.log(endDate);
                 if (endDate.isValid())
                     return endDate.format('L');
             }),
@@ -73,7 +72,7 @@
                 dataToSend.taskId = _taskId;
 
                 $.blockUI({ message: 'Carregando...' });
-                var posting = $.post('/Task/CreateSubTaskV2', dataToSend, 'json');
+                var posting = $.post('/Task/CreateSubTask', dataToSend, 'json');
                 posting.done(function (result) {
 
                     $('#modalCreateSubTask').modal('hide');

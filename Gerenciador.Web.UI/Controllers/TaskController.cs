@@ -174,7 +174,7 @@ namespace Gerenciador.Web.UI.Controllers{
 
         // POST: /Task/CreateSubTask
         [HttpPost]
-        public JsonResult CreateSubTaskV2(Guid projectId, Guid taskId, string name, DateTime startDate, DateTime endDate) {
+        public JsonResult CreateSubTask(Guid projectId, Guid taskId, string name, DateTime startDate, DateTime endDate) {
             var project = _projectService.GetProject(projectId);
             var task = project.Tasks.Where(x => x.Id == taskId).FirstOrDefault();
 
@@ -206,10 +206,10 @@ namespace Gerenciador.Web.UI.Controllers{
             var task = project.Tasks.Where(x => x.Id == taskId).FirstOrDefault();
             var limitDates = task.SubTasks.Where(x => x.Status == TaskStatus.Open).Select(x => new LimitDate(x.StartDate, x.ExpectedEndDate, x.Name));
 
-            JsonNetResult jsonNetResult = new JsonNetResult();
-            jsonNetResult.Formatting = Formatting.Indented;
-            jsonNetResult.Data = limitDates;
-            return jsonNetResult;
+            //JsonNetResult jsonNetResult = new JsonNetResult();
+            //jsonNetResult.Formatting = Formatting.Indented;
+            //jsonNetResult.Data = limitDates;
+            return CustomJson(limitDates);
         }
 
         //TODO: Remove this shit. Use some AOP in enum
