@@ -11,7 +11,7 @@
 
 .todo-container input[type="text"] {
 	width: 100%;
-	font-size: 24px;
+	font-size: 1.4em;
 	line-height: 1.4em;
 	padding: 3px;
 }
@@ -37,7 +37,7 @@
 #todo-list li.editing .edit {
 	display: block;
 	width: 100%;
-	padding: 13px 15px 14px 20px;
+	/*padding: 13px 15px 14px 20px;*/
 	margin: 0;
 }
 
@@ -69,11 +69,11 @@
 }
 
 .todo-count {
-    float:left;    
+    float:left;
 }
 
 .todo-count .count{
-    font-weight:bold;    
+    font-weight:bold;
 }
 
 #clear-completed {

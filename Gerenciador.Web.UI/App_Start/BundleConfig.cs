@@ -48,7 +48,8 @@ namespace Gerenciador.Web.UI {
                         "~/Content/newSiteLogin.css"));
 
             bundles.Add(new StyleBundle("~/Content/newcsscommon").Include(
-                        "~/Content/common.css"));
+                        "~/Content/common.css",
+                        "~/Content/common-extensions.css"));
 
             BundleTable.EnableOptimizations = false;
         }

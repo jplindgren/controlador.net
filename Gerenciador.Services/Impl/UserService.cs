@@ -1,4 +1,5 @@
-﻿using Gerenciador.Domain.UserContext;
+﻿using Gerenciador.Domain.Todo;
+using Gerenciador.Domain.UserContext;
 using Gerenciador.Repository.EntityFramwork.Interface;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,10 @@ namespace Gerenciador.Services.Impl {
 
         public void CreateUser(string username) {
             userProfileRepository.Add(new UserProfile { UserName = username });
+        }
+
+        public void RemoveTodoItem(TodoItem item) {
+            userProfileRepository.RemoveTodoItem(item);
         }
     } //class
 }

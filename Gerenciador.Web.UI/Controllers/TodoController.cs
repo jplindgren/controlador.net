@@ -51,6 +51,7 @@ namespace Gerenciador.Web.UI.Controllers{
             var item = userProfile.TodoItems.Where(x => x.Id == id).First();
             
             userProfile.TodoItems.Remove(item);
+            _userService.RemoveTodoItem(item);
 
             DataContext.SaveChanges();
             return CustomJson("");
