@@ -19,6 +19,15 @@ namespace Gerenciador.Web.UI.Controllers{
         }
 
         [HttpPost]
+        public JsonResult SetDone(Guid id, bool done) {
+            UserProfile userProfile = UserService.GetUser(User.Identity.Name);
+            var item = userProfile.TodoItems.Where(x => x.Id == id).First();
+            item.Done = done;
+            DataContext.SaveChanges();
+            return CustomJson(item);
+        }
+
+        [HttpPost]
         public JsonResult EditItem(Guid id, string content){
             UserProfile userProfile = UserService.GetUser(User.Identity.Name);
             var item = userProfile.TodoItems.Where(x => x.Id == id).First();
@@ -54,6 +63,22 @@ namespace Gerenciador.Web.UI.Controllers{
             _userService.RemoveTodoItem(item);
 
             DataContext.SaveChanges();
+            return CustomJson("");
+        }
+
+        [HttpPost]
+        public JsonResult DeleteItems(Guid[] ids) {
+            if (ids.Length != 0) {
+                UserProfile userProfile = UserService.GetUser(User.Identity.Name);
+                foreach (var id in ids) {
+                    var item = userProfile.TodoItems.Where(x => x.Id == id).First();
+
+                    userProfile.TodoItems.Remove(item);
+                    _userService.RemoveTodoItem(item);
+                }
+
+                DataContext.SaveChanges();
+            }
             return CustomJson("");
         }
         

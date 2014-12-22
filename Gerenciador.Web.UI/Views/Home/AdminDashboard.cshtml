@@ -166,7 +166,7 @@
                                 <i class="fa fa-ellipsis-v"></i>
                             </span>
                             <!-- checkbox -->
-                            <input type="checkbox" value="" name="" data-bind="checked: done"/>
+                            <input type="checkbox" value="" name="" data-bind="checked: done "/>
                             <!-- todo text -->
                             <span class="text" data-bind="text: title" />
                             <input class="edit" type="text" data-bind="value: title, event: { keyup: $root.editOnEnter }" />
@@ -236,9 +236,24 @@
     <script src="~/Scripts/custom/todo-list/todo.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            "use strict";            
+            "use strict";
 
-            initMasonry($('#widgets'));
+            @{
+                var serializedData = JsonConvert.SerializeObject(Model.CurrentUser.TodoItems,
+                            Formatting.None,
+                            new JsonSerializerSettings() {
+                                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                            });
+            }
+            var jsonTodoItems = JSON.parse("@Html.Raw(HttpUtility.JavaScriptStringEncode(serializedData))");
+            TodoModule.init(jsonTodoItems, $('.todo-list'));
+
+            initMasonry($('#widgets'),
+                [
+                    { selector: $(".todo-list"), action: 'itemAdded' },
+                    { selector: $('.navbar-btn'), action: 'click' },
+                ]
+            );
             
             //Make the dashboard widgets sortable Using jquery UI
             $(".connectedSortable").sortable({
@@ -257,30 +272,25 @@
                 zIndex: 999999
             }).disableSelection();
 
-            function initMasonry($container) {
-                $container.masonry({
+            function initMasonry($mansoryContainer, refreshItems) {
+                $mansoryContainer.masonry({
                     itemSelector: '.connectedSortable',
                     isAnimated: true,
                     transitionDuration: 40
                 });
 
                 //we bind navbar responsive button to redraw masonry when show or hide
-                $('.navbar-btn').on('click', function () {
-                    console.log('redraw');
-                    $container.masonry();
-                });
+                //$('.navbar-btn').on('click', function () {
+                //    $mansoryContainer.masonry();
+                //});
+
+                $.each(refreshItems, function (index, item) {
+                    item.selector.on(item.action, function () {
+                        $mansoryContainer.masonry();
+                    });
+                });                
 
             }
-
-            @{
-                var serializedData = JsonConvert.SerializeObject(Model.CurrentUser.TodoItems,
-                            Formatting.None,
-                            new JsonSerializerSettings() {
-                                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                            });
-            }
-            var jsonTodoItems = JSON.parse("@Html.Raw(HttpUtility.JavaScriptStringEncode(serializedData))");
-            TodoModule.init(jsonTodoItems);
         });
 
        

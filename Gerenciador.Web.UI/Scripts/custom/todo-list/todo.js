@@ -9,6 +9,11 @@
             self.done = ko.observable(done);
             self.order = order;
             self.id = id;
+
+            self.done.subscribe(function (selected) {
+                var posting = $.post('/Todo/SetDone', { id: self.id, done: selected }, 'json');
+            });
+
             self.updateCallback = ko.computed(function () {
                 callback(self);
                 return true;
@@ -31,9 +36,9 @@
                 return true;
             };
 
-            self.todos = ko.observableArray(ko.utils.arrayMap(todosData, function (todoItem) {                
-                return new Todo(todoItem.Id, todoItem.Content, todoItem.Done, todoItem.Order, self.countUpdate);
-            }));
+            $.each(todosData, function (index, todoItem) {
+                self.todos.push(new Todo(todoItem.Id, todoItem.Content, todoItem.Done, todoItem.Order, self.countUpdate))
+            });
 
             self.addOne = function () {
                 var order = self.todos().length;
@@ -41,6 +46,7 @@
                 posting.done(function (result) {
                     var t = new Todo(result.Id, result.Content, false, result.Order, self.countUpdate);
                     self.todos.push(t);
+                    $(".todo-list").trigger('itemAdded');
                 });
             };
 
@@ -59,7 +65,6 @@
 
             self.editOnEnter = function (item, event) {
                 if (event.keyCode == 13 && item.title) {
-                    console.log(item);
                     var posting = $.post('/Todo/EditItem', { id: item.id, content: item.title }, 'json');
                     posting.done(function (result) {
                         item.updateCallback();
@@ -94,7 +99,24 @@
             }
 
             self.clear = function () {
-                self.todos.remove(function (item) { return item.done(); });
+                var doneArray = ko.utils.arrayFilter(self.todos(), function (it) {
+                    return it.done();
+                });
+                var selectedIds = doneArray.map(function (item) {
+                    return item.id;
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Todo/DeleteItems",
+                    dataType: "json",
+                    traditional: true,
+                    data: { ids: selectedIds }
+                }).done(function (result) {
+                    self.todos.remove(function (item) { return item.done(); });
+                    self.markAll(false);
+                });
+                //self.todos.remove(function (item) { return item.done(); });
             }
         };
 
