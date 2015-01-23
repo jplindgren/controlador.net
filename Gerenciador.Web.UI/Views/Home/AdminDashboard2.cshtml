@@ -1,0 +1,299 @@
+﻿@model Gerenciador.Web.UI.Models.AdminDashboardViewModel
+@using Gerenciador.Web.UI.Helpers
+@using Newtonsoft.Json
+@{
+    ViewBag.Title = ViewBag.Message;
+}
+
+<div class="row">
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3>
+                    @Model.NumberActiveProjects <label>projetos</label>
+                </h3>
+                <p>Projetos ativos</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-briefcase"></i>
+            </div>
+            <a href="Project/Create" class="small-box-footer">
+                Criar Novo Projeto <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div><!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>
+                    @Model.NumberOfProposals <label>propostas</label>
+                </h3>
+                <p>Projetos propostos</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-info"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                Mais info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div><!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3>
+                    @Model.NumberOfTickets <label>tickets</label>
+                </h3>
+                <p>Tickets abertos</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-bug"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                Mais info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div><!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-teal">
+            <div class="inner">
+                <h3>
+                    @Model.NumberOfNewMessages <label>Mensagens</label>
+                </h3>
+                <p>Mensagens não lidas</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-inbox"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                Mais info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div><!-- ./col -->
+</div><!-- /.row -->
+
+<div id="widgets" class="row">
+    <div class="col-md-4 col-xs-12 connectedSortable">
+        <!-- Warning box -->
+        <div class="box box-warning">
+            <div class="box-header">
+                <h3 class="box-title">Últimos projetos ativos</h3>
+            </div>
+            <div class="box-body">
+                    @foreach (var project in Model.LastActivesProjects) { 
+                        <dl>
+                            <dt><a href="@Url.Action("Details", "Project", new { projectId = project.Id })">@project.Name</a></dt>
+                            <dd>@project.Description</dd>
+                        </dl>
+                    }
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div><!-- /.col -->
+
+    <div class="col-md-4 col-xs-12 connectedSortable">
+        <!-- Warning box -->
+        <div class="box box-warning">
+            <div class="box-header">
+                <h3 class="box-title">Próximas tasks</h3>
+            </div>
+            <div class="box-body">
+                @foreach (var task in Model.NextTasks) { 
+                    <dl>
+                        <dt><a href="#"><i class="fa fa-exclamation-circle text-danger"></i> @task.Name</a></dt>
+                        <dd>Projeto: @task.Project.Name</dd>
+                        <dd>@task.Deadline</dd>
+                        <dd><a href="#"><i class="fa fa-circle text-success"></i> @task.Project.Owner</a></dd>
+                    </dl>
+                }
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div><!-- /.col -->
+
+    <div class="col-md-4 col-xs-12 connectedSortable">
+        <!-- Success box -->
+        <div class="box box-success">
+            <div class="box-header">
+                <h3 class="box-title">Usuários</h3>
+            </div>
+            <div class="box-body">
+                <ul class="list-unstyled">
+                    @foreach (var user in Model.Users) { 
+                        <li><a href="#"><i class="fa fa-circle text-success"></i> @user.Name</a></li>
+                    }
+                </ul>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div><!-- /.col -->
+
+    <div class="col-md-4 col-xs-12 connectedSortable">
+        <!-- TO DO List -->
+        <div class="box box-primary">
+            <div class="box-header">
+                <i class="ion ion-clipboard"></i>
+                <h3 class="box-title">To Do List</h3>
+                <div class="box-tools pull-right">
+                    <ul class="pagination pagination-sm inline">
+                        <li><a href="#">&laquo;</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">&raquo;</a></li>
+                    </ul>
+                </div>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <article class="todo-container">
+                    <header>
+                      <input id="new-todo" type="text" placeholder="O que precisa ser feito?" data-bind="value: inputTitle, event: { keyup: createOnEnter }"/>
+                    </header>
+                    <section class="main" style="display: block;">
+                      <div data-bind="visible: todos().length > 0">
+                          <input id="toggle-all" type="checkbox" data-bind="checked: markAll"/>
+                          <label for="toggle-all">Marcar todas como feitas</label>
+                      </div>
+                      <ul id="todo-list" class="todo-list" data-bind="template: { name: 'item-template', foreach: todos }">
+                      </ul>
+                    </section>
+    
+                    <script type="text/template" id="item-template">
+                        <li data-bind="css: { done: done() }">
+                            <span class="handle">
+                                <i class="fa fa-ellipsis-v"></i>
+                                <i class="fa fa-ellipsis-v"></i>
+                            </span>
+                            <!-- checkbox -->
+                            <input type="checkbox" value="" name="" data-bind="checked: done "/>
+                            <!-- todo text -->
+                            <span class="text" data-bind="text: title" />
+                            <input class="edit" type="text" data-bind="value: title, event: { keyup: $root.editOnEnter }" />
+                            <!-- Emphasis label -->
+                            <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
+                            <a class="destroy"></a>
+                            <!-- General tools such as edit or delete-->
+                            <div class="tools">
+                                <i class="fa fa-edit" data-bind="click: $root.toggleEditMode"></i>
+                                <i class="fa fa-trash-o" data-bind="click: $root.clearItem"></i>
+                            </div>
+                        </li>
+                    </script>
+                </article>
+            </div><!-- /.box-body -->
+            <div class="box-footer clearfix no-border">
+                @*<button class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add item</button>*@
+                <footer style="display: block;">
+                    <div data-bind="visible: todos().length > 0">
+                    <div class="todo-count"><b data-bind="text: todos().length"></b> items pendentes</div>
+                    <!-- ko if: doneTodos() > 0 -->
+                        <a id="clear-completed" data-bind="click: clear">
+                            Limpar <span data-bind="html: countDoneText(true)"></span>.
+                        </a>
+                    <!-- /ko -->
+                    <br style="clear:both"/>
+                    </div>
+                </footer>
+            </div>
+        </div><!-- /.box -->
+    </div>
+
+    <div class="col-md-4 col-xs-12 connectedSortable">
+        <!-- quick email widget -->
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa fa-envelope"></i>
+                <h3 class="box-title">Quick Email</h3>
+                <!-- tools box -->
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-sm" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <form action="#" method="post">
+                    <div class="form-group">
+                        <input type="email" class="form-control" name="emailto" placeholder="Email to:"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="subject" placeholder="Subject"/>
+                    </div>
+                    <div>
+                        <textarea class="textarea" placeholder="Message" style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="box-footer clearfix">
+                <button class="pull-right btn btn-default" id="sendEmail">Send <i class="fa fa-arrow-circle-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryui")
+    <script src="~/Scripts/custom/todo-list/todo.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            "use strict";
+
+            @{
+                var serializedData = JsonConvert.SerializeObject(Model.CurrentUser.TodoItems,
+                            Formatting.None,
+                            new JsonSerializerSettings() {
+                                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                            });
+            }
+            var jsonTodoItems = JSON.parse("@Html.Raw(HttpUtility.JavaScriptStringEncode(serializedData))");
+            TodoModule.init(jsonTodoItems, $('.todo-list'));
+
+            initMasonry($('#widgets'),
+                [
+                    { selector: $(".todo-list"), action: 'itemAdded' },
+                    { selector: $('.navbar-btn'), action: 'click' },
+                ]
+            );
+            
+            //Make the dashboard widgets sortable Using jquery UI
+            $(".connectedSortable").sortable({
+                placeholder: "sort-highlight",
+                connectWith: ".connectedSortable",
+                handle: ".box-header, .nav-tabs",
+                forcePlaceholderSize: true,
+                zIndex: 999999
+            }).disableSelection();
+            $(".connectedSortable .box-header, .connectedSortable .nav-tabs-custom").css("cursor", "move");
+            //jQuery UI sortable for the todo list
+            $(".todo-list").sortable({
+                placeholder: "sort-highlight",
+                handle: ".handle",
+                forcePlaceholderSize: true,
+                zIndex: 999999
+            }).disableSelection();
+
+            function initMasonry($mansoryContainer, refreshItems) {
+                $mansoryContainer.masonry({
+                    itemSelector: '.connectedSortable',
+                    isAnimated: true,
+                    transitionDuration: 40
+                });
+
+                //we bind navbar responsive button to redraw masonry when show or hide
+                //$('.navbar-btn').on('click', function () {
+                //    $mansoryContainer.masonry();
+                //});
+
+                $.each(refreshItems, function (index, item) {
+                    item.selector.on(item.action, function () {
+                        $mansoryContainer.masonry();
+                    });
+                });                
+
+            }
+        });
+
+       
+
+    </script>
+}
