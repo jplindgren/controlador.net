@@ -33,7 +33,6 @@ namespace Gerenciador.Web.UI.Controllers{
        }
 
        [SiteMapTitle("ProjectName")]
-       [Authorize(Roles="Administrator")]
        public ActionResult Details(Guid projectId) {
            var projectSummary = _projectSummaryService.GetProjectSummary(projectId);
 

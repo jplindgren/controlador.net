@@ -31,6 +31,7 @@ using System.Configuration;
 using System.Web.Security;
 using System.Data.Entity.Migrations;
 using Gerenciador.Domain.UserContext;
+using StackExchange.Profiling;
 
 namespace Gerenciador.Web.UI {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -57,6 +58,17 @@ namespace Gerenciador.Web.UI {
 
             //DbInterception.Add(new DbChaosMonkey());
             DbInterception.Add(new InterceptorLogging());
+        }
+
+        protected void Application_BeginRequest() {
+            if (Request.IsLocal) {
+                MiniProfiler.Start();
+            }
+        }
+
+        protected void Application_EndRequest() {
+            //stop as early as you can, even earlier with MvcMiniProfiler.MiniProfiler.Stop(discardResults: true);
+            MiniProfiler.Stop(); 
         }
 
         private void AutoFacConfig() {

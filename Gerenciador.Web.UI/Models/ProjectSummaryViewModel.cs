@@ -1,4 +1,6 @@
-﻿using Gerenciador.Services.Data;
+﻿using Gerenciador.Domain;
+using Gerenciador.Services.Data;
+using Gerenciador.Web.UI.Models.TaskViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,13 +25,13 @@ namespace Gerenciador.Web.UI.Models {
         public int PercentageClosedTasks { get; set; }
         public int PercentageCancelledTasks { get; set; }
 
-        public IEnumerable<TaskViewModel> OpenTasks { get; set; }
-        public IEnumerable<TaskViewModel> LastOpenTasks {
+        public IEnumerable<TaskWidgetViewModel> OpenTasks { get; set; }
+        public IEnumerable<TaskWidgetViewModel> LastOpenTasks {
             get { return OpenTasks.OrderByDescending(x => x.CreatedAt).Take(5); }
         }
 
-        public IEnumerable<TaskViewModel> ClosedTasks { get; set; }
-        public IEnumerable<TaskViewModel> CancelledTasks { get; set; }
+        public IEnumerable<TaskWidgetViewModel> ClosedTasks { get; set; }
+        public IEnumerable<TaskWidgetViewModel> CancelledTasks { get; set; }
         
 
         public static ProjectSummaryViewModel FromProjectSummary(ProjectSummary projectSummary){
@@ -42,9 +44,9 @@ namespace Gerenciador.Web.UI.Models {
                 PercentageOpenTasks = projectSummary.PercentageOpenTasks,
                 PercentageClosedTasks = projectSummary.PercentageClosedTasks,
                 PercentageCancelledTasks = projectSummary.PercentageCancelledTasks,
-                OpenTasks = TaskViewModel.FromTask(projectSummary.OpenTasks),
-                ClosedTasks = TaskViewModel.FromTask(projectSummary.ClosedTasks),
-                CancelledTasks = TaskViewModel.FromTask(projectSummary.CancelledTasks)
+                OpenTasks = TaskWidgetViewModel.FromTask(projectSummary.OpenTasks),
+                ClosedTasks = TaskWidgetViewModel.FromTask(projectSummary.ClosedTasks),
+                CancelledTasks = TaskWidgetViewModel.FromTask(projectSummary.CancelledTasks)
             };
         }
     } //class

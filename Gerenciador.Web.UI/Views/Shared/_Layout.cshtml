@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using StackExchange.Profiling;
+<!DOCTYPE html>
 
 <html lang="en">
     <head>
@@ -53,26 +54,27 @@
         </script>
         @RenderSection("scripts", required: false)
 
-   <script type="text/javascript" >
-       $(document).ready(function () {
-           $(window).resize(function () {
+        <script type="text/javascript" >
+           $(document).ready(function () {
+               $(window).resize(function () {
 
-               ellipses1 = $("#bc1 :nth-child(2)")
-               if ($("#bc1 a:hidden").length > 0) { ellipses1.show() } else { ellipses1.hide() }
-           })
+                   ellipses1 = $("#bc1 :nth-child(2)")
+                   if ($("#bc1 a:hidden").length > 0) { ellipses1.show() } else { ellipses1.hide() }
+               })
 
-       });
+           });
 
-       jQuery.browser = {};
-       (function () {
-           jQuery.browser.msie = false;
-           jQuery.browser.version = 0;
-           if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
-               jQuery.browser.msie = true;
-               jQuery.browser.version = RegExp.$1;
-           }
-       })();
-   </script>    
+           jQuery.browser = {};
+           (function () {
+               jQuery.browser.msie = false;
+               jQuery.browser.version = 0;
+               if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+                   jQuery.browser.msie = true;
+                   jQuery.browser.version = RegExp.$1;
+               }
+           })();
+        </script>    
+        @MiniProfiler.RenderIncludes()
 
     </body>
 </html>

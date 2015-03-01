@@ -6,6 +6,7 @@ using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Services.Impl;
 using Gerenciador.Web.UI.Helpers;
 using Gerenciador.Web.UI.Models;
+using Gerenciador.Web.UI.Models.TaskViewModels;
 using Hangfire;
 using MvcSiteMapProvider.Web.Mvc.Filters;
 using Newtonsoft.Json;
@@ -35,7 +36,7 @@ namespace Gerenciador.Web.UI.Controllers{
         // GET: /Task/Index
         public ActionResult Index(Guid projectId) {
             var project = _projectService.GetProject(projectId);
-            return View(TaskViewModel.FromTask(project.Tasks));
+            return View(TaskWidgetViewModel.FromTask(project.Tasks));
         }
 
         //
@@ -43,8 +44,7 @@ namespace Gerenciador.Web.UI.Controllers{
         [SiteMapTitle("Name")]
         [SiteMapTitle("Project.Name", Target = AttributeTarget.ParentNode)]
         public ActionResult Details(Guid projectId, Guid id) {
-            var project = _projectService.GetProject(projectId);
-            var task = project.Tasks.Where(x => x.Id == id).FirstOrDefault();
+            var task = _projectService.GetTask(projectId, id);
             return View(TaskViewModel.FromTask(task));
         }
 
@@ -68,7 +68,10 @@ namespace Gerenciador.Web.UI.Controllers{
             try{
                 var project = _projectService.GetProject(taskViewModel.ProjectId);
                 var rangeDate = new RangeDate(taskViewModel.StartDate, taskViewModel.Deadline);
+
                 _projectService.CreateTask(project, User.Identity.Name, taskViewModel.Name, taskViewModel.Description, rangeDate);
+                
+
                 DataContext.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }catch {
@@ -175,11 +178,13 @@ namespace Gerenciador.Web.UI.Controllers{
         // POST: /Task/CreateSubTask
         [HttpPost]
         public JsonResult CreateSubTask(Guid projectId, Guid taskId, string name, DateTime startDate, DateTime endDate) {
-            var project = _projectService.GetProject(projectId);
-            var task = project.Tasks.Where(x => x.Id == taskId).FirstOrDefault();
+            //var project = _projectService.GetProject(projectId);
+            //var task = project.Tasks.Where(x => x.Id == taskId).FirstOrDefault();
+            var task = _projectService.GetTask(projectId, taskId);
 
             SubTask subtask = new SubTask(name, startDate, endDate);
             _projectService.CreateSubTask(task, subtask, User.Identity.Name);
+
             DataContext.SaveChanges();
 
             return Json(new SubTask() {
@@ -202,13 +207,11 @@ namespace Gerenciador.Web.UI.Controllers{
 
         [HttpGet]
         public JsonResult GetLimitDates(Guid projectId, Guid taskId) {
-            var project = _projectService.GetProject(projectId);
-            var task = project.Tasks.Where(x => x.Id == taskId).FirstOrDefault();
+            //var project = _projectService.GetProject(projectId);
+            //var task = project.Tasks.Where(x => x.Id == taskId).FirstOrDefault();
+            var task = _projectService.GetTask(projectId, taskId);
             var limitDates = task.SubTasks.Where(x => x.Status == TaskStatus.Open).Select(x => new LimitDate(x.StartDate, x.ExpectedEndDate, x.Name));
 
-            //JsonNetResult jsonNetResult = new JsonNetResult();
-            //jsonNetResult.Formatting = Formatting.Indented;
-            //jsonNetResult.Data = limitDates;
             return CustomJson(limitDates);
         }
 

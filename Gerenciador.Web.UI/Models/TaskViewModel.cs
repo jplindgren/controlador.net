@@ -23,7 +23,6 @@ namespace Gerenciador.Web.UI.Models {
         public int Progress { get; set; }
 
         public Guid ProjectId { get; set; }
-        public Project Project { get; set; }
 
         [Display(Name = "Criado em")]
         public DateTime CreatedAt { get; set; }
@@ -31,7 +30,6 @@ namespace Gerenciador.Web.UI.Models {
 
         [DisplayFormat(DataFormatString = "{0:d}")]
         [DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = " ")]
         [Display(Name = "Data de início")]
         public DateTime StartDate { get; set; }
@@ -45,15 +43,7 @@ namespace Gerenciador.Web.UI.Models {
         [Display(Name = "Prazo")]
         public DateTime Deadline { get; set; }
 
-        private IList<SubTask> subTasks;
-        public virtual IList<SubTask> SubTasks { 
-            get {
-                return subTasks.OrderByDescending(x => x.CreatedAt).ToList();
-            } 
-            set { subTasks = value; } 
-        }
-
-        //public Pager Pager { get; set; }
+        public IList<SubTaskTaskDetailViewModel> SubTasks { get; set; }
 
         public static TaskViewModel FromTask(Task task){
             return new TaskViewModel() {
@@ -66,18 +56,51 @@ namespace Gerenciador.Web.UI.Models {
                 LastUpdatedAt = task.LastUpdatedAt,
                 Progress = task.Progress,
                 ProjectId = task.ProjectId,
-                Project = task.Project,
                 StartDate = task.StartDate,
                 Status = task.Status,
-                SubTasks = task.GetOrderedSubtasks()
+                SubTasks = SubTaskTaskDetailViewModel.FromSubTask(task.GetOrderedSubtasks())
             };
         }
 
-        public static IEnumerable<TaskViewModel> FromTask(IEnumerable<Task> tasks) {
+        public static IList<TaskViewModel> FromTask(IEnumerable<Task> tasks) {
             if (tasks == null)
                 throw new ArgumentNullException("tasks");
 
-            return tasks.Select(x => FromTask(x)).AsEnumerable();
+            return tasks.Select(x => FromTask(x)).ToList();
+        }
+
+
+        public class SubTaskTaskDetailViewModel {
+            public Guid Id { get; set; }
+            public string Name { get; set; }
+            public DateTime CreatedAt { get; set; }
+
+            [DisplayFormat(DataFormatString = "{0:d}")]
+            public DateTime StartDate { get; set; }
+            [DisplayFormat(DataFormatString = "{0:d}")]
+            public DateTime ExpectedEndDate { get; set; }
+            public TaskStatus Status { get; set; }
+            public Guid TaskId { get; set; }
+
+            public static SubTaskTaskDetailViewModel FromSubTask(SubTask subtask) {
+                return new SubTaskTaskDetailViewModel() {
+                    Id = subtask.Id,
+                    Name = subtask.Name,
+                    CreatedAt = subtask.CreatedAt,
+                    ExpectedEndDate = subtask.ExpectedEndDate,
+                    StartDate = subtask.StartDate,
+                    Status = subtask.Status,
+                    TaskId = subtask.TaskId
+                };
+            }
+
+            public static IList<SubTaskTaskDetailViewModel> FromSubTask(IEnumerable<SubTask> subtasks) {
+                if (subtasks == null)
+                    throw new ArgumentNullException("tasks");
+
+                return subtasks.Select(x => FromSubTask(x)).ToList();
+            }
+
         }
     } //class
 }

@@ -26,7 +26,7 @@ namespace Gerenciador.Services.Impl {
         }
 
         public IEnumerable<Comment> GetComments(Guid projectId, Guid taskId) {
-            var project = this.projectRepository.Get(projectId);
+            var project = this.projectRepository.Get(projectId, "Tasks");
             var task = project.Tasks.Where(x => x.Id == taskId).First();
             return this.commentRepository.GetByTask(task);
         }

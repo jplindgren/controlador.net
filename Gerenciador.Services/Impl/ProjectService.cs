@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Gerenciador.Services.Impl {
@@ -20,7 +21,14 @@ namespace Gerenciador.Services.Impl {
         }
 
         public Project GetProject(Guid id) {
-            return _projectRepository.Get(id);
+            //Expression<Func<Project, ICollection<Task>>> includeExpression1 = x => { return x.Tasks; };
+            //var includeExpressions = new List<Expression<Func<Project, ICollection<Task>>>>{ includeExpression1 };
+
+            return _projectRepository.Get(id, "Tasks", "Tasks.SubTasks");
+        }
+
+        public Task GetTask(Guid projectId, Guid taskId) {
+            return _projectRepository.GetTask(projectId, taskId , "Tasks.SubTasks");
         }
 
         public void CreateTask(Project project, string username, string taskName, string taskDescription, RangeDate rangeDate) {

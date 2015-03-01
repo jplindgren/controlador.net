@@ -173,6 +173,10 @@
     <Compile Include="Migrations\201412170256117_TurnUserIdIntoTodoItemToNullable.Designer.cs">
       <DependentUpon>201412170256117_TurnUserIdIntoTodoItemToNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503012301299_AddIndexToProjectStatus.cs" />
+    <Compile Include="Migrations\201503012301299_AddIndexToProjectStatus.Designer.cs">
+      <DependentUpon>201503012301299_AddIndexToProjectStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ProjectManagementConfiguration.cs" />
     <Compile Include="ProjectManagementContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -262,6 +266,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201412170256117_TurnUserIdIntoTodoItemToNullable.resx">
       <DependentUpon>201412170256117_TurnUserIdIntoTodoItemToNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503012301299_AddIndexToProjectStatus.resx">
+      <DependentUpon>201503012301299_AddIndexToProjectStatus.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -15,12 +15,12 @@ namespace Gerenciador.Web.UI {
                 config.UseSqlServerStorage(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
                 config.UseServer();
 
-                //config.UseAuthorizationFilters(new AuthorizationFilter {
-                //    Users = "jplindgren", // allow only specified users
-                //    Roles = "admins" // allow only specified roles
-                //});
+                config.UseAuthorizationFilters(new AuthorizationFilter {
+                    //Users = "jplindgren", // allow only specified users
+                    Roles = "Administrator" // allow only specified roles
+                });
 
-                config.UseAuthorizationFilters(new ClaimsBasedAuthorizationFilter("hangfire", "access"));
+                //config.UseAuthorizationFilters(new ClaimsBasedAuthorizationFilter("hangfire", "access"));
                     
             });
             
