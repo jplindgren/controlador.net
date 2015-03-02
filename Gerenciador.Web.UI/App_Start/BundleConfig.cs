@@ -18,7 +18,6 @@ namespace Gerenciador.Web.UI {
             bundles.Add(new ScriptBundle("~/bundles/customscripts").Include(
                         "~/Scripts/app.js",
                         "~/Scripts/bootstrap.js",
-                        "~/Scripts/knockout-2.2.1.debug.js",
                         "~/Scripts/moment-with-locales.js",
                         "~/Scripts/mansory/masonry.pkgd.js",
                         "~/Scripts/raphael1.js",
@@ -26,7 +25,8 @@ namespace Gerenciador.Web.UI {
                         "~/Scripts/jquery.unobtrusive-ajax.js",
                         "~/Scripts/jquery.blockUI.js",
                         "~/Scripts/bootstrap-slider/bootstrap-slider.js",
-                        "~/Scripts/datepicker/bootstrap-datepicker.js"));
+                        "~/Scripts/datepicker/bootstrap-datepicker.js",
+                        "~/Scripts/knockout-2.2.1.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -51,7 +51,7 @@ namespace Gerenciador.Web.UI {
                         "~/Content/common.css",
                         "~/Content/common-extensions.css"));
 
-            BundleTable.EnableOptimizations = false;
+            BundleTable.EnableOptimizations = true;
         }
     }
 }
