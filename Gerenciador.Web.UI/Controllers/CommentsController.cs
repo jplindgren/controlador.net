@@ -2,6 +2,7 @@
 using Gerenciador.Repository.EntityFramwork;
 using Gerenciador.Repository.EntityFramwork.Impl;
 using Gerenciador.Services.Impl;
+using Gerenciador.Web.UI.Models.CommentsViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,18 +19,20 @@ namespace Gerenciador.Web.UI.Controllers{
 
         // GET: /Comments/1
         public PartialViewResult Index(Guid projectId, Guid? taskId) {
-            IEnumerable<Comment> comments;
+            IList<Comment> comments;
             if (taskId.HasValue)
                 comments = _projectFeaturesService.GetComments(projectId, taskId.Value);
             else
                 comments = _projectFeaturesService.GetComments(projectId);
 
-            return PartialView("Widgets/_CommentListWidget", comments);
+            IList<CommentWidgetViewModel> viewModel = CommentWidgetViewModel.From(comments);
+            return PartialView("Widgets/_CommentListWidget", viewModel);
         }
 
         [HttpPost]
         public JsonResult Create(Guid projectId, Guid? taskId, string content) {
             _projectFeaturesService.CreateComment(content, User.Identity.Name, projectId, taskId);
+            
             DataContext.SaveChanges();
             return Json(new object());
         }

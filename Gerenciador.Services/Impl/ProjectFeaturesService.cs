@@ -21,14 +21,14 @@ namespace Gerenciador.Services.Impl {
             this.historyService = historyService;
         }
 
-        public IEnumerable<Comment> GetComments(Guid projectId) {
-            return this.commentRepository.GetByProjectId(projectId);
+        public IList<Comment> GetComments(Guid projectId) {
+            return this.commentRepository.GetByProjectId(projectId).ToList();
         }
 
-        public IEnumerable<Comment> GetComments(Guid projectId, Guid taskId) {
-            var project = this.projectRepository.Get(projectId, "Tasks");
-            var task = project.Tasks.Where(x => x.Id == taskId).First();
-            return this.commentRepository.GetByTask(task);
+        public IList<Comment> GetComments(Guid projectId, Guid taskId) {
+            //var project = this.projectRepository.Get(projectId, "Tasks");
+            //var task = project.Tasks.Where(x => x.Id == taskId).First();
+            return this.commentRepository.GetByTask(projectId, taskId).ToList();
         }
 
         public void CreateComment(string content, string username, Guid projectId, Guid? taskId) {

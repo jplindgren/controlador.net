@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 
 namespace Gerenciador.Services.Data {
     public class ProjectUpdateData {
-        public ProjectUpdateData(Project project, IList<DataPoint> dataPoints) {
-            this.Project = project;
+        public ProjectUpdateData(int amountEffortNeeded, IList<DataPoint> dataPoints) {
+            //this.Project = project;
+            this.TotalPoints = amountEffortNeeded;
             this.DataPoints = dataPoints;
         }
 
-        public Project Project { get; set; }
-        public int TotalPoints { 
-            get { return Project.AmountEffotrNeeded();  } 
-        }
+        //public Project Project { get; set; }
+        public int TotalPoints { get; private set;  } 
         
         private IList<DataPoint> dataPoints;
         public IList<DataPoint> DataPoints {

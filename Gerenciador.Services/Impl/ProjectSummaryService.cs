@@ -41,7 +41,7 @@ namespace Gerenciador.Services.Impl {
         }
 
         public ProjectUpdateData GetProgressData(Guid projectId) {
-            var project = _projectRepository.Get(projectId);
+            var project = _projectRepository.Get(projectId, "Tasks");
 
             var progressHistory = taskProgressRepository.GetProgressHistory(projectId);
 
@@ -52,7 +52,7 @@ namespace Gerenciador.Services.Impl {
                                                         .Sum(y => y.Progress),
                                       project.Tasks.Where(x1 => x1.StartDate.Date <= x.Key).Count())
                     ).ToList();
-            return new ProjectUpdateData(project, dataPoints);
+            return new ProjectUpdateData(project.AmountEffotrNeeded(), dataPoints);
         }
     } //class
 }

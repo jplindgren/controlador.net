@@ -7,7 +7,6 @@
         <title>@ViewBag.Title - My ASP.NET MVC Application</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
-        @*@Styles.Render("~/Content/css")*@
         @Styles.Render("~/Content/newcss")
         @Styles.Render("~/Content/newcsscommon")
         @Scripts.Render("~/bundles/modernizr")
@@ -37,7 +36,7 @@
 
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/customscripts")
-        <script type="text/javascript">
+        @*<script type="text/javascript">
             $(document).ready(function () {
                 $.blockUI.defaults.css.border = 'none';
                 $.blockUI.defaults.css.padding = '15px';
@@ -52,7 +51,7 @@
                 //$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
             });            
         </script>
-        @RenderSection("scripts", required: false)
+        
 
         <script type="text/javascript" >
            $(document).ready(function () {
@@ -73,8 +72,9 @@
                    jQuery.browser.version = RegExp.$1;
                }
            })();
-        </script>    
-        @MiniProfiler.RenderIncludes()
+        </script>  *@  
+        @RenderSection("scripts", required: false)
+        @*@MiniProfiler.RenderIncludes()*@
 
     </body>
 </html>

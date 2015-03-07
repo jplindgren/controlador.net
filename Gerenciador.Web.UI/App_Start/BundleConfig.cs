@@ -26,7 +26,8 @@ namespace Gerenciador.Web.UI {
                         "~/Scripts/jquery.blockUI.js",
                         "~/Scripts/bootstrap-slider/bootstrap-slider.js",
                         "~/Scripts/datepicker/bootstrap-datepicker.js",
-                        "~/Scripts/knockout-2.2.1.js"));
+                        "~/Scripts/knockout-2.2.1.js",
+                        "~/Scripts/custom/layout.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -51,7 +52,15 @@ namespace Gerenciador.Web.UI {
                         "~/Content/common.css",
                         "~/Content/common-extensions.css"));
 
+            RegisterBundlesForAdminDashboard(bundles);
+
             BundleTable.EnableOptimizations = true;
         }
-    }
+
+        private static void RegisterBundlesForAdminDashboard(BundleCollection bundles){
+             bundles.Add(new ScriptBundle("~/bundles/admin-dashboard").Include("~/Scripts/jquery-ui-{version}.js", 
+                                        "~/Scripts/custom/todo-list/todo.js",
+                                        "~/Scripts/custom/dashboard/dashboard-admin.js"));
+        }
+    } //class
 }

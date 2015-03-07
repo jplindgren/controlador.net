@@ -177,6 +177,10 @@
     <Compile Include="Migrations\201503012301299_AddIndexToProjectStatus.Designer.cs">
       <DependentUpon>201503012301299_AddIndexToProjectStatus.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503070422262_AddIndextToTaskStatus.cs" />
+    <Compile Include="Migrations\201503070422262_AddIndextToTaskStatus.Designer.cs">
+      <DependentUpon>201503070422262_AddIndextToTaskStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ProjectManagementConfiguration.cs" />
     <Compile Include="ProjectManagementContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -269,6 +273,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503012301299_AddIndexToProjectStatus.resx">
       <DependentUpon>201503012301299_AddIndexToProjectStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503070422262_AddIndextToTaskStatus.resx">
+      <DependentUpon>201503070422262_AddIndextToTaskStatus.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

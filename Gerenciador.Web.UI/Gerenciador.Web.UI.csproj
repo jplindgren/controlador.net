@@ -288,6 +288,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AdminDashboardViewModel.cs" />
     <Compile Include="Models\BasePageViewModel.cs" />
+    <Compile Include="Models\CommentsViewModel\CommentWidgetViewModel.cs" />
     <Compile Include="Models\PageMetadataViewModel.cs" />
     <Compile Include="Models\BoundDates.cs" />
     <Compile Include="Models\Pager.cs" />
@@ -399,6 +400,8 @@
     <Content Include="Scripts\bootstrap-slider\bootstrap-slider.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\custom\dashboard\dashboard-admin.js" />
+    <Content Include="Scripts\custom\layout.js" />
     <Content Include="Scripts\custom\task\task_manager.js" />
     <Content Include="Scripts\custom\todo-list\todo.js" />
     <Content Include="Scripts\datepicker\bootstrap-datepicker.js" />

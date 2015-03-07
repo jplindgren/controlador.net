@@ -103,7 +103,7 @@
             <div class="box-body">
                 @foreach (var task in Model.NextTasks) { 
                     <dl>
-                        <dt><a href="#"><i class="fa fa-exclamation-circle text-danger"></i> @task.Name</a></dt>
+                        <dt><a href="@Url.Action("Details", "Task", new { projectId = task.ProjectId, id = task.Id })"><i class="fa fa-exclamation-circle text-danger"></i> @task.Name</a></dt>
                         <dd>Projeto: @task.Project.Name</dd>
                         <dd>@task.Deadline</dd>
                         <dd><a href="#"><i class="fa fa-circle text-success"></i> @task.Project.Owner</a></dd>
@@ -232,8 +232,7 @@
 </div>
 
 @section scripts{
-    @Scripts.Render("~/bundles/jqueryui")
-    <script src="~/Scripts/custom/todo-list/todo.js"></script>
+    @Scripts.Render("~/bundles/admin-dashboard")
     <script type="text/javascript">
         $(document).ready(function () {
             "use strict";
@@ -246,54 +245,9 @@
                             });
             }
             var jsonTodoItems = JSON.parse("@Html.Raw(HttpUtility.JavaScriptStringEncode(serializedData))");
-            TodoModule.init(jsonTodoItems, $('.todo-list'));
-
-            initMasonry($('#widgets'),
-                [
-                    { selector: $(".todo-list"), action: 'itemAdded' },
-                    { selector: $('.navbar-btn'), action: 'click' },
-                ]
-            );
             
-            //Make the dashboard widgets sortable Using jquery UI
-            $(".connectedSortable").sortable({
-                placeholder: "sort-highlight",
-                connectWith: ".connectedSortable",
-                handle: ".box-header, .nav-tabs",
-                forcePlaceholderSize: true,
-                zIndex: 999999
-            }).disableSelection();
-            $(".connectedSortable .box-header, .connectedSortable .nav-tabs-custom").css("cursor", "move");
-            //jQuery UI sortable for the todo list
-            $(".todo-list").sortable({
-                placeholder: "sort-highlight",
-                handle: ".handle",
-                forcePlaceholderSize: true,
-                zIndex: 999999
-            }).disableSelection();
-
-            function initMasonry($mansoryContainer, refreshItems) {
-                $mansoryContainer.masonry({
-                    itemSelector: '.connectedSortable',
-                    isAnimated: true,
-                    transitionDuration: 40
-                });
-
-                //we bind navbar responsive button to redraw masonry when show or hide
-                //$('.navbar-btn').on('click', function () {
-                //    $mansoryContainer.masonry();
-                //});
-
-                $.each(refreshItems, function (index, item) {
-                    item.selector.on(item.action, function () {
-                        $mansoryContainer.masonry();
-                    });
-                });                
-
-            }
-        });
-
-       
+            DashboardAdminManager.init(document.body, jsonTodoItems);
+        });       
 
     </script>
 }

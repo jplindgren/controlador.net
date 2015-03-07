@@ -19,8 +19,9 @@ namespace Gerenciador.Repository.EntityFramwork.Impl {
         public IEnumerable<Comment> GetByProjectId(Guid Id) {
             return GetAllOrdered().Where(x => x.ProjectId.HasValue && x.ProjectId == Id).AsEnumerable();
         }
-        public IEnumerable<Comment> GetByTask(Task task) {
-            return GetAllOrdered().Where(x => x.TaskId == task.Id).AsEnumerable();
+        
+        public IEnumerable<Comment> GetByTask(Guid projectId, Guid taskId) {
+            return GetAllOrdered().Where(x => x.TaskId == taskId && x.ProjectId.HasValue && x.ProjectId == projectId).AsEnumerable();
         }
     } //class
 }
