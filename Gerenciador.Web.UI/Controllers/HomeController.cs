@@ -45,20 +45,20 @@ namespace Gerenciador.Web.UI.Controllers {
 
         [SiteMapTitle("Painel de controle")]
         [Authorize(Roles = "Administrator")]
-        public ActionResult AdminDashboard() {
+        public async Task<ActionResult> AdminDashboard() {
             ViewBag.Message = "Painel de Controle";
             AdminDashboardViewModel model = new AdminDashboardViewModel();
             
             var profiler = MiniProfiler.Current; // it's ok if this is null
             using (profiler.Step("GetLastActiveProjects")) {
-                dynamic activeProjectsInfo = _projectService.GetLastActiveProjects();
+                dynamic activeProjectsInfo = await _projectService.GetLastActiveProjectsAsync();
                 model.NumberActiveProjects = activeProjectsInfo.NumberOfActiveProjects;
                 model.LastActivesProjects = activeProjectsInfo.LastActiveProjects;
                 model.NextTasks = AdminDashboardViewModel.TaskDashboardViewModel.FromTask(_taskService.GetNextTasksForAdmin());
             }
 
             using (profiler.Step("GetUsers")) {
-                model.Users = UserService.GetAllUsers();
+                model.Users = await UserService.GetAllUsersAsync();
                 model.CurrentUser = model.Users.Where(x => x.UserName == User.Identity.Name).First();
             }
 

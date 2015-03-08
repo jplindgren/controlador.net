@@ -58,8 +58,9 @@ namespace Gerenciador.Web.UI.Controllers{
 
         //
         // POST: /Task/Create
+        [AsyncTimeout(500)]
         [HttpPost]
-        public ActionResult Create(TaskViewModel taskViewModel){
+        public async System.Threading.Tasks.Task<ActionResult> Create(TaskViewModel taskViewModel, System.Threading.CancellationToken token){            
             if (!ModelState.IsValid) {
                 ViewBag.ProjectId = taskViewModel.ProjectId;
                 return View(taskViewModel);
@@ -69,11 +70,11 @@ namespace Gerenciador.Web.UI.Controllers{
                 var project = _projectService.GetProject(taskViewModel.ProjectId);
                 var rangeDate = new RangeDate(taskViewModel.StartDate, taskViewModel.Deadline);
 
-                _projectService.CreateTask(project, User.Identity.Name, taskViewModel.Name, taskViewModel.Description, rangeDate);
-                
+                await _projectService.CreateTask(project, User.Identity.Name, taskViewModel.Name, taskViewModel.Description, rangeDate, token);
 
-                DataContext.SaveChanges();
-                return RedirectToAction("Index", "Home");
+
+                await DataContext.SaveChangesAsync(token);
+                return RedirectToAction("Details", "Project", new { projectId = taskViewModel.ProjectId });
             }catch {
                 return RedirectToAction("Error", "Home");
             }
@@ -82,15 +83,14 @@ namespace Gerenciador.Web.UI.Controllers{
         //
         // POST: /Task/UpdateProgress
         [HttpPost]
-        public JsonResult UpdateProgress(Guid projectId, Guid id, int newValue) {
-            var project = _projectService.GetProject(projectId);
-            var task = project.Tasks.Where(x => x.Id == id).FirstOrDefault();
+        public async System.Threading.Tasks.Task<JsonResult> UpdateProgress(Guid projectId, Guid id, int newValue) {
+            var task = _projectService.GetTask(projectId, id);
             var valueUpdated = newValue - task.Progress;
 
             _projectService.UpdateTask(task, newValue, User.Identity.Name);
 
             try {
-                DataContext.SaveChanges();
+                await DataContext.SaveChangesAsync();
             } catch (System.Data.Entity.Validation.DbEntityValidationException dbEx) {
                 Exception raise = dbEx;
                 foreach (var validationErrors in dbEx.EntityValidationErrors) {
@@ -177,17 +177,15 @@ namespace Gerenciador.Web.UI.Controllers{
 
         // POST: /Task/CreateSubTask
         [HttpPost]
-        public JsonResult CreateSubTask(Guid projectId, Guid taskId, string name, DateTime startDate, DateTime endDate) {
-            //var project = _projectService.GetProject(projectId);
-            //var task = project.Tasks.Where(x => x.Id == taskId).FirstOrDefault();
+        public async System.Threading.Tasks.Task<JsonResult> CreateSubTask(Guid projectId, Guid taskId, string name, DateTime startDate, DateTime endDate) {
             var task = _projectService.GetTask(projectId, taskId);
 
             SubTask subtask = new SubTask(name, startDate, endDate);
-            _projectService.CreateSubTask(task, subtask, User.Identity.Name);
+            await _projectService.CreateSubTask(task, subtask, User.Identity.Name);
 
-            DataContext.SaveChanges();
+            await DataContext.SaveChangesAsync();
 
-            return Json(new SubTask() {
+            return Json(new TaskViewModel.SubTaskTaskDetailViewModel() {
                 CreatedAt = subtask.CreatedAt,
                 ExpectedEndDate = subtask.ExpectedEndDate,
                 Id = subtask.Id,
@@ -207,8 +205,6 @@ namespace Gerenciador.Web.UI.Controllers{
 
         [HttpGet]
         public JsonResult GetLimitDates(Guid projectId, Guid taskId) {
-            //var project = _projectService.GetProject(projectId);
-            //var task = project.Tasks.Where(x => x.Id == taskId).FirstOrDefault();
             var task = _projectService.GetTask(projectId, taskId);
             var limitDates = task.SubTasks.Where(x => x.Status == TaskStatus.Open).Select(x => new LimitDate(x.StartDate, x.ExpectedEndDate, x.Name));
 
@@ -255,7 +251,6 @@ namespace Gerenciador.Web.UI.Controllers{
 
         public void OnMessage(Guid projetId, Guid taskId, int valueUpdated, DateTime today) {
             using (var messageScope = _lifetimeScope.BeginLifetimeScope("AutofacWebRequest")) {
-                var test = messageScope.Resolve<ProjectService>();
                 var projectService = messageScope.Resolve<ProjectService>();
                 projectService.CreateProgressHistoryFromThatTask(projetId, taskId, valueUpdated, today);
             }

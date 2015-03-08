@@ -28,7 +28,7 @@ namespace Gerenciador.Web.UI.Models {
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdatedAt { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:d}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         [Required(ErrorMessage = " ")]
         [Display(Name = "Data de início")]
@@ -39,8 +39,9 @@ namespace Gerenciador.Web.UI.Models {
         public DateTime? EndDate { get; set; }
 
         [Required(ErrorMessage = " ")]
-        [DisplayFormat(DataFormatString = "{0:d}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Prazo")]
+        [DataType(DataType.Date)]
         public DateTime Deadline { get; set; }
 
         public IList<SubTaskTaskDetailViewModel> SubTasks { get; set; }

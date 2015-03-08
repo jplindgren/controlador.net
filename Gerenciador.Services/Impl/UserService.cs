@@ -28,5 +28,9 @@ namespace Gerenciador.Services.Impl {
         public void RemoveTodoItem(TodoItem item) {
             userProfileRepository.RemoveTodoItem(item);
         }
+
+        public async Task<IList<UserProfile>> GetAllUsersAsync() {
+            return await this.userProfileRepository.GetAllAsync();
+        }
     } //class
 }

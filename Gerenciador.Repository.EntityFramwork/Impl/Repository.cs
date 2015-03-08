@@ -11,6 +11,7 @@ using System.Data.Entity.Infrastructure;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Data.Entity.Core.Metadata.Edm;
+using System.Threading;
 
 namespace Gerenciador.Repository.EntityFramwork.Impl {
     public class Repository<T> : IRepository<T> where T : class {
@@ -43,6 +44,14 @@ namespace Gerenciador.Repository.EntityFramwork.Impl {
 
         public void SaveChanges() {
             _dataContext.SaveChanges();
+        }
+
+        public Task<int> SaveChangesAsync(CancellationToken token) {
+            return _dataContext.SaveChangesAsync(token);
+        }
+
+        public Task<int> SaveChangesAsync() {
+            return _dataContext.SaveChangesAsync();
         }
 
         #region Private Helpers
@@ -112,6 +121,7 @@ namespace Gerenciador.Repository.EntityFramwork.Impl {
 
             return query;
         }
+
         #endregion
 
     } //class

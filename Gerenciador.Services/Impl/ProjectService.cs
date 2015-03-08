@@ -31,9 +31,9 @@ namespace Gerenciador.Services.Impl {
             return _projectRepository.GetTask(projectId, taskId , "Tasks.SubTasks");
         }
 
-        public void CreateTask(Project project, string username, string taskName, string taskDescription, RangeDate rangeDate) {
+        public async System.Threading.Tasks.Task CreateTask(Project project, string username, string taskName, string taskDescription, RangeDate rangeDate, System.Threading.CancellationToken token) {
             var task = project.AddTask(taskName, taskDescription, rangeDate, username);
-            _projectRepository.SaveChanges();
+            await _projectRepository.SaveChangesAsync(token);
 
             var snapshot = new EventSnapshotBuilder().ForAction("Create").Consume(task).Create();
             _historyService.CreateEntry(snapshot);
@@ -58,19 +58,16 @@ namespace Gerenciador.Services.Impl {
             _projectRepository.SaveChanges();
         }
 
-        public void CreateSubTask(Task task, SubTask subtask, string username) {
+        public async System.Threading.Tasks.Task CreateSubTask(Task task, SubTask subtask, string username) {
             task.SubTasks.Add(subtask);
-            _projectRepository.SaveChanges();
+            await _projectRepository.SaveChangesAsync();
 
             var snapshot = new EventSnapshotBuilder().ForAction("Create").ForUser(username).Consume(subtask).Create();
             _historyService.CreateEntry(snapshot);
         }
 
-        public object GetLastActiveProjects() {
-            var activeProjects = _projectRepository.GetAll()
-                                        .Where(x => x.Status == ProjectStatus.InProgress || x.Status == ProjectStatus.Open)
-                                        .OrderBy(x => x.CreatedAt)
-                                        .ToList();
+        public async System.Threading.Tasks.Task<object> GetLastActiveProjectsAsync() {
+            var activeProjects = await _projectRepository.GetActiveProjectsAsync();
             var numberActiveProjects = activeProjects.Count();
             var lastActiveProjects = activeProjects.Take(5).ToList();
 

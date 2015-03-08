@@ -28,20 +28,25 @@
                             @Html.TextAreaFor(model => model.Description, new { @class = "form-control input-lg", placeholder = "Digite uma descrição de até 240 caracteres", rows = 3 })
                         </div>
                         <!-- text input -->
-                        <div class="form-group">
+                        @*<div class="form-group">
                             @Html.LabelFor(model => model.StartDate)
                             @Html.TextBoxFor(model => model.StartDate, new { @class = "form-control input-lg", type = "date" })
-                        </div>
-                        <!-- text input -->
+                        </div>*@
+                        <!-- text input -->@*
                         <div class="form-group">
                             @Html.LabelFor(model => model.Deadline)
                             @Html.TextBoxFor(model => model.Deadline, new { @class = "form-control input-lg", type = "date" })
-                            
+                        </div>*@
+                        
+                        <div class="form-group input-daterange input-group" id="datepicker">
+                            @Html.TextBoxFor(model => model.StartDate, new { @class = "form-control input-lg", placeholder="Data de Início" })
+                            <span class="input-group-addon">Até</span>
+                            @Html.TextBoxFor(model => model.Deadline, new { @class = "form-control input-lg", placeholder="Data Fim" })
                         </div>
                         
                         @Html.HiddenFor(m => m.ProjectId, new { Value = ViewBag.ProjectId })
                         <p>
-                            <input type="submit" value="Criar" class="btn btn-lg btn-primary" />
+                            <input type="submit" id="teste" value="Criar" class="btn btn-lg btn-primary" />
                         </p>
                     }
                 </div><!-- /.box-body -->
@@ -56,17 +61,34 @@
     @Html.ActionLink("Voltar", "Index", "Home")
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $.validator.methods.date = function (value, element) {
+                moment.locale('pt');
+                var globalLocale = moment();
+                //Globalize.culture("en-AU");
+                // you can alternatively pass the culture to parseDate instead of
+                // setting the culture above, like so:
+                // parseDate(value, null, "en-AU")
+                return this.optional(element) || moment(value) !== null;
+            }
+
+            $("#StartDate").datepicker({
+                language: "pt-BR",
+                format: 'dd/mm/yyyy',
+                multidate: false,
+                todayHighlight: true,
+                autoclose: true
+            });
+            $("#Deadline").datepicker({
+                language: "pt-BR",
+                format: 'dd/mm/yyyy',
+                multidate: false,
+                todayHighlight: true,
+                autoclose: true
+            });
+        });
+    </script>
 }

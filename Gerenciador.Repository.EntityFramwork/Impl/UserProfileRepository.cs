@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data.Entity;
+using System.Threading.Tasks;
 
 namespace Gerenciador.Repository.EntityFramwork.Impl {
     public class UserProfileRepository : Repository<UserProfile>, IUserProfileRepository {
@@ -19,5 +21,8 @@ namespace Gerenciador.Repository.EntityFramwork.Impl {
             base._dataContext.Set<TodoItem>().Remove(todoItem);
         }
 
+        public async Task<IList<UserProfile>> GetAllAsync() {
+            return await GetAll().ToListAsync();
+        }
     } //class
 }

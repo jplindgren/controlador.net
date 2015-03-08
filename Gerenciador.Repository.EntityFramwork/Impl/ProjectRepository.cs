@@ -14,9 +14,9 @@ namespace Gerenciador.Repository.EntityFramwork.Impl {
             _dataContext = dataContext;
         }
 
-        public IList<Project> GetProjectsByOwner(string owner) {
-            return this.GetAll().Where(x => x.Owner == owner).ToList();
-        }
+        //public IList<Project> GetProjectsByOwner(string owner) {
+        //    return this.GetAll().Where(x => x.Owner == owner).ToList();
+        //}
 
         public Domain.Task GetTask(Guid projectId, Guid taskId, params string[] includes) {
             var result = _dataContext.Set<Domain.Task>()
@@ -27,5 +27,13 @@ namespace Gerenciador.Repository.EntityFramwork.Impl {
             
             return result.First();
         }
+
+        #region Async Methods
+        public async Task<IEnumerable<Project>> GetActiveProjectsAsync() {
+            return await this.GetAll().Where(x => x.Status == ProjectStatus.InProgress || x.Status == ProjectStatus.Open)
+                                .OrderBy(x => x.CreatedAt)
+                                .ToListAsync();
+        }
+        #endregion
     } //class
 }
