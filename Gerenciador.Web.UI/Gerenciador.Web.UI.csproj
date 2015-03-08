@@ -401,6 +401,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\custom\dashboard\dashboard-admin.js" />
+    <Content Include="Scripts\custom\fix-date-validation.js" />
     <Content Include="Scripts\custom\layout.js" />
     <Content Include="Scripts\custom\task\task_manager.js" />
     <Content Include="Scripts\custom\todo-list\todo.js" />

@@ -13,7 +13,8 @@ namespace Gerenciador.Web.UI {
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.unobtrusive*",
-                        "~/Scripts/jquery.validate*"));
+                        "~/Scripts/jquery.validate*",
+                        "~/Scripts/custom/fix-date-validation.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/customscripts").Include(
                         "~/Scripts/app.js",
@@ -54,7 +55,7 @@ namespace Gerenciador.Web.UI {
 
             RegisterBundlesForAdminDashboard(bundles);
 
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = false;
         }
 
         private static void RegisterBundlesForAdminDashboard(BundleCollection bundles){

@@ -35,7 +35,8 @@ namespace Gerenciador.Web.UI.Models {
         public DateTime StartDate { get; set; }
 
         [Display(Name = "Data de término")]
-        [DisplayFormat(DataFormatString = "{0:d}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public DateTime? EndDate { get; set; }
 
         [Required(ErrorMessage = " ")]
