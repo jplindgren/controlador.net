@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Gerenciador.Web.UI.Models {
+namespace Gerenciador.Web.UI.Models.TaskViewModels {
     public class TaskViewModel {
         public Guid Id { get; set; }
 

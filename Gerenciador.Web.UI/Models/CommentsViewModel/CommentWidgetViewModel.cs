@@ -3,11 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Gerenciador.Web.UI.Models.CommentsViewModel {
     public class CommentWidgetViewModel {
         public Guid Id { get; set; }
-        public string Content { get; set; }
+
+        
+        private string content;
+        [AllowHtml]
+        public string Content {
+            get { return content; }
+            set { content = System.Web.Security.AntiXss.AntiXssEncoder.HtmlEncode(value, false); }
+        }
         public string AuthorName { get; set; }
 
         public DateTime CreatedAt { get; set; }

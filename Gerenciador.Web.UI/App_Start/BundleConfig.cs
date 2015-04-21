@@ -28,7 +28,9 @@ namespace Gerenciador.Web.UI {
                         "~/Scripts/bootstrap-slider/bootstrap-slider.js",
                         "~/Scripts/datepicker/bootstrap-datepicker.js",
                         "~/Scripts/knockout-2.2.1.js",
-                        "~/Scripts/custom/layout.js"));
+                        "~/Scripts/custom/layout.js",
+                        "~/Scripts/custom/ajaxCall.js",
+                        "~/Scripts/async-emitter.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.

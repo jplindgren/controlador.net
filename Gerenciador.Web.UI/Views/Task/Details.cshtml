@@ -1,4 +1,4 @@
-﻿@model Gerenciador.Web.UI.Models.TaskViewModel
+﻿@model Gerenciador.Web.UI.Models.TaskViewModels.TaskViewModel
 @using Gerenciador.Web.UI.Helpers
 @using Newtonsoft.Json
 
@@ -78,11 +78,6 @@
             <blockquote data-bind="text: Description()"></blockquote>
         </div>
     </div>
-
-    @*<h2>Micro tarefas</h2>
-    <div id="subtasksContainer">
-        @Html.Partial("~/Views/Task/_SubTaskWidget.cshtml", @Model.SubTasks)
-    </div>*@
 
     <h2>Micro tarefas - Using knockout</h2>
     
@@ -165,6 +160,7 @@
 
 @section scripts{
     <script src="~/Scripts/custom/task/task_manager.js"></script>
+    <script src="~/Scripts/custom/task/task-comment.js"></script>
     <script type="text/javascript">
         moment.locale('pt');
         var globalLocale = moment();
@@ -181,7 +177,7 @@
 
             var _projectId = '@(Model.ProjectId)';
             var _taskId = '@(Model.Id)';
-            TaskManagement.taskInit(data, _projectId, _taskId);
+            TaskManagement.taskInit(data, _projectId, _taskId, document.body);
         });
     </script>
     <script src="~/Scripts/jquery.validate.min.js"></script>

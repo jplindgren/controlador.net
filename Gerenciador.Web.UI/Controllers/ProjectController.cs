@@ -18,19 +18,18 @@ namespace Gerenciador.Web.UI.Controllers{
             _projectSummaryService = projectSummaryService;
         }
 
-       //[SiteMapTitle("Consolidado do Projeto")]
-       //public ActionResult Index() {
-       //    ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+       [SiteMapTitle("ProjectName")]
+       public ActionResult Test(Guid id) {
+           //if (!slug.Equals(User.Identity.Name))
+           //    return this.HttpNotFound();
+           var projectSummary = _projectSummaryService.GetProjectSummary(id);
 
-       //    var projectSummary = _projectSummaryService.GetProjectSummary(Guid.Parse("c13e450e-7e54-e411-8278-782bcbbc3811"));
-       //    //ViewBag.Metadata = base.PageMetadataViewModel;
+           if (projectSummary == null) {
+               throw new Exception("Projeto não encontrado");
+           }
 
-       //    if (projectSummary == null) {
-       //        throw new Exception("Projeto não encontrado");
-       //    }
-
-       //    return View(ProjectSummaryViewModel.FromProjectSummary(projectSummary));
-       //}
+           return View("Index", ProjectSummaryViewModel.FromProjectSummary(projectSummary));
+       }
 
        [SiteMapTitle("ProjectName")]
        public ActionResult Details(Guid projectId) {

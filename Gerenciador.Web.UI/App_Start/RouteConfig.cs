@@ -21,6 +21,13 @@ namespace Gerenciador.Web.UI {
                 url: "projects/{projectId}/tasks/{id}",
                 defaults: new { controller = "Task", action = "Index", id = UrlParameter.Optional }
             );
+
+            //projects
+            routes.MapRoute(
+                name: "projects",
+                url: "{slug}/{controller}/{action}/{id}",
+                defaults: new { controller = "Projects", action = "Test", id = UrlParameter.Optional }
+            );
         }
     }//class
 }

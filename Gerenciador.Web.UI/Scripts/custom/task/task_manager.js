@@ -2,7 +2,33 @@
     var TaskManagement;
     window.TaskManagement = TaskManagement = {};
 
-    TaskManagement.taskInit = function (data, _projectId, _taskId) {
+    TaskManagement.taskInit = function (data, _projectId, _taskId, html) {
+        this.html = $(html);
+        var that = this;
+        this.elements = {
+            txtSubTaskName: $('#txtSubTaskName'),
+            txtStartDate: $('#txtStartDate'),
+            txtEndDate: $('#txtEndDate'),
+            popups: {
+                createSubTask: $('#modalCreateSubTask'),
+                editSubTask: $('#modalEditSubTask'),
+                updateProgress: $('#modalUpdateProgress')
+            },
+            comments: {
+                container: $('#taskComments'),
+                popup: $('#modalCreateComment')
+            }
+        }
+
+        this.comments = new TaskManagement.Comment(this.elements.comments.container, this.elements.comments.popup, { projectId : _projectId, taskId: _taskId })
+        this.comments.loadComments();
+        
+        
+        this.comments.on("created", commentCreated, this);
+        function commentCreated() {
+            LoadTimeline();
+        }
+
         var subTaskItem = function (options) {
             return {
                 Id: ko.observable(options.Id),
@@ -74,11 +100,10 @@
                 $.blockUI({ message: 'Carregando...' });
                 var posting = $.post('/Task/CreateSubTask', dataToSend, 'json');
                 posting.done(function (result) {
-
-                    $('#modalCreateSubTask').modal('hide');
-                    $('#txtSubTaskName').val('');
-                    $('#txtStartDate').val('');
-                    $('#txtEndDate').val('');
+                    this.elements.popups.createSubTask.modal('hide');
+                    this.elements.txtSubTaskName.val('');
+                    this.elements.txtStartDate.val('');
+                    this.elements.txtEndDate.val('');
 
                     var newSubTask = new subTaskItem(result);
                     viewModel.SubTasks.unshift(newSubTask);
@@ -106,7 +131,7 @@
 
         $('.slider').slider();
 
-        LoadComments(_projectId, _taskId);
+        //LoadComments(_projectId, _taskId);
         LoadTimeline();
         LoadCalendar();
 
@@ -119,7 +144,7 @@
                 result.forEach(function (entry) {
                     fixed.push({ start: new Date(entry.Start), end: new Date(entry.End), description: entry.Description });
                 });
-                $("#calendar").datepicker({
+                $('#calendar').datepicker({
                     language: "pt-BR",
                     format: 'dd/mm/yyyy',
                     multidate: true,
@@ -150,24 +175,6 @@
             });
         }
 
-        //Async Populates Comments 
-        function LoadComments() {
-            this.dataToSend = { projectId: _projectId, taskId: _taskId };
-            $.ajax({
-                url: '/Comments/Index',
-                data: this.dataToSend,
-                contentType: 'application/html; charset=utf-8',
-                type: 'GET',
-                dataType: 'html'
-            })
-            .success(function (result) {
-                $('#taskComments').html(result);
-            })
-            .error(function (xhr, status) {
-                alert('erro status: ' + status);
-            });
-        }
-
         //async populates timeline
         function LoadTimeline() {
             $.ajax({
@@ -191,7 +198,8 @@
             var posting = $.post('/Task/UpdateProgress', { projectId: _projectId, id: _taskId, newValue: _valueToUpdate });
             posting.done(function (data) {
                 var dataToUpdate = data + '%';
-                $('#modalUpdateProgress').modal('hide')
+                //$('#modalUpdateProgress').modal('hide')
+                this.elements.popups.updateProgress.modal('hide');
                 $('#taskUpdateBar').width(dataToUpdate);
                 $("#progressLegend").html($('<strong/>').append(dataToUpdate + ' Completo'));
                 $('#taskUpdateBar').attr('aria-valuenow', data);
@@ -225,6 +233,7 @@
         function OpenEditScreen(_taskId, _subTaskId) {
             var getting = $.get('/Task/EditSubTask', { taskId: _taskId, subTaskId: _subTaskId }, 'html');
             getting.done(function (result) {
+                console.log(this.elements);
                 $('#modalEditSubTask').modal('show');
                 $('#editSubTask').html('');
                 $('#editSubTask').html(result);
@@ -241,23 +250,6 @@
                 LoadCalendar();
             });
         }
-
-        //Create Comments
-        $(".modal-footer").on("click", "#btnCreateComment", function () {
-
-            var posting = $.post('/Comments/Create', {
-                projectId: _projectId,
-                taskId: _taskId,
-                content: $('#txtComment').val()
-            });
-            posting.done(function (result) {
-                $('#modalCreateComment').modal('hide');
-                $('#txtComment').val('');
-                LoadComments(_projectId, _taskId);
-                LoadTimeline();
-                $.growlUI('operação realizada com sucesso...');
-            });
-        });
 
         //Edit SubTask
         $(".modal-footer").on("click", "#btnEditSubTask", function () {
